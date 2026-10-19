@@ -1,0 +1,25 @@
+{
+  "name": "Example primary rolls",
+  "weapons": {
+    "Rubico": [
+      {
+        "label": "Crit sniper",
+        "positives": { "Critical Damage": 1, "Multishot": 1, "Critical Chance": 0.8, "Damage": 0.7 },
+        "required": ["Critical Damage"],
+        "negatives": ["Zoom", "Impact", "Puncture", "Ammo Maximum", "Magazine Capacity", "Damage to Corpus"]
+      }
+    ],
+    "Soma": {
+      "label": "Crit / multishot",
+      "positives": ["Critical Damage", "Multishot", "Critical Chance", "Damage"],
+      "negatives": ["Zoom", "Impact", "Puncture", "Damage to Infested"]
+    },
+    "*rifle": [
+      {
+        "label": "Generic rifle",
+        "positives": { "Critical Damage": 1, "Multishot": 1, "Critical Chance": 0.9, "Damage": 0.8, "Status Chance": 0.5 },
+        "negatives": ["Zoom", "Impact", "Puncture", "Ammo Maximum", "Weapon Recoil", "Damage to Corpus", "Damage to Infested"]
+      }
+    ]
+  }
+}

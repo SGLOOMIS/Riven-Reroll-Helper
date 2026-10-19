@@ -1,0 +1,6404 @@
+{
+ "name": "warframe.market defaults",
+ "fallback": true,
+ "_generated": "2026-10-19 by tools/build_market_rolls.py (pc)",
+ "_method": "Top 25% of riven listings by price per weapon. Positive weight = price-weighted share of those rivens carrying the stat, relative to the most common stat. Negatives listed are the ones that appear on top-priced rivens (score 0.8-1.0 by how often).",
+ "weapons": {
+  "*melee": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Fire Rate": 0.5,
+    "Damage": 0.5,
+    "Range": 0.45
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.98,
+    "Heavy Attack Efficiency": 0.94,
+    "Damage to Infested": 0.92,
+    "Impact": 0.9
+   }
+  },
+  "*pistol": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.92,
+    "Puncture": 0.88
+   }
+  },
+  "*rifle": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.9,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.9,
+    "Impact": 0.88,
+    "Puncture": 0.88
+   }
+  },
+  "*shotgun": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.8,
+    "Critical Chance": 0.6,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Impact": 0.99,
+    "Zoom": 0.93
+   }
+  },
+  "AX-52": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.7,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.99,
+    "Weapon Recoil": 0.9
+   }
+  },
+  "Acceltra": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.85
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.91,
+    "Ammo Maximum": 0.85,
+    "Weapon Recoil": 0.85
+   }
+  },
+  "Ack & Brunt": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.65,
+    "Fire Rate": 0.55,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.97,
+    "Slash": 0.93,
+    "Heavy Attack Efficiency": 0.92
+   }
+  },
+  "Acrid": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.7,
+    "Damage": 0.45,
+    "Critical Chance": 0.45,
+    "Toxin": 0.35,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.92,
+    "Magazine Capacity": 0.92,
+    "Projectile Speed": 0.87,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Aegrit": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.85,
+    "Multishot": 0.65,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Slash": 1.0,
+    "Damage to Corpus": 0.95,
+    "Damage to Grineer": 0.9,
+    "Impact": 0.9
+   }
+  },
+  "Aeolak": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.6
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.94,
+    "Weapon Recoil": 0.91,
+    "Impact": 0.89,
+    "Slash": 0.87
+   }
+  },
+  "Afentis": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.85,
+    "Damage": 0.45,
+    "Fire Rate": 0.4
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.89,
+    "Damage to Grineer": 0.87,
+    "Magazine Capacity": 0.86,
+    "Weapon Recoil": 0.86
+   }
+  },
+  "Afuris": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.9,
+    "Critical Damage": 0.8,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.96,
+    "Damage to Infested": 0.93,
+    "Reload Speed": 0.91,
+    "Damage to Grineer": 0.9,
+    "Damage to Corpus": 0.89
+   }
+  },
+  "Akarius": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.55,
+    "Damage": 0.5,
+    "Critical Chance": 0.3,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.94
+   }
+  },
+  "Akaten": {
+   "positives": {
+    "Damage": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.75,
+    "Heat": 0.45,
+    "Fire Rate": 0.4,
+    "Status Chance": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Slash": 0.94
+   }
+  },
+  "Akbolto": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.85,
+    "Damage": 0.35,
+    "Toxin": 0.35
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Puncture": 0.96,
+    "Zoom": 0.96,
+    "Projectile Speed": 0.96,
+    "Damage to Infested": 0.93,
+    "Damage to Corpus": 0.91,
+    "Fire Rate": 0.9
+   }
+  },
+  "Akbronco": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.65,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.88,
+    "Impact": 0.87,
+    "Damage to Infested": 0.87,
+    "Magazine Capacity": 0.87
+   }
+  },
+  "Akjagara": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Multishot": 0.85,
+    "Critical Damage": 0.85,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.96,
+    "Damage to Infested": 0.92,
+    "Ammo Maximum": 0.89
+   }
+  },
+  "Aklato": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.85,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.99,
+    "Magazine Capacity": 0.98,
+    "Ammo Maximum": 0.93,
+    "Projectile Speed": 0.92,
+    "Status Duration": 0.9
+   }
+  },
+  "Aklex": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.75,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Damage to Grineer": 0.94,
+    "Zoom": 0.91,
+    "Status Duration": 0.87,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Akmagnus": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Multishot": 0.9,
+    "Damage": 0.55,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.95,
+    "Zoom": 0.94,
+    "Damage to Infested": 0.9
+   }
+  },
+  "Aksomati": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.9,
+    "Critical Damage": 0.8,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Weapon Recoil": 0.94,
+    "Slash": 0.92,
+    "Damage to Corpus": 0.91,
+    "Zoom": 0.9
+   }
+  },
+  "Aksondol": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Multishot": 0.65,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Projectile Speed": 0.95,
+    "Weapon Recoil": 0.94,
+    "Ammo Maximum": 0.88,
+    "Status Duration": 0.88
+   }
+  },
+  "Akstiletto": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.85,
+    "Damage": 0.8
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.96,
+    "Damage to Infested": 0.92,
+    "Reload Speed": 0.91,
+    "Impact": 0.9
+   }
+  },
+  "Akvasto": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.85,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Fire Rate": 0.88,
+    "Weapon Recoil": 0.85,
+    "Slash": 0.85
+   }
+  },
+  "Akzani": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.85,
+    "Damage": 0.75,
+    "Toxin": 0.35,
+    "Status Chance": 0.3
+   },
+   "negatives": {
+    "Reload Speed": 1.0,
+    "Zoom": 1.0,
+    "Puncture": 0.99,
+    "Damage to Infested": 0.93,
+    "Fire Rate": 0.91,
+    "Weapon Recoil": 0.91
+   }
+  },
+  "Alternox": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.85,
+    "Critical Chance": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.99,
+    "Projectile Speed": 0.96,
+    "Reload Speed": 0.94,
+    "Damage to Infested": 0.9,
+    "Status Duration": 0.9
+   }
+  },
+  "Amanata": {
+   "positives": {
+    "Range": 1.0,
+    "Fire Rate": 0.85,
+    "Critical Damage": 0.8,
+    "Critical Chance": 0.35,
+    "Damage": 0.3,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Slash": 1.0,
+    "Critical Chance on Slide Attack": 0.96,
+    "Heavy Attack Efficiency": 0.95,
+    "Damage to Corpus": 0.88
+   }
+  },
+  "Ambassador": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.8,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.91,
+    "Ammo Maximum": 0.89,
+    "Magazine Capacity": 0.85
+   }
+  },
+  "Amphis": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Range": 0.6,
+    "Damage": 0.55,
+    "Fire Rate": 0.5
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Critical Chance on Slide Attack": 0.93,
+    "Combo Duration": 0.89,
+    "Damage to Infested": 0.88,
+    "Heavy Attack Efficiency": 0.87
+   }
+  },
+  "Amprex": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.75,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.93,
+    "Ammo Maximum": 0.89,
+    "Reload Speed": 0.87,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Angstrum": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.8,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.86,
+    "Damage to Infested": 0.85
+   }
+  },
+  "Anku": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Range": 0.6,
+    "Fire Rate": 0.55
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Heavy Attack Efficiency": 0.94,
+    "Critical Chance on Slide Attack": 0.94,
+    "Finisher Damage": 0.91,
+    "Combo Duration": 0.9
+   }
+  },
+  "Ankyros": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.55,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.89,
+    "Damage to Corpus": 0.85,
+    "Combo Duration": 0.85
+   }
+  },
+  "Arbucep": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.85,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.88,
+    "Damage to Grineer": 0.88,
+    "Status Chance": 0.86
+   }
+  },
+  "Arca Plasmor": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.85,
+    "Damage": 0.4,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Damage to Infested": 0.85,
+    "Zoom": 0.84,
+    "Ammo Maximum": 0.84,
+    "Magazine Capacity": 0.84
+   }
+  },
+  "Arca Scisco": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.8,
+    "Multishot": 0.8,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Slash": 0.92,
+    "Zoom": 0.91,
+    "Damage to Infested": 0.89,
+    "Damage to Corpus": 0.88,
+    "Ammo Maximum": 0.88
+   }
+  },
+  "Arca Titron": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Damage": 0.5,
+    "Fire Rate": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Critical Chance on Slide Attack": 0.88,
+    "Finisher Damage": 0.84,
+    "Heavy Attack Efficiency": 0.84
+   }
+  },
+  "Argo & Vel": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.65,
+    "Critical Chance": 0.6,
+    "Range": 0.55,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Combo Duration": 0.96,
+    "Damage to Corpus": 0.94,
+    "Critical Chance on Slide Attack": 0.94,
+    "Heavy Attack Efficiency": 0.9,
+    "Slash": 0.89
+   }
+  },
+  "Argonak": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 1.0,
+    "Damage": 0.55,
+    "Critical Chance": 0.5,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.96,
+    "Magazine Capacity": 0.9,
+    "Reload Speed": 0.88,
+    "Weapon Recoil": 0.88
+   }
+  },
+  "Artax": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.85,
+    "Critical Chance": 0.8,
+    "Status Chance": 0.65,
+    "Fire Rate": 0.5,
+    "Critical Damage": 0.45
+   },
+   "negatives": {
+    "Reload Speed": 1.0,
+    "Damage to Infested": 0.94,
+    "Damage to Grineer": 0.93,
+    "Damage to Corpus": 0.87,
+    "Status Duration": 0.87
+   }
+  },
+  "Arum Spinosa": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Range": 0.5,
+    "Fire Rate": 0.5,
+    "Damage": 0.45,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.99,
+    "Heavy Attack Efficiency": 0.99,
+    "Combo Duration": 0.98,
+    "Status Chance": 0.92
+   }
+  },
+  "Astilla": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.85,
+    "Damage": 0.6,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Weapon Recoil": 0.89,
+    "Damage to Infested": 0.87,
+    "Damage to Corpus": 0.85
+   }
+  },
+  "Athodai": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.8,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Reload Speed": 0.89,
+    "Weapon Recoil": 0.86,
+    "Damage to Corpus": 0.86,
+    "Ammo Maximum": 0.86
+   }
+  },
+  "Atomos": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.7
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.9,
+    "Damage to Infested": 0.87,
+    "Damage to Corpus": 0.85,
+    "Ammo Maximum": 0.85
+   }
+  },
+  "Atterax": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.65,
+    "Critical Chance": 0.55,
+    "Fire Rate": 0.45,
+    "Damage": 0.4,
+    "Critical Chance on Slide Attack": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Damage to Infested": 0.93,
+    "Damage to Corpus": 0.91,
+    "Heavy Attack Efficiency": 0.91,
+    "Combo Duration": 0.87
+   }
+  },
+  "Attica": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.9,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 1.0,
+    "Puncture": 0.92,
+    "Ammo Maximum": 0.91,
+    "Damage to Corpus": 0.9
+   }
+  },
+  "Azima": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.85,
+    "Damage": 0.65,
+    "Toxin": 0.35,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.88,
+    "Damage to Infested": 0.88,
+    "Weapon Recoil": 0.86
+   }
+  },
+  "Azothane": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Fire Rate": 0.55,
+    "Range": 0.45,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Slash": 0.9,
+    "Combo Duration": 0.88,
+    "Heavy Attack Efficiency": 0.88
+   }
+  },
+  "Balla": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.75,
+    "Critical Chance": 0.55,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Damage to Infested": 1.0,
+    "Puncture": 0.93,
+    "Impact": 0.92
+   }
+  },
+  "Ballistica": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.65,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.99,
+    "Weapon Recoil": 0.86
+   }
+  },
+  "Basmu": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.8,
+    "Toxin": 0.4,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.92
+   }
+  },
+  "Batoten": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Damage": 0.8,
+    "Range": 0.35,
+    "Status Chance": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Damage to Infested": 0.85,
+    "Puncture": 0.85
+   }
+  },
+  "Battacor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 1.0,
+    "Multishot": 0.9,
+    "Damage": 0.55,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 1.0,
+    "Puncture": 0.99,
+    "Slash": 0.9
+   }
+  },
+  "Baza": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Multishot": 0.65,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 1.0,
+    "Puncture": 0.96,
+    "Weapon Recoil": 0.93,
+    "Ammo Maximum": 0.92
+   }
+  },
+  "Bo": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.95,
+    "Fire Rate": 0.85
+   },
+   "negatives": {
+    "Impact": 1.0
+   }
+  },
+  "Boar": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.6,
+    "Critical Chance": 0.4,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.83
+   }
+  },
+  "Boltace": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Fire Rate": 0.6,
+    "Damage": 0.4,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Damage to Infested": 0.86,
+    "Heavy Attack Efficiency": 0.86,
+    "Finisher Damage": 0.86,
+    "Critical Chance on Slide Attack": 0.85
+   }
+  },
+  "Bolto": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.9,
+    "Damage": 0.65
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Reload Speed": 0.95,
+    "Puncture": 0.91,
+    "Status Chance": 0.9
+   }
+  },
+  "Boltor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.7
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 1.0
+   }
+  },
+  "Brakk": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.8,
+    "Critical Chance": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.95,
+    "Puncture": 0.93,
+    "Weapon Recoil": 0.89,
+    "Reload Speed": 0.87
+   }
+  },
+  "Braton": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.8
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.97,
+    "Puncture": 0.9,
+    "Slash": 0.88,
+    "Magazine Capacity": 0.88
+   }
+  },
+  "Broken Scepter": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.45,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Heavy Attack Efficiency": 0.88,
+    "Damage to Corpus": 0.88,
+    "Critical Chance on Slide Attack": 0.85
+   }
+  },
+  "Broken War": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Fire Rate": 0.55,
+    "Range": 0.4,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.97,
+    "Heavy Attack Efficiency": 0.96,
+    "Damage to Infested": 0.94,
+    "Slash": 0.93,
+    "Combo Duration": 0.9
+   }
+  },
+  "Bronco": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.75,
+    "Critical Chance": 0.6,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Weapon Recoil": 0.96,
+    "Zoom": 0.92
+   }
+  },
+  "Bubonico": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.85,
+    "Critical Chance": 0.7,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.9,
+    "Ammo Maximum": 0.89,
+    "Weapon Recoil": 0.88,
+    "Damage to Corpus": 0.86,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Burst Laser": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.85,
+    "Critical Damage": 0.85,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Reload Speed": 0.99,
+    "Damage to Infested": 0.91,
+    "Status Chance": 0.87,
+    "Magazine Capacity": 0.87
+   }
+  },
+  "Burston": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.9
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.92,
+    "Puncture": 0.88,
+    "Magazine Capacity": 0.85
+   }
+  },
+  "Buzlok": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.8,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.96,
+    "Zoom": 0.93,
+    "Weapon Recoil": 0.91,
+    "Magazine Capacity": 0.88,
+    "Damage to Corpus": 0.88
+   }
+  },
+  "Cadus": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.55,
+    "Range": 0.45,
+    "Damage": 0.4,
+    "Critical Chance": 0.35,
+    "Cold": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Damage to Infested": 0.86,
+    "Finisher Damage": 0.85
+   }
+  },
+  "Cantare": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.75,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.97,
+    "Reload Speed": 0.89
+   }
+  },
+  "Cassowar": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.6,
+    "Range": 0.55,
+    "Toxin": 0.35
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.98,
+    "Critical Chance on Slide Attack": 0.96,
+    "Puncture": 0.95,
+    "Damage to Infested": 0.94,
+    "Slash": 0.9
+   }
+  },
+  "Castanas": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.85,
+    "Multishot": 0.5,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.88,
+    "Magazine Capacity": 0.86,
+    "Projectile Speed": 0.85
+   }
+  },
+  "Catabolyst": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Multishot": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.92,
+    "Weapon Recoil": 0.91,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Catchmoon": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.85,
+    "Multishot": 0.8,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.95,
+    "Puncture": 0.89,
+    "Damage to Infested": 0.88
+   }
+  },
+  "Caustacyst": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.55,
+    "Range": 0.4,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.96,
+    "Critical Chance on Slide Attack": 0.94,
+    "Damage to Infested": 0.88
+   }
+  },
+  "Cedo": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.8,
+    "Critical Chance": 0.55
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Weapon Recoil": 0.96,
+    "Damage to Corpus": 0.91,
+    "Reload Speed": 0.9
+   }
+  },
+  "Ceramic Dagger": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 1.0,
+    "Damage": 0.45,
+    "Initial Combo": 0.4
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.96,
+    "Critical Chance on Slide Attack": 0.94,
+    "Chance to Gain Combo Count": 0.88
+   }
+  },
+  "Cerata": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Damage": 0.5,
+    "Initial Combo": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Range": 0.99,
+    "Damage to Infested": 0.98,
+    "Chance to Gain Combo Count": 0.95,
+    "Heavy Attack Efficiency": 0.94
+   }
+  },
+  "Cernos": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.75,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.93,
+    "Impact": 0.93,
+    "Damage to Infested": 0.91,
+    "Damage to Corpus": 0.88
+   }
+  },
+  "Cestra": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.96,
+    "Weapon Recoil": 0.91,
+    "Damage to Infested": 0.88
+   }
+  },
+  "Cinta": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Multishot": 0.75,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.9,
+    "Magazine Capacity": 0.89,
+    "Status Duration": 0.88,
+    "Damage to Infested": 0.87
+   }
+  },
+  "Cobra & Crane": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Range": 0.5,
+    "Fire Rate": 0.45,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.93,
+    "Critical Chance on Slide Attack": 0.86,
+    "Damage to Grineer": 0.86
+   }
+  },
+  "Coda Bassocyst": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.7,
+    "Toxin": 0.3,
+    "Damage": 0.3,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.92,
+    "Damage to Infested": 0.89,
+    "Magazine Capacity": 0.87,
+    "Ammo Maximum": 0.86
+   }
+  },
+  "Coda Motovore": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Impact": 0.65,
+    "Damage": 0.65,
+    "Fire Rate": 0.3,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Critical Chance on Slide Attack": 0.96,
+    "Chance to Gain Combo Count": 0.94,
+    "Finisher Damage": 0.93
+   }
+  },
+  "Convectrix": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.85,
+    "Critical Chance": 0.65,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Slash": 0.96,
+    "Magazine Capacity": 0.87,
+    "Damage to Infested": 0.87,
+    "Reload Speed": 0.87
+   }
+  },
+  "Corinth": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.94,
+    "Weapon Recoil": 0.93,
+    "Ammo Maximum": 0.91,
+    "Magazine Capacity": 0.9,
+    "Slash": 0.88
+   }
+  },
+  "Cortege": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.8,
+    "Critical Chance": 0.45,
+    "Fire Rate": 0.45,
+    "Heat": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Status Chance": 0.86,
+    "Magazine Capacity": 0.85,
+    "Weapon Recoil": 0.85,
+    "Reload Speed": 0.84
+   }
+  },
+  "Corufell": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Puncture": 0.99,
+    "Finisher Damage": 0.96
+   }
+  },
+  "Corvas": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 1.0,
+    "Multishot": 0.85,
+    "Damage to Corpus": 0.4,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.92,
+    "Status Duration": 0.86
+   }
+  },
+  "Cronus": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Damage": 0.6,
+    "Critical Chance": 0.55,
+    "Fire Rate": 0.4,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.91,
+    "Heavy Attack Efficiency": 0.91,
+    "Critical Chance on Slide Attack": 0.86,
+    "Damage to Grineer": 0.86
+   }
+  },
+  "Cryotra": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Damage": 0.6,
+    "Punch Through": 0.45,
+    "Status Chance": 0.45
+   },
+   "negatives": {
+    "Damage to Corpus": 1.0,
+    "Impact": 0.91,
+    "Reload Speed": 0.89,
+    "Damage to Infested": 0.87
+   }
+  },
+  "Cyanex": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.4,
+    "Toxin": 0.35,
+    "Critical Chance": 0.3,
+    "Status Chance": 0.3,
+    "Critical Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.9,
+    "Projectile Speed": 0.9,
+    "Fire Rate": 0.85
+   }
+  },
+  "Cyath": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.5,
+    "Range": 0.45,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Impact": 0.89,
+    "Damage to Grineer": 0.88,
+    "Puncture": 0.88,
+    "Damage to Infested": 0.87,
+    "Combo Duration": 0.87
+   }
+  },
+  "Cycron": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.65,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.91,
+    "Zoom": 0.9,
+    "Ammo Maximum": 0.9,
+    "Weapon Recoil": 0.87
+   }
+  },
+  "Cyngas": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Multishot": 0.7,
+    "Damage": 0.55,
+    "Toxin": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.91,
+    "Damage to Corpus": 0.87,
+    "Impact": 0.85
+   }
+  },
+  "Daikyu": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.85,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.96,
+    "Zoom": 0.95,
+    "Magazine Capacity": 0.9
+   }
+  },
+  "Dakra Prime": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Fire Rate": 0.6,
+    "Range": 0.5,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Damage to Infested": 0.99,
+    "Critical Chance on Slide Attack": 0.89,
+    "Finisher Damage": 0.88,
+    "Damage to Grineer": 0.87
+   }
+  },
+  "Dark Dagger": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.7,
+    "Range": 0.6,
+    "Critical Chance": 0.5,
+    "Damage": 0.4,
+    "Electricity": 0.4
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.94,
+    "Heavy Attack Efficiency": 0.92
+   }
+  },
+  "Dark Split-Sword": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.4,
+    "Range": 0.4,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.95,
+    "Damage to Infested": 0.93,
+    "Impact": 0.92,
+    "Critical Chance on Slide Attack": 0.91
+   }
+  },
+  "Dark Sword": {
+   "positives": {
+    "Damage": 1.0,
+    "Toxin": 0.65,
+    "Critical Damage": 0.65,
+    "Initial Combo": 0.35,
+    "Critical Chance": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 1.0,
+    "Damage to Infested": 0.95,
+    "Heavy Attack Efficiency": 0.94,
+    "Combo Duration": 0.93,
+    "Chance to Gain Combo Count": 0.91
+   }
+  },
+  "Deconstructor": {
+   "positives": {
+    "Range": 1.0,
+    "Critical Chance": 0.55,
+    "Heat": 0.5,
+    "Fire Rate": 0.5,
+    "Critical Damage": 0.45,
+    "Electricity": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Damage to Grineer": 0.9,
+    "Status Duration": 0.9
+   }
+  },
+  "Dehtat": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Impact": 0.98,
+    "Finisher Damage": 0.97,
+    "Combo Duration": 0.94,
+    "Puncture": 0.93,
+    "Heavy Attack Efficiency": 0.9
+   }
+  },
+  "Dera": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.8,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.98,
+    "Damage to Infested": 0.89,
+    "Ammo Maximum": 0.86
+   }
+  },
+  "Despair": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.96,
+    "Damage to Infested": 0.92,
+    "Magazine Capacity": 0.91,
+    "Weapon Recoil": 0.91
+   }
+  },
+  "Destreza": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.75,
+    "Range": 0.6,
+    "Critical Chance": 0.55,
+    "Damage": 0.35,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Puncture": 0.98,
+    "Finisher Damage": 0.95,
+    "Heavy Attack Efficiency": 0.87
+   }
+  },
+  "Deth Machine Rifle": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Multishot": 0.8,
+    "Damage": 0.65
+   },
+   "negatives": {
+    "Magazine Capacity": 1.0,
+    "Damage to Infested": 0.97,
+    "Status Chance": 0.95,
+    "Slash": 0.9,
+    "Damage to Corpus": 0.9,
+    "Status Duration": 0.89
+   }
+  },
+  "Detron": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.7,
+    "Critical Chance": 0.7,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.87,
+    "Projectile Speed": 0.86,
+    "Status Duration": 0.85,
+    "Damage to Infested": 0.85
+   }
+  },
+  "Dex Dakra": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Range": 0.55,
+    "Fire Rate": 0.45,
+    "Damage": 0.4,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Damage to Grineer": 0.92,
+    "Heavy Attack Efficiency": 0.92,
+    "Critical Chance on Slide Attack": 0.91,
+    "Combo Duration": 0.9,
+    "Finisher Damage": 0.9
+   }
+  },
+  "Dex Nikana": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Chance on Slide Attack": 0.8,
+    "Critical Damage": 0.8,
+    "Additional Combo Count Chance": 0.4,
+    "Range": 0.4,
+    "Status Duration": 0.3
+   },
+   "negatives": {
+    "Damage to Infested": 0.9
+   }
+  },
+  "Dokrahm": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Damage": 0.6,
+    "Fire Rate": 0.55,
+    "Critical Chance": 0.45,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Combo Duration": 0.88,
+    "Slash": 0.88,
+    "Heavy Attack Efficiency": 0.87,
+    "Critical Chance on Slide Attack": 0.87
+   }
+  },
+  "Dorrclave": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.7,
+    "Fire Rate": 0.6,
+    "Critical Chance": 0.55,
+    "Electricity": 0.4,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Slash": 1.0,
+    "Damage to Corpus": 0.88,
+    "Status Duration": 0.85,
+    "Damage to Infested": 0.85,
+    "Finisher Damage": 0.85
+   }
+  },
+  "Dragon Nikana": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Fire Rate": 0.65,
+    "Range": 0.45,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.99
+   }
+  },
+  "Drakgoon": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.75,
+    "Critical Chance": 0.55,
+    "Damage": 0.35,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Projectile Speed": 1.0,
+    "Weapon Recoil": 0.96
+   }
+  },
+  "Dread": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Multishot": 0.7,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.92,
+    "Ammo Maximum": 0.89
+   }
+  },
+  "Dual Cestra": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.75,
+    "Critical Chance": 0.6,
+    "Damage": 0.45,
+    "Fire Rate": 0.4,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Damage to Infested": 0.93,
+    "Zoom": 0.92,
+    "Magazine Capacity": 0.87,
+    "Ammo Maximum": 0.87
+   }
+  },
+  "Dual Cleavers": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.65,
+    "Critical Chance": 0.6,
+    "Range": 0.45
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.92,
+    "Combo Duration": 0.87,
+    "Critical Chance on Slide Attack": 0.87,
+    "Status Chance": 0.86,
+    "Damage to Corpus": 0.85
+   }
+  },
+  "Dual Coda Torxica": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.85,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Slash": 0.87,
+    "Weapon Recoil": 0.86,
+    "Puncture": 0.86
+   }
+  },
+  "Dual Decurion": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Damage to Corpus": 0.85,
+    "Multishot": 0.85,
+    "Ammo Maximum": 0.75,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.91,
+    "Puncture": 0.9,
+    "Weapon Recoil": 0.89,
+    "Status Chance": 0.88
+   }
+  },
+  "Dual Ether": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Damage": 0.75,
+    "Fire Rate": 0.3,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.92,
+    "Critical Chance on Slide Attack": 0.92,
+    "Damage to Infested": 0.91,
+    "Damage to Corpus": 0.9
+   }
+  },
+  "Dual Heat Swords": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Range": 0.5,
+    "Damage": 0.5,
+    "Fire Rate": 0.45
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.96,
+    "Status Duration": 0.9,
+    "Combo Duration": 0.89,
+    "Critical Chance on Slide Attack": 0.86
+   }
+  },
+  "Dual Ichor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.6,
+    "Range": 0.55,
+    "Critical Chance": 0.55,
+    "Damage": 0.4,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.93,
+    "Heavy Attack Efficiency": 0.92,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Dual Kamas": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Range": 0.65,
+    "Damage": 0.6,
+    "Fire Rate": 0.55,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Heavy Attack Efficiency": 0.96,
+    "Damage to Corpus": 0.93,
+    "Finisher Damage": 0.93,
+    "Critical Chance on Slide Attack": 0.92,
+    "Slash": 0.89
+   }
+  },
+  "Dual Keres": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.55,
+    "Range": 0.5,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.98,
+    "Critical Chance on Slide Attack": 0.9
+   }
+  },
+  "Dual Raza": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Damage": 0.6,
+    "Fire Rate": 0.45
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Damage to Infested": 0.93,
+    "Heavy Attack Efficiency": 0.91,
+    "Critical Chance on Slide Attack": 0.89,
+    "Combo Duration": 0.88
+   }
+  },
+  "Dual Skana": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Damage": 0.8,
+    "Fire Rate": 0.65,
+    "Range": 0.55,
+    "Critical Chance": 0.45,
+    "Electricity": 0.45
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Damage to Corpus": 0.94,
+    "Finisher Damage": 0.92,
+    "Heavy Attack Efficiency": 0.91,
+    "Status Duration": 0.9
+   }
+  },
+  "Dual Toxocyst": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.7,
+    "Punch Through": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Projectile Speed": 0.92,
+    "Puncture": 0.87
+   }
+  },
+  "Dual Viciss": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Fire Rate": 0.6,
+    "Range": 0.4,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.95,
+    "Heavy Attack Efficiency": 0.92,
+    "Damage to Infested": 0.9,
+    "Status Duration": 0.88
+   }
+  },
+  "Dual Zoren": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Fire Rate": 0.55,
+    "Range": 0.5,
+    "Electricity": 0.35,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.96,
+    "Heavy Attack Efficiency": 0.92,
+    "Slash": 0.9
+   }
+  },
+  "EFV-5 Jupiter": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Multishot": 0.6,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.97,
+    "Weapon Recoil": 0.96,
+    "Reload Speed": 0.94,
+    "Puncture": 0.93
+   }
+  },
+  "EFV-8 Mars": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.85,
+    "Damage": 0.55,
+    "Fire Rate": 0.4
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Zoom": 0.98,
+    "Impact": 0.96,
+    "Puncture": 0.94,
+    "Weapon Recoil": 0.91,
+    "Ammo Maximum": 0.91
+   }
+  },
+  "Edun": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Range": 0.95,
+    "Fire Rate": 0.75,
+    "Damage": 0.65,
+    "Electricity": 0.45
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Heavy Attack Efficiency": 0.97,
+    "Critical Chance on Slide Attack": 0.96,
+    "Finisher Damage": 0.94
+   }
+  },
+  "Ekhein": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Damage to Corpus": 0.94,
+    "Impact": 0.9,
+    "Combo Duration": 0.89,
+    "Heavy Attack Efficiency": 0.89,
+    "Finisher Damage": 0.88,
+    "Status Chance": 0.88
+   }
+  },
+  "Embolist": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.75,
+    "Fire Rate": 0.6,
+    "Critical Damage": 0.4,
+    "Status Chance": 0.35,
+    "Critical Chance": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.89,
+    "Damage to Infested": 0.85
+   }
+  },
+  "Endura": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Fire Rate": 0.5,
+    "Damage": 0.45,
+    "Toxin": 0.35,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.92,
+    "Damage to Infested": 0.88,
+    "Status Duration": 0.87,
+    "Critical Chance on Slide Attack": 0.87
+   }
+  },
+  "Enkaus": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.75,
+    "Critical Chance": 0.7,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Weapon Recoil": 0.97,
+    "Zoom": 0.94,
+    "Status Duration": 0.9,
+    "Reload Speed": 0.87,
+    "Damage to Infested": 0.87
+   }
+  },
+  "Epitaph": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.5,
+    "Status Chance": 0.45,
+    "Toxin": 0.35,
+    "Critical Chance": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.89,
+    "Weapon Recoil": 0.87,
+    "Puncture": 0.86
+   }
+  },
+  "Ether Daggers": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.5,
+    "Range": 0.4,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.96,
+    "Damage to Infested": 0.9,
+    "Heavy Attack Efficiency": 0.89
+   }
+  },
+  "Ether Reaper": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Damage": 0.6,
+    "Range": 0.45
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Damage to Infested": 0.91,
+    "Slash": 0.88,
+    "Status Duration": 0.87,
+    "Heavy Attack Efficiency": 0.87
+   }
+  },
+  "Ether Sword": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.95,
+    "Electricity": 0.9,
+    "Damage": 0.8,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.7
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Damage to Infested": 0.9,
+    "Slash": 0.88,
+    "Finisher Damage": 0.88,
+    "Critical Chance on Slide Attack": 0.87,
+    "Status Duration": 0.86
+   }
+  },
+  "Euphona Prime": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.7,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Ammo Maximum": 1.0,
+    "Zoom": 0.99,
+    "Impact": 0.98,
+    "Damage to Grineer": 0.94,
+    "Damage to Infested": 0.93
+   }
+  },
+  "Evensong": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.65,
+    "Damage": 0.35,
+    "Toxin": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Infested": 0.88,
+    "Ammo Maximum": 0.88,
+    "Magazine Capacity": 0.86
+   }
+  },
+  "Exergis": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.55,
+    "Ammo Efficiency": 0.3,
+    "Critical Damage": 0.3,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.95,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Falcor": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Damage": 0.75,
+    "Critical Damage": 0.65,
+    "Electricity": 0.6
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.9,
+    "Critical Chance on Slide Attack": 0.89,
+    "Finisher Damage": 0.88,
+    "Damage to Infested": 0.88
+   }
+  },
+  "Fang": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Damage": 0.75,
+    "Fire Rate": 0.6,
+    "Toxin": 0.35,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Damage to Corpus": 0.92,
+    "Critical Chance on Slide Attack": 0.9,
+    "Finisher Damage": 0.9,
+    "Damage to Infested": 0.88
+   }
+  },
+  "Felarx": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.6,
+    "Fire Rate": 0.35,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Critical Chance": 1.0
+   }
+  },
+  "Ferrox": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.85,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Puncture": 0.94,
+    "Projectile Speed": 0.9,
+    "Damage to Corpus": 0.88,
+    "Damage to Infested": 0.88
+   }
+  },
+  "Fluctus": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.65,
+    "Fire Rate": 0.6,
+    "Damage": 0.55,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Ammo Maximum": 0.94,
+    "Status Duration": 0.92,
+    "Weapon Recoil": 0.92,
+    "Reload Speed": 0.87,
+    "Status Chance": 0.87
+   }
+  },
+  "Flux Rifle": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.9,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Corpus": 0.93,
+    "Slash": 0.92,
+    "Ammo Maximum": 0.88,
+    "Damage to Infested": 0.88,
+    "Weapon Recoil": 0.87
+   }
+  },
+  "Fragor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.55,
+    "Initial Combo": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.93,
+    "Critical Chance on Slide Attack": 0.89,
+    "Combo Duration": 0.88
+   }
+  },
+  "Fulmin": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.8,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.89
+   }
+  },
+  "Furax": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Fire Rate": 0.8,
+    "Damage": 0.6,
+    "Initial Combo": 0.55,
+    "Range": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Heavy Attack Efficiency": 0.93,
+    "Critical Chance on Slide Attack": 0.93,
+    "Damage to Infested": 0.91,
+    "Finisher Damage": 0.91
+   }
+  },
+  "Furis": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 1.0,
+    "Critical Chance": 0.45,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.93,
+    "Weapon Recoil": 0.86,
+    "Magazine Capacity": 0.85
+   }
+  },
+  "Fusilai": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Multishot": 0.65,
+    "Critical Damage": 0.5,
+    "Damage": 0.5,
+    "Toxin": 0.4
+   },
+   "negatives": {
+    "Projectile Speed": 1.0,
+    "Puncture": 1.0,
+    "Zoom": 0.96,
+    "Damage to Infested": 0.91,
+    "Status Duration": 0.88
+   }
+  },
+  "Galariak Prime": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Damage": 0.65,
+    "Range": 0.5,
+    "Fire Rate": 0.45,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.96,
+    "Critical Chance on Slide Attack": 0.95,
+    "Damage to Infested": 0.9,
+    "Finisher Damage": 0.89
+   }
+  },
+  "Galatine": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.6,
+    "Critical Chance": 0.45,
+    "Range": 0.45,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Slash": 1.0,
+    "Heavy Attack Efficiency": 0.99,
+    "Critical Chance on Slide Attack": 0.96,
+    "Finisher Damage": 0.92,
+    "Status Duration": 0.92,
+    "Status Chance": 0.91
+   }
+  },
+  "Galvacord": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.8,
+    "Critical Chance": 0.6,
+    "Fire Rate": 0.5,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.98,
+    "Heavy Attack Efficiency": 0.97,
+    "Damage to Infested": 0.94,
+    "Combo Duration": 0.92,
+    "Damage to Grineer": 0.9
+   }
+  },
+  "Gammacor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.7,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.89,
+    "Ammo Maximum": 0.86,
+    "Reload Speed": 0.86
+   }
+  },
+  "Gazal Machete": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Damage": 0.85,
+    "Fire Rate": 0.7,
+    "Range": 0.5,
+    "Electricity": 0.5
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Heavy Attack Efficiency": 0.92,
+    "Slash": 0.91,
+    "Damage to Corpus": 0.89
+   }
+  },
+  "Gaze": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.95,
+    "Critical Damage": 0.9,
+    "Toxin": 0.35,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 1.0,
+    "Weapon Recoil": 0.96,
+    "Ammo Maximum": 0.95,
+    "Damage to Infested": 0.91,
+    "Zoom": 0.91
+   }
+  },
+  "Ghoulsaw": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.8,
+    "Fire Rate": 0.6,
+    "Critical Chance": 0.55,
+    "Damage": 0.5,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Slash": 0.9
+   }
+  },
+  "Glaive": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Damage": 0.65,
+    "Initial Combo": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 1.0,
+    "Combo Duration": 0.89,
+    "Heavy Attack Efficiency": 0.89,
+    "Damage to Infested": 0.88,
+    "Chance to Gain Combo Count": 0.88
+   }
+  },
+  "Glaxion": {
+   "positives": {
+    "Toxin": 1.0,
+    "Critical Damage": 0.9,
+    "Multishot": 0.85,
+    "Cold": 0.8,
+    "Critical Chance": 0.7,
+    "Corrosive": 0.7
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.93,
+    "Reload Speed": 0.86
+   }
+  },
+  "Gorgon": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.9,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.99,
+    "Weapon Recoil": 0.89,
+    "Magazine Capacity": 0.88,
+    "Ammo Maximum": 0.87
+   }
+  },
+  "Gotva Prime": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.65,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Corpus": 0.91,
+    "Reload Speed": 0.9,
+    "Magazine Capacity": 0.9,
+    "Weapon Recoil": 0.89
+   }
+  },
+  "Grakata": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.8,
+    "Damage": 0.35,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.99,
+    "Zoom": 0.93,
+    "Damage to Infested": 0.93,
+    "Slash": 0.89
+   }
+  },
+  "Gram": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Damage": 0.5,
+    "Range": 0.45,
+    "Fire Rate": 0.45
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.95,
+    "Heavy Attack Efficiency": 0.95,
+    "Damage to Infested": 0.9
+   }
+  },
+  "Grattler": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 1.0,
+    "Critical Chance": 0.65
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.99,
+    "Weapon Recoil": 0.87
+   }
+  },
+  "Grimoire": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.8,
+    "Fire Rate": 0.65,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Magazine Capacity": 0.93,
+    "Projectile Speed": 0.87,
+    "Damage to Infested": 0.86,
+    "Status Duration": 0.85
+   }
+  },
+  "Grinlok": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.75,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.9,
+    "Ammo Maximum": 0.87,
+    "Damage to Corpus": 0.87
+   }
+  },
+  "Guandao": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.65,
+    "Range": 0.55,
+    "Critical Chance": 0.5,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Critical Chance on Slide Attack": 0.98,
+    "Heavy Attack Efficiency": 0.9,
+    "Damage to Grineer": 0.89,
+    "Slash": 0.88,
+    "Finisher Damage": 0.88
+   }
+  },
+  "Gunsen": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Damage": 0.55,
+    "Fire Rate": 0.4,
+    "Range": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.94,
+    "Damage to Infested": 0.9,
+    "Slash": 0.89,
+    "Critical Chance on Slide Attack": 0.88,
+    "Damage to Grineer": 0.88
+   }
+  },
+  "Haalvu": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.5,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.87,
+    "Ammo Maximum": 0.87
+   }
+  },
+  "Halikar": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Initial Combo": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.93,
+    "Puncture": 0.92,
+    "Heavy Attack Efficiency": 0.89,
+    "Damage to Infested": 0.87
+   }
+  },
+  "Harmony": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.45,
+    "Damage": 0.4,
+    "Range": 0.35,
+    "Status Duration": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Critical Chance on Slide Attack": 0.96,
+    "Finisher Damage": 0.91,
+    "Heavy Attack Efficiency": 0.9,
+    "Damage to Infested": 0.89,
+    "Combo Duration": 0.87
+   }
+  },
+  "Harpak": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.85,
+    "Damage": 0.8,
+    "Critical Chance": 0.7,
+    "Status Chance": 0.3,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.96,
+    "Damage to Infested": 0.95,
+    "Weapon Recoil": 0.88,
+    "Ammo Maximum": 0.88
+   }
+  },
+  "Hate": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.75,
+    "Range": 0.65,
+    "Critical Chance": 0.4,
+    "Damage": 0.3,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.97,
+    "Slash": 0.94,
+    "Heavy Attack Efficiency": 0.89,
+    "Damage to Infested": 0.87
+   }
+  },
+  "Heat Dagger": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Fire Rate": 0.6,
+    "Damage": 0.5,
+    "Range": 0.45,
+    "Status Chance": 0.35
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Impact": 0.91,
+    "Damage to Infested": 0.88,
+    "Status Duration": 0.88,
+    "Damage to Corpus": 0.86
+   }
+  },
+  "Heat Sword": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.7,
+    "Critical Chance": 0.6,
+    "Range": 0.45,
+    "Damage": 0.4,
+    "Slash": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.95,
+    "Damage to Infested": 0.94,
+    "Critical Chance on Slide Attack": 0.91,
+    "Chance to Gain Combo Count": 0.9
+   }
+  },
+  "Hek": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.7,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Weapon Recoil": 0.87,
+    "Damage to Infested": 0.85,
+    "Projectile Speed": 0.85
+   }
+  },
+  "Heliocor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.75,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Heavy Attack Efficiency": 0.95,
+    "Critical Chance on Slide Attack": 0.94,
+    "Finisher Damage": 0.92,
+    "Damage to Infested": 0.9
+   }
+  },
+  "Helstrum": {
+   "positives": {
+    "Multishot": 1.0,
+    "Status Chance": 0.6,
+    "Damage": 0.6,
+    "Critical Damage": 0.55,
+    "Critical Chance": 0.55,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Hema": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.8,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Ammo Maximum": 0.97,
+    "Projectile Speed": 0.9,
+    "Damage to Infested": 0.89
+   }
+  },
+  "Hespar": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Damage": 0.65,
+    "Fire Rate": 0.6,
+    "Range": 0.6,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.89,
+    "Damage to Infested": 0.89,
+    "Critical Chance on Slide Attack": 0.89,
+    "Heavy Attack Efficiency": 0.88
+   }
+  },
+  "Higasa": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Multishot": 0.65,
+    "Damage": 0.45,
+    "Heat": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Infested": 0.92,
+    "Puncture": 0.91
+   }
+  },
+  "Hikou": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.8,
+    "Critical Chance": 0.75,
+    "Damage": 0.7,
+    "Toxin": 0.35,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.93,
+    "Puncture": 0.93,
+    "Magazine Capacity": 0.91,
+    "Damage to Infested": 0.9
+   }
+  },
+  "Hind": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.85,
+    "Toxin": 0.35,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.98,
+    "Damage to Infested": 0.93,
+    "Damage to Grineer": 0.91,
+    "Damage to Corpus": 0.9,
+    "Magazine Capacity": 0.89
+   }
+  },
+  "Hirudo": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Range": 0.4,
+    "Damage": 0.35,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Damage to Infested": 0.94,
+    "Puncture": 0.94,
+    "Critical Chance on Slide Attack": 0.9,
+    "Damage to Corpus": 0.89
+   }
+  },
+  "Hystrix": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Damage": 0.4,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.93,
+    "Projectile Speed": 0.89
+   }
+  },
+  "Ignis": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.7,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.98,
+    "Damage to Infested": 0.88,
+    "Reload Speed": 0.86
+   }
+  },
+  "Imperator": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Damage": 0.5,
+    "Fire Rate": 0.35,
+    "Damage to Corpus": 0.3
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.97,
+    "Impact": 0.95,
+    "Puncture": 0.93
+   }
+  },
+  "Innodem": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Fire Rate": 0.55,
+    "Range": 0.5
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Heavy Attack Efficiency": 0.89,
+    "Damage to Infested": 0.88,
+    "Critical Chance on Slide Attack": 0.86
+   }
+  },
+  "Jat Kittag": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Damage": 0.55,
+    "Fire Rate": 0.4,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.96,
+    "Damage to Corpus": 0.91
+   }
+  },
+  "Jat Kusar": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Fire Rate": 0.6,
+    "Damage": 0.6,
+    "Range": 0.55,
+    "Damage to Grineer": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Status Duration": 0.95,
+    "Damage to Infested": 0.89
+   }
+  },
+  "Javlok": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.9,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.88,
+    "Magazine Capacity": 0.86,
+    "Projectile Speed": 0.85
+   }
+  },
+  "Jaw Sword": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Damage": 0.5,
+    "Range": 0.35,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.97,
+    "Heavy Attack Efficiency": 0.95,
+    "Damage to Infested": 0.94,
+    "Status Chance": 0.9
+   }
+  },
+  "Kama": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Damage": 0.5,
+    "Fire Rate": 0.45,
+    "Range": 0.45
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Damage to Corpus": 0.94,
+    "Heavy Attack Efficiency": 0.93,
+    "Status Chance": 0.92,
+    "Critical Chance on Slide Attack": 0.89,
+    "Slash": 0.88,
+    "Status Duration": 0.88
+   }
+  },
+  "Karak": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Multishot": 0.7,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Ammo Maximum": 0.91,
+    "Zoom": 0.9,
+    "Weapon Recoil": 0.88
+   }
+  },
+  "Karyst": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.6,
+    "Range": 0.55,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.94,
+    "Heavy Attack Efficiency": 0.89,
+    "Damage to Corpus": 0.88,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Keratinos": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.75,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.55,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.9,
+    "Finisher Damage": 0.89,
+    "Critical Chance on Slide Attack": 0.86
+   }
+  },
+  "Kesheg": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.9,
+    "Range": 0.55,
+    "Critical Chance": 0.5,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.87,
+    "Heavy Attack Efficiency": 0.87,
+    "Critical Chance on Slide Attack": 0.85,
+    "Slash": 0.85
+   }
+  },
+  "Kestrel": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.65,
+    "Fire Rate": 0.5,
+    "Range": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.9,
+    "Critical Chance on Slide Attack": 0.9,
+    "Status Duration": 0.86
+   }
+  },
+  "Knell": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.75,
+    "Damage": 0.5,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.99,
+    "Zoom": 0.96,
+    "Magazine Capacity": 0.94,
+    "Weapon Recoil": 0.9
+   }
+  },
+  "Kogake": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Range": 0.6,
+    "Fire Rate": 0.45,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.87,
+    "Status Duration": 0.85,
+    "Heavy Attack Efficiency": 0.84,
+    "Damage to Infested": 0.84
+   }
+  },
+  "Kohm": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.7,
+    "Critical Chance": 0.5,
+    "Fire Rate": 0.45,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Slash": 0.97,
+    "Ammo Maximum": 0.86,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Kohmak": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Multishot": 0.95,
+    "Critical Damage": 0.9,
+    "Damage": 0.65,
+    "Toxin": 0.4,
+    "Fire Rate": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.91,
+    "Slash": 0.9,
+    "Ammo Maximum": 0.88,
+    "Damage to Grineer": 0.87
+   }
+  },
+  "Komorex": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 1.0,
+    "Critical Chance": 1.0,
+    "Damage": 0.5,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.89,
+    "Reload Speed": 0.85
+   }
+  },
+  "Kompressa": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.5,
+    "Status Chance": 0.45,
+    "Fire Rate": 0.35,
+    "Critical Chance": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.86,
+    "Ammo Maximum": 0.85
+   }
+  },
+  "Korrudo": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Damage": 0.8,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.4,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Slash": 0.99,
+    "Status Chance": 0.96,
+    "Impact": 0.93,
+    "Damage to Infested": 0.92,
+    "Chance to Gain Combo Count": 0.92
+   }
+  },
+  "Korumm": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Fire Rate": 0.65,
+    "Range": 0.3,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.88,
+    "Damage to Corpus": 0.86,
+    "Slash": 0.86
+   }
+  },
+  "Kraken": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.5,
+    "Toxin": 0.35,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.89,
+    "Ammo Maximum": 0.88,
+    "Magazine Capacity": 0.88,
+    "Damage to Grineer": 0.88,
+    "Weapon Recoil": 0.88,
+    "Damage to Corpus": 0.87
+   }
+  },
+  "Kreska": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.7,
+    "Damage": 0.6,
+    "Range": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Damage to Infested": 0.85,
+    "Combo Duration": 0.85
+   }
+  },
+  "Krohkur": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.45,
+    "Damage": 0.45,
+    "Range": 0.45
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Damage to Infested": 0.9,
+    "Heavy Attack Efficiency": 0.89
+   }
+  },
+  "Kronen": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Range": 0.5,
+    "Fire Rate": 0.5,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.91,
+    "Critical Chance on Slide Attack": 0.89,
+    "Damage to Infested": 0.87,
+    "Damage to Corpus": 0.86
+   }
+  },
+  "Kronsh": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Fire Rate": 0.55,
+    "Damage": 0.4,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Impact": 0.9,
+    "Puncture": 0.89,
+    "Finisher Damage": 0.88
+   }
+  },
+  "Kulstar": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.85,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Magazine Capacity": 0.97,
+    "Zoom": 0.94,
+    "Weapon Recoil": 0.93,
+    "Damage to Corpus": 0.93
+   }
+  },
+  "Kunai": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Damage": 0.55,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.91,
+    "Damage to Corpus": 0.91,
+    "Weapon Recoil": 0.9
+   }
+  },
+  "Kuva Ayanga": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Multishot": 0.95,
+    "Critical Damage": 0.9,
+    "Damage": 0.4,
+    "Fire Rate": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.98,
+    "Reload Speed": 0.89,
+    "Weapon Recoil": 0.89,
+    "Status Duration": 0.88
+   }
+  },
+  "Kuva Bramma": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.8,
+    "Critical Chance": 0.75,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.92,
+    "Damage to Infested": 0.87,
+    "Weapon Recoil": 0.87,
+    "Reload Speed": 0.87
+   }
+  },
+  "Kuva Chakkhurr": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.8,
+    "Critical Chance": 0.75,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.96,
+    "Damage to Infested": 0.94,
+    "Weapon Recoil": 0.92
+   }
+  },
+  "Kuva Shildeg": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Damage": 0.4,
+    "Range": 0.3,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Damage to Corpus": 0.99,
+    "Impact": 0.95,
+    "Puncture": 0.94,
+    "Critical Chance on Slide Attack": 0.93,
+    "Heavy Attack Efficiency": 0.91
+   }
+  },
+  "Kuva Twin Stubbas": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.8,
+    "Damage": 0.45,
+    "Toxin": 0.4
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.97,
+    "Damage to Infested": 0.91
+   }
+  },
+  "Lacera": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.7,
+    "Critical Chance": 0.7,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.92,
+    "Heavy Attack Efficiency": 0.9
+   }
+  },
+  "Lacerten": {
+   "positives": {
+    "Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Critical Damage": 0.6,
+    "Cold": 0.5,
+    "Fire Rate": 0.35,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Damage to Corpus": 0.83
+   }
+  },
+  "Laetum": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.65,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Critical Chance": 1.0,
+    "Impact": 0.82
+   }
+  },
+  "Lanka": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 1.0,
+    "Multishot": 0.7,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.96,
+    "Status Chance": 0.88
+   }
+  },
+  "Larkspur": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.65,
+    "Fire Rate": 0.35,
+    "Critical Chance": 0.35,
+    "Damage": 0.3,
+    "Ammo Efficiency": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.92,
+    "Puncture": 0.92,
+    "Weapon Recoil": 0.91,
+    "Slash": 0.87
+   }
+  },
+  "Laser Rifle": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Damage": 0.75,
+    "Status Chance": 0.3,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Damage to Corpus": 0.87,
+    "Damage to Infested": 0.85
+   }
+  },
+  "Lato": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.88,
+    "Damage to Corpus": 0.86,
+    "Reload Speed": 0.85
+   }
+  },
+  "Latron": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.8
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.86
+   }
+  },
+  "Lecta": {
+   "positives": {
+    "Fire Rate": 1.0,
+    "Critical Damage": 0.95,
+    "Range": 0.8,
+    "Damage": 0.7,
+    "Critical Chance": 0.65,
+    "Status Chance": 0.45
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.99,
+    "Damage to Infested": 0.97
+   }
+  },
+  "Lenz": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 1.0,
+    "Multishot": 0.7,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 1.0,
+    "Damage to Infested": 0.93,
+    "Magazine Capacity": 0.9,
+    "Weapon Recoil": 0.89
+   }
+  },
+  "Lesion": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.9,
+    "Critical Chance": 0.7,
+    "Range": 0.65,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Damage to Corpus": 0.96,
+    "Finisher Damage": 0.95,
+    "Damage to Grineer": 0.94,
+    "Critical Chance on Slide Attack": 0.89
+   }
+  },
+  "Lex": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.8
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.92,
+    "Damage to Infested": 0.85
+   }
+  },
+  "Machete": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.85,
+    "Critical Chance": 0.75,
+    "Range": 0.6,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Heavy Attack Efficiency": 0.99,
+    "Finisher Damage": 0.98
+   }
+  },
+  "Magistar": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Damage": 0.75
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.94,
+    "Impact": 0.94,
+    "Chance to Gain Combo Count": 0.87
+   }
+  },
+  "Magnus": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.8,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.91,
+    "Weapon Recoil": 0.91,
+    "Status Duration": 0.91,
+    "Puncture": 0.91,
+    "Projectile Speed": 0.91,
+    "Slash": 0.89
+   }
+  },
+  "Mandonel": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Multishot": 0.75,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Ammo Maximum": 1.0,
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.96,
+    "Status Chance": 0.91
+   }
+  },
+  "Marelok": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Damage": 0.95,
+    "Multishot": 0.8,
+    "Critical Chance": 0.8
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 1.0,
+    "Damage to Infested": 0.93,
+    "Impact": 0.9
+   }
+  },
+  "Masseter": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Fire Rate": 0.55,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Slash": 0.89,
+    "Heavy Attack Efficiency": 0.89,
+    "Combo Duration": 0.85
+   }
+  },
+  "Mausolon": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Multishot": 0.95,
+    "Damage to Corpus": 0.45,
+    "Damage": 0.35,
+    "Ammo Maximum": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.99,
+    "Puncture": 0.97,
+    "Weapon Recoil": 0.91,
+    "Status Chance": 0.91
+   }
+  },
+  "Mewan": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Damage": 0.85,
+    "Fire Rate": 0.45,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Combo Duration": 0.89,
+    "Damage to Corpus": 0.88,
+    "Critical Chance on Slide Attack": 0.88
+   }
+  },
+  "Mios": {
+   "positives": {
+    "Fire Rate": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.65,
+    "Range": 0.5,
+    "Damage": 0.5,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.93,
+    "Impact": 0.92,
+    "Combo Duration": 0.91,
+    "Damage to Infested": 0.9,
+    "Damage to Corpus": 0.89
+   }
+  },
+  "Mire": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.6,
+    "Fire Rate": 0.4,
+    "Range": 0.35,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.92
+   }
+  },
+  "Miter": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.9
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.87,
+    "Ammo Maximum": 0.86,
+    "Damage to Infested": 0.85
+   }
+  },
+  "Morgha": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 1.0,
+    "Multishot": 1.0,
+    "Damage": 0.55,
+    "Electricity": 0.35,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.93,
+    "Impact": 0.9,
+    "Status Duration": 0.86,
+    "Magazine Capacity": 0.86
+   }
+  },
+  "Multron": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.95,
+    "Critical Chance": 0.65,
+    "Critical Damage": 0.6,
+    "Toxin": 0.4,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Damage to Corpus": 0.92,
+    "Puncture": 0.88,
+    "Status Duration": 0.87,
+    "Magazine Capacity": 0.86
+   }
+  },
+  "Mutalist Cernos": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Multishot": 0.65,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.92,
+    "Magazine Capacity": 0.91
+   }
+  },
+  "Mutalist Quanta": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Damage": 0.55,
+    "Toxin": 0.35,
+    "Heat": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Weapon Recoil": 0.91,
+    "Zoom": 0.89,
+    "Magazine Capacity": 0.87,
+    "Damage to Infested": 0.87
+   }
+  },
+  "Nagantaka": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.75,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Ammo Maximum": 0.91,
+    "Damage to Infested": 0.9,
+    "Damage to Corpus": 0.86
+   }
+  },
+  "Nami Skyla": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.8,
+    "Range": 0.75,
+    "Critical Chance": 0.7,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.98,
+    "Heavy Attack Efficiency": 0.95,
+    "Damage to Infested": 0.9,
+    "Slash": 0.89
+   }
+  },
+  "Nami Solo": {
+   "positives": {
+    "Range": 1.0,
+    "Critical Damage": 0.85,
+    "Fire Rate": 0.8,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Slash": 1.0,
+    "Finisher Damage": 0.88,
+    "Critical Chance on Slide Attack": 0.85,
+    "Heavy Attack Efficiency": 0.84
+   }
+  },
+  "Nataruk": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Multishot": 0.8
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.94,
+    "Ammo Maximum": 0.89,
+    "Weapon Recoil": 0.87
+   }
+  },
+  "Nepheri": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.6,
+    "Damage": 0.55,
+    "Critical Chance": 0.55,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.99,
+    "Slash": 0.99,
+    "Damage to Corpus": 0.94,
+    "Damage to Infested": 0.93,
+    "Impact": 0.92
+   }
+  },
+  "Nikana": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.75,
+    "Critical Chance": 0.65,
+    "Range": 0.4,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 1.0,
+    "Damage to Corpus": 0.91,
+    "Damage to Infested": 0.89
+   }
+  },
+  "Ninkondi": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.7,
+    "Range": 0.6,
+    "Damage": 0.45,
+    "Critical Chance": 0.45
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.96,
+    "Heavy Attack Efficiency": 0.85
+   }
+  },
+  "Nukor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Status Chance": 0.4,
+    "Damage": 0.35,
+    "Critical Chance": 0.3,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.97,
+    "Reload Speed": 0.86
+   }
+  },
+  "Nunchasa": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Multishot": 0.6,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.95,
+    "Zoom": 0.92
+   }
+  },
+  "Obex": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.55,
+    "Range": 0.45,
+    "Damage": 0.45,
+    "Critical Chance": 0.4,
+    "Finisher Damage": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Critical Chance on Slide Attack": 0.89,
+    "Heavy Attack Efficiency": 0.85
+   }
+  },
+  "Ocucor": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Toxin": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.99,
+    "Puncture": 0.97,
+    "Slash": 0.95,
+    "Projectile Speed": 0.95,
+    "Weapon Recoil": 0.92
+   }
+  },
+  "Ogris": {
+   "positives": {
+    "Multishot": 1.0,
+    "Projectile Speed": 0.55,
+    "Damage": 0.4,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Infested": 0.83
+   }
+  },
+  "Ohma": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.6,
+    "Range": 0.55,
+    "Critical Chance": 0.45,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 1.0,
+    "Heavy Attack Efficiency": 0.98,
+    "Damage to Infested": 0.97,
+    "Damage to Corpus": 0.89
+   }
+  },
+  "Okina": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.8,
+    "Fire Rate": 0.75,
+    "Critical Chance": 0.45,
+    "Electricity": 0.45
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Heavy Attack Efficiency": 0.86,
+    "Finisher Damage": 0.86,
+    "Slash": 0.85,
+    "Critical Chance on Slide Attack": 0.84
+   }
+  },
+  "Onos": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.5,
+    "Fire Rate": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Infested": 0.88,
+    "Ammo Maximum": 0.85,
+    "Puncture": 0.85
+   }
+  },
+  "Ooltha": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.75,
+    "Damage": 0.7,
+    "Fire Rate": 0.5,
+    "Electricity": 0.35,
+    "Toxin": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Heavy Attack Efficiency": 0.96,
+    "Puncture": 0.95,
+    "Status Chance": 0.9
+   }
+  },
+  "Opticor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.85
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.94,
+    "Puncture": 0.9
+   }
+  },
+  "Orthos": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.75,
+    "Critical Chance": 0.65,
+    "Damage": 0.45,
+    "Range": 0.4,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Damage to Corpus": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Heavy Attack Efficiency": 0.91,
+    "Combo Duration": 0.91,
+    "Damage to Infested": 0.9,
+    "Finisher Damage": 0.89
+   }
+  },
+  "Orvius": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Damage": 0.8,
+    "Initial Combo": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Damage to Grineer": 0.97,
+    "Range": 0.91,
+    "Fire Rate": 0.89
+   }
+  },
+  "Pandero": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.85,
+    "Multishot": 0.7,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.96,
+    "Magazine Capacity": 0.92
+   }
+  },
+  "Pangolin Sword": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Range": 0.6,
+    "Fire Rate": 0.6,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.92,
+    "Critical Chance on Slide Attack": 0.9,
+    "Damage to Infested": 0.87,
+    "Slash": 0.86
+   }
+  },
+  "Panthera": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.8
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Slash": 0.89,
+    "Weapon Recoil": 0.86
+   }
+  },
+  "Paracesis": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Range": 0.7,
+    "Fire Rate": 0.6,
+    "Electricity": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.85,
+    "Damage to Corpus": 0.85
+   }
+  },
+  "Paracyst": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.8,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.97,
+    "Damage to Infested": 0.92,
+    "Damage to Corpus": 0.9,
+    "Damage to Grineer": 0.89
+   }
+  },
+  "Paris": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.8,
+    "Multishot": 0.65,
+    "Status Chance": 0.6
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.99,
+    "Magazine Capacity": 0.95,
+    "Weapon Recoil": 0.9,
+    "Ammo Maximum": 0.88
+   }
+  },
+  "Pathocyst": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Damage": 0.5,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.98,
+    "Puncture": 0.92,
+    "Heavy Attack Efficiency": 0.92
+   }
+  },
+  "Pennant": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Initial Combo": 0.45,
+    "Fire Rate": 0.35,
+    "Damage": 0.3,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Status Chance": 0.98,
+    "Critical Chance on Slide Attack": 0.95,
+    "Finisher Damage": 0.94,
+    "Chance to Gain Combo Count": 0.91,
+    "Damage to Infested": 0.91,
+    "Combo Duration": 0.9
+   }
+  },
+  "Penta": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.9,
+    "Damage": 0.75
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Ammo Maximum": 0.89,
+    "Weapon Recoil": 0.89,
+    "Impact": 0.87,
+    "Damage to Infested": 0.87
+   }
+  },
+  "Perigale": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.8,
+    "Critical Chance": 0.8,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Damage to Infested": 0.94,
+    "Zoom": 0.9,
+    "Ammo Maximum": 0.89,
+    "Slash": 0.89,
+    "Weapon Recoil": 0.89
+   }
+  },
+  "Phaedra": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.75,
+    "Multishot": 0.55
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Corpus": 0.98,
+    "Magazine Capacity": 0.88,
+    "Status Duration": 0.88
+   }
+  },
+  "Phage": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.75,
+    "Critical Chance": 0.55,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Damage to Corpus": 0.85,
+    "Magazine Capacity": 0.85,
+    "Damage to Infested": 0.84,
+    "Reload Speed": 0.84
+   }
+  },
+  "Phantasma": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.4,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Slash": 0.85,
+    "Weapon Recoil": 0.84
+   }
+  },
+  "Phenmor": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.65,
+    "Fire Rate": 0.4,
+    "Toxin": 0.35
+   },
+   "negatives": {
+    "Critical Chance": 1.0
+   }
+  },
+  "Plague Keewar": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.6,
+    "Fire Rate": 0.55,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.95,
+    "Finisher Damage": 0.9,
+    "Heavy Attack Efficiency": 0.89,
+    "Damage to Infested": 0.88
+   }
+  },
+  "Plague Kripath": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Range": 0.4,
+    "Fire Rate": 0.4,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Critical Chance on Slide Attack": 0.96,
+    "Impact": 0.94,
+    "Finisher Damage": 0.93
+   }
+  },
+  "Plasma Sword": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Damage": 0.5,
+    "Fire Rate": 0.4,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Status Chance": 0.98,
+    "Damage to Corpus": 0.93,
+    "Finisher Damage": 0.92,
+    "Damage to Infested": 0.92,
+    "Critical Chance on Slide Attack": 0.9,
+    "Combo Duration": 0.89
+   }
+  },
+  "Plinx": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Multishot": 0.55
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.96,
+    "Impact": 0.92
+   }
+  },
+  "Pox": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.5,
+    "Damage": 0.5,
+    "Critical Chance": 0.45,
+    "Status Chance": 0.45,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 1.0,
+    "Projectile Speed": 0.99,
+    "Damage to Infested": 0.98,
+    "Damage to Grineer": 0.97
+   }
+  },
+  "Praedos": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.7,
+    "Critical Chance": 0.7,
+    "Range": 0.7,
+    "Electricity": 0.4,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.92,
+    "Damage to Infested": 0.91
+   }
+  },
+  "Pride": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.7,
+    "Fire Rate": 0.6,
+    "Electricity": 0.5,
+    "Range": 0.35,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Combo Duration": 0.89,
+    "Damage to Corpus": 0.89,
+    "Chance to Gain Combo Count": 0.88
+   }
+  },
+  "Proboscis Cernos": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.45,
+    "Critical Damage": 0.4,
+    "Status Chance": 0.3,
+    "Critical Chance": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.96,
+    "Damage to Infested": 0.87
+   }
+  },
+  "Prova": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.95,
+    "Fire Rate": 0.85,
+    "Damage": 0.7,
+    "Critical Chance": 0.65
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.9,
+    "Combo Duration": 0.88,
+    "Status Duration": 0.87,
+    "Critical Chance on Slide Attack": 0.87,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Pulmonars": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Range": 0.6,
+    "Damage": 0.45,
+    "Initial Combo": 0.35,
+    "Toxin": 0.35
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.96,
+    "Critical Chance on Slide Attack": 0.94,
+    "Combo Duration": 0.88,
+    "Damage to Infested": 0.88
+   }
+  },
+  "Pupacyst": {
+   "positives": {
+    "Range": 1.0,
+    "Critical Damage": 0.9,
+    "Fire Rate": 0.8,
+    "Critical Chance": 0.65,
+    "Damage": 0.45,
+    "Electricity": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.93,
+    "Critical Chance on Slide Attack": 0.92,
+    "Damage to Infested": 0.89,
+    "Damage to Corpus": 0.87
+   }
+  },
+  "Purgator 1": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.7,
+    "Critical Chance": 0.65
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Projectile Speed": 0.93,
+    "Impact": 0.87,
+    "Zoom": 0.87,
+    "Damage to Corpus": 0.86
+   }
+  },
+  "Pyrana": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.85,
+    "Critical Chance": 0.55,
+    "Damage": 0.4,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.89,
+    "Magazine Capacity": 0.87,
+    "Ammo Maximum": 0.85,
+    "Reload Speed": 0.85
+   }
+  },
+  "Quanta": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Infested": 0.88,
+    "Weapon Recoil": 0.87,
+    "Projectile Speed": 0.86,
+    "Ammo Maximum": 0.86
+   }
+  },
+  "Quartakk": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.8,
+    "Damage": 0.5,
+    "Toxin": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.91,
+    "Zoom": 0.88,
+    "Ammo Maximum": 0.86
+   }
+  },
+  "Quassus": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Damage": 0.5,
+    "Initial Combo": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Status Chance": 0.9,
+    "Damage to Infested": 0.9,
+    "Critical Chance on Slide Attack": 0.88,
+    "Heavy Attack Efficiency": 0.87
+   }
+  },
+  "Quatz": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.7,
+    "Damage": 0.45,
+    "Fire Rate": 0.35,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Reload Speed": 0.91,
+    "Weapon Recoil": 0.91,
+    "Slash": 0.86,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Quellor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.85,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.94,
+    "Slash": 0.9,
+    "Damage to Corpus": 0.88
+   }
+  },
+  "Rabvee": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Fire Rate": 0.55,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Impact": 0.99,
+    "Puncture": 0.99,
+    "Finisher Damage": 0.98,
+    "Damage to Infested": 0.97,
+    "Combo Duration": 0.95,
+    "Status Duration": 0.94
+   }
+  },
+  "Rattleguts": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.8,
+    "Critical Chance": 0.75,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Status Duration": 1.0,
+    "Impact": 0.96,
+    "Zoom": 0.91,
+    "Magazine Capacity": 0.9,
+    "Damage to Corpus": 0.9
+   }
+  },
+  "Rauta": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.65,
+    "Critical Chance": 0.45,
+    "Fire Rate": 0.4,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Slash": 0.92,
+    "Damage to Grineer": 0.9,
+    "Status Chance": 0.89
+   }
+  },
+  "Reaper Prime": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.45,
+    "Fire Rate": 0.4,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.98,
+    "Heavy Attack Efficiency": 0.95,
+    "Damage to Infested": 0.89,
+    "Damage to Corpus": 0.89
+   }
+  },
+  "Reconifex": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.97,
+    "Status Duration": 0.9,
+    "Magazine Capacity": 0.89,
+    "Weapon Recoil": 0.88
+   }
+  },
+  "Redeemer": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.35,
+    "Initial Combo": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.93,
+    "Damage to Corpus": 0.91,
+    "Damage to Grineer": 0.89,
+    "Status Duration": 0.89
+   }
+  },
+  "Riot-848": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.75,
+    "Fire Rate": 0.5,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.86,
+    "Reload Speed": 0.86
+   }
+  },
+  "Ripkas": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Damage": 0.45,
+    "Range": 0.35,
+    "Initial Combo": 0.3,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.97,
+    "Damage to Infested": 0.87,
+    "Damage to Corpus": 0.87
+   }
+  },
+  "Rubico": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.9
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.94,
+    "Status Duration": 0.9,
+    "Impact": 0.9,
+    "Damage to Grineer": 0.88
+   }
+  },
+  "Rumblejack": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 1.0,
+    "Range": 0.6,
+    "Electricity": 0.6,
+    "Critical Chance": 0.45,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.91,
+    "Damage to Corpus": 0.85,
+    "Slash": 0.85
+   }
+  },
+  "Ruvox": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Range": 0.6,
+    "Fire Rate": 0.55,
+    "Damage": 0.5,
+    "Initial Combo": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Impact": 0.95,
+    "Critical Chance on Slide Attack": 0.9,
+    "Heavy Attack Efficiency": 0.9
+   }
+  },
+  "Sagek Prime": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Damage": 0.85,
+    "Multishot": 0.7
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.97,
+    "Impact": 0.95,
+    "Status Duration": 0.93,
+    "Magazine Capacity": 0.89,
+    "Ammo Maximum": 0.89
+   }
+  },
+  "Sampotes": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.98,
+    "Critical Chance on Slide Attack": 0.88,
+    "Heavy Attack Efficiency": 0.87
+   }
+  },
+  "Sarofang": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Fire Rate": 0.6,
+    "Range": 0.5,
+    "Damage": 0.4,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Impact": 0.94,
+    "Critical Chance on Slide Attack": 0.92,
+    "Finisher Damage": 0.92,
+    "Slash": 0.92,
+    "Damage to Infested": 0.89,
+    "Damage to Grineer": 0.88
+   }
+  },
+  "Sarpa": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 1.0,
+    "Damage": 0.65,
+    "Fire Rate": 0.45,
+    "Electricity": 0.45
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Status Chance": 0.85,
+    "Critical Chance on Slide Attack": 0.85,
+    "Heavy Attack Efficiency": 0.84
+   }
+  },
+  "Scindo": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Fire Rate": 0.5,
+    "Damage": 0.45,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Damage to Corpus": 0.99,
+    "Finisher Damage": 0.98,
+    "Damage to Infested": 0.95,
+    "Heavy Attack Efficiency": 0.92
+   }
+  },
+  "Scoliac": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Fire Rate": 0.8,
+    "Damage": 0.6,
+    "Range": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.93,
+    "Damage to Infested": 0.92,
+    "Status Duration": 0.92
+   }
+  },
+  "Scourge": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.7,
+    "Critical Damage": 0.65,
+    "Damage": 0.6,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.88,
+    "Status Duration": 0.88
+   }
+  },
+  "Scyotid": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.85,
+    "Toxin": 0.4,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 1.0,
+    "Damage to Infested": 0.94,
+    "Projectile Speed": 0.92,
+    "Reload Speed": 0.91,
+    "Magazine Capacity": 0.89
+   }
+  },
+  "Seer": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.65,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Magazine Capacity": 1.0,
+    "Impact": 0.96,
+    "Ammo Maximum": 0.96,
+    "Zoom": 0.94,
+    "Status Duration": 0.91,
+    "Weapon Recoil": 0.9
+   }
+  },
+  "Sepfahn": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Damage": 0.5,
+    "Fire Rate": 0.4
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.92
+   }
+  },
+  "Sepulcrum": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Damage": 0.7,
+    "Critical Chance": 0.5,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.97,
+    "Ammo Maximum": 0.95,
+    "Puncture": 0.89
+   }
+  },
+  "Serro": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.6,
+    "Damage": 0.6,
+    "Range": 0.5,
+    "Status Chance": 0.4
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Finisher Damage": 0.99,
+    "Chance to Gain Combo Count": 0.92,
+    "Critical Chance on Slide Attack": 0.92,
+    "Combo Duration": 0.91,
+    "Heavy Attack Efficiency": 0.89
+   }
+  },
+  "Shaku": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Fire Rate": 0.45,
+    "Damage": 0.35,
+    "Electricity": 0.3,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Impact": 0.98,
+    "Damage to Infested": 0.96,
+    "Status Chance": 0.9,
+    "Critical Chance on Slide Attack": 0.88
+   }
+  },
+  "Shedu": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.85,
+    "Multishot": 0.85,
+    "Toxin": 0.45,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Ammo Maximum": 0.93,
+    "Magazine Capacity": 0.88,
+    "Damage to Infested": 0.87,
+    "Reload Speed": 0.86,
+    "Weapon Recoil": 0.86
+   }
+  },
+  "Sheev": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.6,
+    "Range": 0.4
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.94,
+    "Critical Chance on Slide Attack": 0.91,
+    "Damage to Infested": 0.89,
+    "Status Duration": 0.87
+   }
+  },
+  "Sibear": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Damage": 0.5,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.99,
+    "Damage to Corpus": 0.87
+   }
+  },
+  "Sicarus": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.7,
+    "Critical Chance": 0.6,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.94,
+    "Weapon Recoil": 0.9,
+    "Projectile Speed": 0.88,
+    "Ammo Maximum": 0.87
+   }
+  },
+  "Sigma & Octantis": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.7,
+    "Critical Chance": 0.65,
+    "Range": 0.5,
+    "Damage": 0.5,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Slash": 0.92,
+    "Finisher Damage": 0.91,
+    "Damage to Infested": 0.88,
+    "Heavy Attack Efficiency": 0.88,
+    "Damage to Corpus": 0.87
+   }
+  },
+  "Silva & Aegis": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.6,
+    "Fire Rate": 0.5,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Heavy Attack Efficiency": 1.0,
+    "Finisher Damage": 0.97,
+    "Damage to Infested": 0.93
+   }
+  },
+  "Simulor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.8,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Ammo Maximum": 0.99,
+    "Zoom": 0.95,
+    "Weapon Recoil": 0.89
+   }
+  },
+  "Skana": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.85,
+    "Range": 0.7,
+    "Critical Chance": 0.55,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.98,
+    "Heavy Attack Efficiency": 0.95,
+    "Slash": 0.92
+   }
+  },
+  "Skiajati": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Fire Rate": 0.6,
+    "Damage": 0.5,
+    "Range": 0.4
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.96,
+    "Damage to Infested": 0.92,
+    "Slash": 0.9,
+    "Critical Chance on Slide Attack": 0.89
+   }
+  },
+  "Slaytra": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Fire Rate": 0.4,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Critical Chance on Slide Attack": 0.9,
+    "Finisher Damage": 0.89,
+    "Damage to Corpus": 0.86
+   }
+  },
+  "Snipetron": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Multishot": 0.75,
+    "Critical Damage": 0.75,
+    "Damage": 0.4,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Sobek": {
+   "positives": {
+    "Multishot": 1.0,
+    "Projectile Speed": 0.4,
+    "Fire Rate": 0.35,
+    "Critical Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.85,
+    "Ammo Maximum": 0.85,
+    "Reload Speed": 0.84
+   }
+  },
+  "Soma": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Multishot": 0.85,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.93,
+    "Weapon Recoil": 0.86
+   }
+  },
+  "Sonicor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.9,
+    "Damage": 0.75,
+    "Toxin": 0.45,
+    "Status Chance": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Weapon Recoil": 0.98,
+    "Zoom": 0.9,
+    "Magazine Capacity": 0.88
+   }
+  },
+  "Spectra": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.8,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.88,
+    "Weapon Recoil": 0.84
+   }
+  },
+  "Spinnerex": {
+   "positives": {
+    "Fire Rate": 1.0,
+    "Critical Damage": 0.85,
+    "Range": 0.65,
+    "Critical Chance": 0.5,
+    "Damage": 0.4,
+    "Toxin": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Heavy Attack Efficiency": 0.98,
+    "Damage to Corpus": 0.89
+   }
+  },
+  "Spira": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Magazine Capacity": 0.95,
+    "Zoom": 0.93,
+    "Reload Speed": 0.92,
+    "Ammo Maximum": 0.88
+   }
+  },
+  "Sporelacer": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.9,
+    "Critical Damage": 0.85,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.93,
+    "Puncture": 0.89
+   }
+  },
+  "Sporothrix": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.6,
+    "Damage": 0.55,
+    "Status Chance": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.91,
+    "Zoom": 0.89,
+    "Ammo Maximum": 0.88
+   }
+  },
+  "Stahlta": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.6,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.91,
+    "Weapon Recoil": 0.9,
+    "Ammo Maximum": 0.85
+   }
+  },
+  "Staticor": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.85,
+    "Critical Damage": 0.85,
+    "Damage": 0.55,
+    "Toxin": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.97,
+    "Weapon Recoil": 0.92,
+    "Damage to Infested": 0.87,
+    "Damage to Corpus": 0.87
+   }
+  },
+  "Steflos": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.6,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Ammo Maximum": 0.93,
+    "Weapon Recoil": 0.91,
+    "Magazine Capacity": 0.86
+   }
+  },
+  "Stinger": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Multishot": 0.95,
+    "Damage": 0.4,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Status Duration": 1.0,
+    "Status Chance": 0.99,
+    "Zoom": 0.99,
+    "Damage to Infested": 0.99,
+    "Damage to Grineer": 0.96,
+    "Damage to Corpus": 0.94
+   }
+  },
+  "Stradavar": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.93,
+    "Zoom": 0.91,
+    "Damage to Infested": 0.89,
+    "Damage to Grineer": 0.88
+   }
+  },
+  "Stropha": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Damage": 0.4,
+    "Fire Rate": 0.35,
+    "Initial Combo": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.99,
+    "Status Duration": 0.98,
+    "Status Chance": 0.97,
+    "Slash": 0.95,
+    "Damage to Infested": 0.94
+   }
+  },
+  "Strun": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.8,
+    "Critical Chance": 0.65
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Slash": 0.83
+   }
+  },
+  "Stubba": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Multishot": 0.85,
+    "Toxin": 0.4
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.95,
+    "Weapon Recoil": 0.88,
+    "Status Duration": 0.86
+   }
+  },
+  "Stug": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.85,
+    "Critical Chance": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Damage to Infested": 0.89,
+    "Weapon Recoil": 0.88,
+    "Ammo Maximum": 0.85
+   }
+  },
+  "Sun & Moon": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Damage": 0.5,
+    "Fire Rate": 0.45,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Heavy Attack Efficiency": 0.95,
+    "Finisher Damage": 0.93,
+    "Damage to Infested": 0.9,
+    "Status Duration": 0.88
+   }
+  },
+  "Supra": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.95,
+    "Damage": 0.5,
+    "Fire Rate": 0.4
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.98,
+    "Weapon Recoil": 0.92,
+    "Magazine Capacity": 0.88
+   }
+  },
+  "Sweeper": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Damage": 0.95,
+    "Critical Chance": 0.65,
+    "Fire Rate": 0.45,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Damage to Corpus": 0.87,
+    "Magazine Capacity": 0.87,
+    "Status Duration": 0.86
+   }
+  },
+  "Syam": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Fire Rate": 0.5,
+    "Damage": 0.45,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.88,
+    "Heavy Attack Efficiency": 0.85
+   }
+  },
+  "Sybaris": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.85,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Zoom": 0.95,
+    "Puncture": 0.95,
+    "Weapon Recoil": 0.88
+   }
+  },
+  "Sydon": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.6,
+    "Critical Chance": 0.5,
+    "Fire Rate": 0.4
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Damage to Infested": 0.99,
+    "Critical Chance on Slide Attack": 0.94,
+    "Finisher Damage": 0.94,
+    "Heavy Attack Efficiency": 0.92
+   }
+  },
+  "Synapse": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.9,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.96,
+    "Magazine Capacity": 0.89,
+    "Ammo Maximum": 0.87
+   }
+  },
+  "Tak & Lug": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.75,
+    "Damage": 0.65,
+    "Range": 0.35,
+    "Fire Rate": 0.35,
+    "Initial Combo": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Damage to Infested": 0.89,
+    "Combo Duration": 0.89,
+    "Finisher Damage": 0.87,
+    "Chance to Gain Combo Count": 0.86,
+    "Damage to Grineer": 0.86
+   }
+  },
+  "Talons": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Damage": 0.9,
+    "Critical Chance": 0.75,
+    "Multishot": 0.7,
+    "Electricity": 0.4
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Fire Rate": 0.98,
+    "Magazine Capacity": 0.95,
+    "Damage to Infested": 0.92,
+    "Status Chance": 0.91,
+    "Zoom": 0.9,
+    "Impact": 0.89
+   }
+  },
+  "Tatsu": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Fire Rate": 0.45,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.93,
+    "Critical Chance on Slide Attack": 0.92,
+    "Combo Duration": 0.87,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Tazicor": {
+   "positives": {
+    "Multishot": 1.0,
+    "Status Chance": 0.7,
+    "Viral": 0.4,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Critical Chance": 0.94,
+    "Damage to Corpus": 0.91,
+    "Reload Speed": 0.91,
+    "Damage": 0.9
+   }
+  },
+  "Tekko": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Fire Rate": 0.5,
+    "Range": 0.35,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 1.0,
+    "Heavy Attack Efficiency": 0.96,
+    "Status Chance": 0.93,
+    "Damage to Infested": 0.91
+   }
+  },
+  "Tenet Agendus": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Fire Rate": 0.65,
+    "Range": 0.4,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.96,
+    "Critical Chance on Slide Attack": 0.96,
+    "Heavy Attack Efficiency": 0.92,
+    "Slash": 0.91,
+    "Finisher Damage": 0.9
+   }
+  },
+  "Tenet Diplos": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.75,
+    "Toxin": 0.65,
+    "Cold": 0.45,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.97,
+    "Puncture": 0.97
+   }
+  },
+  "Tenet Envoy": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.95,
+    "Toxin": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Weapon Recoil": 0.9,
+    "Zoom": 0.89,
+    "Damage to Infested": 0.86
+   }
+  },
+  "Tenet Exec": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.7,
+    "Damage": 0.4,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Finisher Damage": 0.87,
+    "Damage to Infested": 0.87,
+    "Damage to Corpus": 0.87,
+    "Critical Chance on Slide Attack": 0.87,
+    "Combo Duration": 0.87
+   }
+  },
+  "Tenet Grigori": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Damage": 0.45,
+    "Fire Rate": 0.35,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Heavy Attack Efficiency": 1.0,
+    "Status Duration": 0.91,
+    "Finisher Damage": 0.89,
+    "Damage to Corpus": 0.88
+   }
+  },
+  "Tenet Livia": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Damage": 0.5,
+    "Fire Rate": 0.45,
+    "Range": 0.45
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.95,
+    "Slash": 0.93,
+    "Damage to Infested": 0.9,
+    "Damage to Grineer": 0.89
+   }
+  },
+  "Tenet Spirex": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.85,
+    "Damage": 0.4,
+    "Electricity": 0.35,
+    "Cold": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Slash": 0.89,
+    "Zoom": 0.89,
+    "Weapon Recoil": 0.88,
+    "Impact": 0.87
+   }
+  },
+  "Tenora": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.95,
+    "Critical Damage": 0.9,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Damage to Infested": 0.94,
+    "Weapon Recoil": 0.93,
+    "Puncture": 0.9,
+    "Zoom": 0.88
+   }
+  },
+  "Tetra": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 1.0,
+    "Critical Chance": 0.95,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.99,
+    "Puncture": 0.97,
+    "Damage to Infested": 0.89
+   }
+  },
+  "Thalys": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.7,
+    "Fire Rate": 0.65,
+    "Critical Chance": 0.6
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.98,
+    "Slash": 0.94,
+    "Heavy Attack Efficiency": 0.89,
+    "Damage to Infested": 0.89
+   }
+  },
+  "Thornbak": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Damage": 0.95,
+    "Critical Chance": 0.7,
+    "Multishot": 0.65
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Zoom": 0.95,
+    "Status Chance": 0.95,
+    "Damage to Infested": 0.91,
+    "Impact": 0.9,
+    "Magazine Capacity": 0.9
+   }
+  },
+  "Tiberon": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.8,
+    "Damage": 0.65
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.97
+   }
+  },
+  "Tigris": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.7,
+    "Critical Damage": 0.7,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Weapon Recoil": 1.0,
+    "Damage to Corpus": 0.93,
+    "Ammo Maximum": 0.93,
+    "Fire Rate": 0.92,
+    "Damage to Infested": 0.91,
+    "Slash": 0.88,
+    "Magazine Capacity": 0.88
+   }
+  },
+  "Tipedo": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.7,
+    "Critical Chance": 0.6,
+    "Fire Rate": 0.55,
+    "Damage": 0.55,
+    "Cold": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.88,
+    "Damage to Infested": 0.87,
+    "Heavy Attack Efficiency": 0.86,
+    "Combo Duration": 0.85
+   }
+  },
+  "Tombfinger": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Chance": 0.95,
+    "Critical Damage": 0.85,
+    "Toxin": 0.3,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Puncture": 0.94,
+    "Impact": 0.9,
+    "Reload Speed": 0.87,
+    "Slash": 0.87
+   }
+  },
+  "Tonbo": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Damage": 0.65,
+    "Fire Rate": 0.35,
+    "Range": 0.3
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Damage to Infested": 0.96,
+    "Slash": 0.92,
+    "Status Chance": 0.89
+   }
+  },
+  "Tonkkatt": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.65,
+    "Fire Rate": 0.65,
+    "Critical Chance": 0.45,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.93,
+    "Heavy Attack Efficiency": 0.92,
+    "Slash": 0.88,
+    "Combo Duration": 0.87
+   }
+  },
+  "Tonkor": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.9,
+    "Critical Chance": 0.8,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.89,
+    "Puncture": 0.88
+   }
+  },
+  "Torid": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Multishot": 0.85
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.85,
+    "Ammo Maximum": 0.84,
+    "Weapon Recoil": 0.83
+   }
+  },
+  "Trumna": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.8,
+    "Critical Chance": 0.8
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Projectile Speed": 0.97,
+    "Ammo Maximum": 0.91,
+    "Weapon Recoil": 0.89
+   }
+  },
+  "Twin Basolk": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.65,
+    "Damage": 0.4,
+    "Critical Chance": 0.35,
+    "Range": 0.35,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Damage to Infested": 0.88,
+    "Status Duration": 0.88,
+    "Heavy Attack Efficiency": 0.86
+   }
+  },
+  "Twin Grakatas": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.9,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.88,
+    "Damage to Infested": 0.88,
+    "Slash": 0.87,
+    "Zoom": 0.86
+   }
+  },
+  "Twin Gremlins": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.95,
+    "Critical Chance": 0.5,
+    "Damage": 0.5,
+    "Fire Rate": 0.4,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.91,
+    "Weapon Recoil": 0.9,
+    "Zoom": 0.89
+   }
+  },
+  "Twin Kohmak": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.85,
+    "Critical Chance": 0.6,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.99,
+    "Slash": 0.91
+   }
+  },
+  "Twin Krohkur": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Fire Rate": 0.6,
+    "Damage": 0.45,
+    "Range": 0.4
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Finisher Damage": 0.92,
+    "Heavy Attack Efficiency": 0.91,
+    "Damage to Grineer": 0.86
+   }
+  },
+  "Twin Rogga": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.8,
+    "Critical Chance": 0.6,
+    "Damage": 0.5
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.99,
+    "Impact": 0.95
+   }
+  },
+  "Twin Vipers": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Multishot": 0.85,
+    "Damage": 0.6,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Weapon Recoil": 0.89,
+    "Zoom": 0.87
+   }
+  },
+  "Tysis": {
+   "positives": {
+    "Multishot": 1.0,
+    "Damage": 0.6,
+    "Critical Chance": 0.45,
+    "Critical Damage": 0.45,
+    "Status Chance": 0.35,
+    "Heat": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.97,
+    "Magazine Capacity": 0.94
+   }
+  },
+  "Vadarya Prime": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Multishot": 0.7,
+    "Damage": 0.4
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.92,
+    "Ammo Maximum": 0.92,
+    "Weapon Recoil": 0.9,
+    "Status Duration": 0.9,
+    "Projectile Speed": 0.9,
+    "Damage to Corpus": 0.89
+   }
+  },
+  "Vastilok": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.5,
+    "Fire Rate": 0.45
+   },
+   "negatives": {
+    "Damage to Corpus": 1.0,
+    "Finisher Damage": 1.0,
+    "Damage to Infested": 0.98,
+    "Heavy Attack Efficiency": 0.96,
+    "Critical Chance on Slide Attack": 0.92
+   }
+  },
+  "Vasto": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.7
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Magazine Capacity": 0.88,
+    "Ammo Maximum": 0.86
+   }
+  },
+  "Vectis": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.95,
+    "Multishot": 0.9
+   },
+   "negatives": {
+    "Magazine Capacity": 1.0,
+    "Zoom": 0.84,
+    "Impact": 0.83
+   }
+  },
+  "Veldt": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.75,
+    "Damage": 0.7,
+    "Multishot": 0.5
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Damage to Corpus": 0.93,
+    "Ammo Maximum": 0.91,
+    "Zoom": 0.9,
+    "Slash": 0.88
+   }
+  },
+  "Velocitus": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Damage to Corpus": 0.6,
+    "Critical Damage": 0.5,
+    "Multishot": 0.35,
+    "Damage": 0.3,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Status Chance": 0.86,
+    "Ammo Maximum": 0.85,
+    "Weapon Recoil": 0.85,
+    "Status Duration": 0.85
+   }
+  },
+  "Velox": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.95,
+    "Weapon Recoil": 0.92
+   }
+  },
+  "Venato": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Fire Rate": 0.8,
+    "Critical Chance": 0.55,
+    "Range": 0.5,
+    "Electricity": 0.4,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Heavy Attack Efficiency": 1.0,
+    "Puncture": 0.99,
+    "Finisher Damage": 0.93,
+    "Critical Chance on Slide Attack": 0.9,
+    "Damage to Infested": 0.9
+   }
+  },
+  "Venka": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.65,
+    "Fire Rate": 0.65,
+    "Damage": 0.4,
+    "Range": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.9,
+    "Damage to Infested": 0.87,
+    "Damage to Corpus": 0.87
+   }
+  },
+  "Verdilac": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.9,
+    "Fire Rate": 0.8,
+    "Damage": 0.5,
+    "Range": 0.5,
+    "Electricity": 0.45
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.9,
+    "Damage to Grineer": 0.9,
+    "Heavy Attack Efficiency": 0.89,
+    "Slash": 0.87
+   }
+  },
+  "Verglas": {
+   "positives": {
+    "Multishot": 1.0,
+    "Heat": 0.5,
+    "Damage": 0.45,
+    "Critical Chance": 0.45,
+    "Status Damage": 0.35
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Damage to Corpus": 0.91
+   }
+  },
+  "Vericres": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Range": 0.75,
+    "Critical Chance": 0.5,
+    "Damage": 0.5,
+    "Fire Rate": 0.45,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Finisher Damage": 1.0,
+    "Critical Chance on Slide Attack": 0.91,
+    "Damage to Infested": 0.9,
+    "Damage to Corpus": 0.86
+   }
+  },
+  "Vermisplicer": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.95,
+    "Critical Chance": 0.8,
+    "Damage": 0.45,
+    "Fire Rate": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Slash": 0.98,
+    "Weapon Recoil": 0.97,
+    "Impact": 0.97,
+    "Puncture": 0.93
+   }
+  },
+  "Vesper 77": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Multishot": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Puncture": 0.95,
+    "Zoom": 0.88,
+    "Weapon Recoil": 0.87
+   }
+  },
+  "Vinquibus (Melee)": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Electricity": 0.45,
+    "Damage": 0.35,
+    "Fire Rate": 0.3,
+    "Additional Combo Count Chance": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Heavy Attack Efficiency": 0.94,
+    "Status Duration": 0.93,
+    "Puncture": 0.89,
+    "Damage to Corpus": 0.88
+   }
+  },
+  "Vinquibus (Primary)": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.75,
+    "Critical Chance": 0.65,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.91,
+    "Puncture": 0.88,
+    "Ammo Maximum": 0.87,
+    "Status Duration": 0.86
+   }
+  },
+  "Viper": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.75,
+    "Critical Chance": 0.65,
+    "Damage": 0.6,
+    "Fire Rate": 0.35
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.89,
+    "Magazine Capacity": 0.89,
+    "Impact": 0.87
+   }
+  },
+  "Vitrica": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Range": 0.4,
+    "Initial Combo": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.99,
+    "Slash": 0.94,
+    "Heavy Attack Efficiency": 0.92,
+    "Critical Chance on Slide Attack": 0.91
+   }
+  },
+  "Volnus": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.75,
+    "Fire Rate": 0.45,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Finisher Damage": 0.93,
+    "Heavy Attack Efficiency": 0.91
+   }
+  },
+  "Vulcax": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 0.75,
+    "Damage": 0.7,
+    "Multishot": 0.65,
+    "Heat": 0.4
+   },
+   "negatives": {
+    "Damage to Corpus": 1.0,
+    "Reload Speed": 0.98,
+    "Damage to Infested": 0.93,
+    "Status Duration": 0.87
+   }
+  },
+  "Vulkar": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 1.0,
+    "Multishot": 0.75,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Weapon Recoil": 0.91,
+    "Magazine Capacity": 0.88,
+    "Status Duration": 0.88,
+    "Impact": 0.87
+   }
+  },
+  "Vulklok": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.95,
+    "Multishot": 0.55
+   },
+   "negatives": {
+    "Damage to Infested": 1.0,
+    "Reload Speed": 0.96,
+    "Damage to Corpus": 0.91,
+    "Magazine Capacity": 0.87
+   }
+  },
+  "War": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.65,
+    "Fire Rate": 0.6,
+    "Range": 0.4,
+    "Electricity": 0.35
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Impact": 0.99,
+    "Finisher Damage": 0.9
+   }
+  },
+  "Wolf Sledge": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.8,
+    "Damage": 0.6,
+    "Fire Rate": 0.4,
+    "Initial Combo": 0.3,
+    "Electricity": 0.3
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Critical Chance on Slide Attack": 0.89,
+    "Finisher Damage": 0.87
+   }
+  },
+  "Wrath": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.9,
+    "Fire Rate": 0.55,
+    "Range": 0.5,
+    "Damage": 0.45,
+    "Status Chance": 0.3
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Damage to Grineer": 0.92,
+    "Heavy Attack Efficiency": 0.92,
+    "Finisher Damage": 0.91,
+    "Damage to Infested": 0.89
+   }
+  },
+  "Xoris": {
+   "positives": {
+    "Critical Chance": 1.0,
+    "Critical Damage": 1.0,
+    "Damage": 0.6
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.92,
+    "Puncture": 0.9,
+    "Range": 0.89
+   }
+  },
+  "Zakti": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 1.0,
+    "Damage": 0.95,
+    "Critical Chance": 0.7,
+    "Toxin": 0.3
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Impact": 0.94,
+    "Damage to Infested": 0.91,
+    "Weapon Recoil": 0.88
+   }
+  },
+  "Zarr": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.85,
+    "Damage": 0.3
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Impact": 0.91,
+    "Weapon Recoil": 0.88
+   }
+  },
+  "Zenistar": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Critical Chance": 0.85,
+    "Fire Rate": 0.85,
+    "Range": 0.85,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Critical Chance on Slide Attack": 1.0,
+    "Finisher Damage": 0.98,
+    "Heavy Attack Efficiency": 0.87
+   }
+  },
+  "Zenith": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Damage": 0.5,
+    "Critical Chance": 0.45
+   },
+   "negatives": {
+    "Zoom": 1.0,
+    "Ammo Maximum": 0.93,
+    "Status Duration": 0.91,
+    "Status Chance": 0.89,
+    "Weapon Recoil": 0.89,
+    "Damage to Infested": 0.89
+   }
+  },
+  "Zhuge": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.85,
+    "Critical Chance": 0.75,
+    "Damage": 0.55
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.94,
+    "Damage to Infested": 0.9,
+    "Weapon Recoil": 0.9,
+    "Damage to Corpus": 0.88,
+    "Damage to Grineer": 0.88
+   }
+  },
+  "Zylok": {
+   "positives": {
+    "Multishot": 1.0,
+    "Critical Damage": 0.9,
+    "Critical Chance": 0.85,
+    "Damage": 0.45
+   },
+   "negatives": {
+    "Impact": 1.0,
+    "Slash": 0.91,
+    "Zoom": 0.89,
+    "Status Chance": 0.87
+   }
+  },
+  "Zymos": {
+   "positives": {
+    "Critical Damage": 1.0,
+    "Multishot": 0.8,
+    "Critical Chance": 0.75,
+    "Damage": 0.35
+   },
+   "negatives": {
+    "Puncture": 1.0,
+    "Zoom": 0.97,
+    "Reload Speed": 0.91,
+    "Ammo Maximum": 0.9,
+    "Impact": 0.89,
+    "Weapon Recoil": 0.88
+   }
+  }
+ }
+}

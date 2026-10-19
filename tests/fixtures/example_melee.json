@@ -1,0 +1,23 @@
+{
+  "name": "Example melee rolls",
+  "settings": { "no_negative_score": 0.85 },
+  "weapons": {
+    "Nikana": [
+      {
+        "label": "Crit melee",
+        "positives": { "CC": 1, "CD": 1, "Melee Damage": 0.9, "Range": 0.6 },
+        "negatives": ["Impact", "Puncture", "Finisher Damage", "Combo Duration", "Damage to Corpus"]
+      },
+      {
+        "label": "Slide crit",
+        "positives": ["Critical Chance on Slide Attack", "CD", "Melee Damage"],
+        "negatives": ["Impact", "Puncture", "Finisher Damage"]
+      }
+    ],
+    "*melee": {
+      "label": "Generic melee",
+      "positives": { "CC": 1, "CD": 1, "Melee Damage": 1, "Status Chance": 0.6, "Range": 0.5, "Attack Speed": 0.5 },
+      "negatives": ["Impact", "Puncture", "Finisher Damage", "Combo Duration", "Damage to Corpus", "Damage to Infested"]
+    }
+  }
+}

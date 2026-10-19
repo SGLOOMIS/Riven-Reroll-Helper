@@ -1,0 +1,4521 @@
+{
+ "_source": "Official game export via WFCD warframe-items; kitgun chambers from wiki.warframe.com/w/Riven_Mods/Weapon_Dispos; riven families from warframe.market",
+ "_fields": "family = the riven this weapon uses (named after the base weapon); card = the riven card shows this weapon's numbers (the family's base weapon; both slots for kitguns)",
+ "weapons": {
+  "Acceltra": {
+   "disposition": 0.65,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Acceltra",
+   "card": true
+  },
+  "Acceltra Prime": {
+   "disposition": 0.55,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Acceltra",
+   "card": false
+  },
+  "Ack & Brunt": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ack & Brunt",
+   "card": true
+  },
+  "Acrid": {
+   "disposition": 1.33,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Acrid",
+   "card": true
+  },
+  "Aegrit": {
+   "disposition": 1.0,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Aegrit",
+   "card": true
+  },
+  "Aeolak": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Aeolak",
+   "card": true
+  },
+  "Afentis": {
+   "disposition": 1.05,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Afentis",
+   "card": true
+  },
+  "Afentis Prime": {
+   "disposition": 0.65,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Afentis",
+   "card": false
+  },
+  "Afuris": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Afuris",
+   "card": true
+  },
+  "Afuris Prime": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Afuris",
+   "card": false
+  },
+  "Agkuza": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Agkuza",
+   "card": true
+  },
+  "Akarius": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akarius",
+   "card": true
+  },
+  "Akarius Prime": {
+   "disposition": 0.65,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akarius",
+   "card": false
+  },
+  "Akaten": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Companion",
+   "family": "Akaten",
+   "card": true
+  },
+  "Akbolto": {
+   "disposition": 1.3,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Akbolto",
+   "card": true
+  },
+  "Akbolto Prime": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akbolto",
+   "card": false
+  },
+  "Akbronco": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Akbronco",
+   "card": true
+  },
+  "Akbronco Prime": {
+   "disposition": 1.3,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Akbronco",
+   "card": false
+  },
+  "Akjagara": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akjagara",
+   "card": true
+  },
+  "Akjagara Prime": {
+   "disposition": 1.0,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akjagara",
+   "card": false
+  },
+  "Aklato": {
+   "disposition": 1.52,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Aklato",
+   "card": true
+  },
+  "Aklex": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Aklex",
+   "card": true
+  },
+  "Aklex Prime": {
+   "disposition": 0.95,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Aklex",
+   "card": false
+  },
+  "Akmagnus": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Akmagnus",
+   "card": true
+  },
+  "Akmagnus Prime": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Akmagnus",
+   "card": false
+  },
+  "Aksomati": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Aksomati",
+   "card": true
+  },
+  "Aksomati Prime": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Aksomati",
+   "card": false
+  },
+  "Aksondol": {
+   "disposition": 0.5,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Aksondol",
+   "card": true
+  },
+  "Akstiletto": {
+   "disposition": 0.95,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akstiletto",
+   "card": true
+  },
+  "Akstiletto Prime": {
+   "disposition": 0.85,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akstiletto",
+   "card": false
+  },
+  "Akvasto": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Akvasto",
+   "card": true
+  },
+  "Akvasto Prime": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akvasto",
+   "card": false
+  },
+  "Akzani": {
+   "disposition": 1.52,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akzani",
+   "card": true
+  },
+  "Alternox": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Alternox",
+   "card": true
+  },
+  "Alternox Prime": {
+   "disposition": 0.95,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Alternox",
+   "card": false
+  },
+  "Amanata": {
+   "disposition": 0.85,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Amanata",
+   "card": true
+  },
+  "Ambassador": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Ambassador",
+   "card": true
+  },
+  "Amphis": {
+   "disposition": 1.5,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Amphis",
+   "card": true
+  },
+  "Amprex": {
+   "disposition": 0.85,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Amprex",
+   "card": true
+  },
+  "Angstrum": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Angstrum",
+   "card": true
+  },
+  "Anku": {
+   "disposition": 1.46,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Anku",
+   "card": true
+  },
+  "Ankyros": {
+   "disposition": 1.5,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ankyros",
+   "card": true
+  },
+  "Ankyros Prime": {
+   "disposition": 1.45,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ankyros",
+   "card": false
+  },
+  "Arbucep": {
+   "disposition": 0.7,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Arbucep",
+   "card": true
+  },
+  "Arca Plasmor": {
+   "disposition": 0.95,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Arca Plasmor",
+   "card": true
+  },
+  "Arca Scisco": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Arca Scisco",
+   "card": true
+  },
+  "Arca Titron": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Arca Titron",
+   "card": true
+  },
+  "Argo & Vel": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Argo & Vel",
+   "card": true
+  },
+  "Argonak": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Argonak",
+   "card": true
+  },
+  "Artax": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Artax",
+   "card": true
+  },
+  "Arum Spinosa": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Arum Spinosa",
+   "card": true
+  },
+  "Astilla": {
+   "disposition": 1.3,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Astilla",
+   "card": true
+  },
+  "Astilla Prime": {
+   "disposition": 1.2,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Astilla",
+   "card": false
+  },
+  "Athodai": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Athodai",
+   "card": true
+  },
+  "Athodai Prime": {
+   "disposition": 0.65,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Athodai",
+   "card": false
+  },
+  "Atomos": {
+   "disposition": 0.95,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Atomos",
+   "card": true
+  },
+  "Atterax": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Atterax",
+   "card": true
+  },
+  "Attica": {
+   "disposition": 1.42,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Attica",
+   "card": true
+  },
+  "Ax-52": {
+   "disposition": 0.85,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "AX-52",
+   "card": true
+  },
+  "Azima": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Azima",
+   "card": true
+  },
+  "Azothane": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Azothane",
+   "card": true
+  },
+  "Balla": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Balla",
+   "card": true
+  },
+  "Ballistica": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Ballistica",
+   "card": true
+  },
+  "Ballistica Prime": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Ballistica",
+   "card": false
+  },
+  "Basmu": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Basmu",
+   "card": true
+  },
+  "Batoten": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Companion",
+   "family": "Batoten",
+   "card": true
+  },
+  "Battacor": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Battacor",
+   "card": true
+  },
+  "Baza": {
+   "disposition": 1.05,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Baza",
+   "card": true
+  },
+  "Baza Prime": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Baza",
+   "card": false
+  },
+  "Bo": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Bo",
+   "card": true
+  },
+  "Bo Prime": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Bo",
+   "card": false
+  },
+  "Boar": {
+   "disposition": 1.45,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Boar",
+   "card": true
+  },
+  "Boar Prime": {
+   "disposition": 1.34,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Boar",
+   "card": false
+  },
+  "Boltace": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Boltace",
+   "card": true
+  },
+  "Bolto": {
+   "disposition": 1.51,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Bolto",
+   "card": true
+  },
+  "Boltor": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Boltor",
+   "card": true
+  },
+  "Boltor Prime": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Boltor",
+   "card": false
+  },
+  "Brakk": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Brakk",
+   "card": true
+  },
+  "Braton": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Braton",
+   "card": true
+  },
+  "Braton Prime": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Braton",
+   "card": false
+  },
+  "Braton Vandal": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Braton",
+   "card": false
+  },
+  "Broken Scepter": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Broken Scepter",
+   "card": true
+  },
+  "Broken War": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Broken War",
+   "card": true
+  },
+  "Bronco": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Bronco",
+   "card": true
+  },
+  "Bronco Prime": {
+   "disposition": 1.4,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Bronco",
+   "card": false
+  },
+  "Bubonico": {
+   "disposition": 0.75,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Bubonico",
+   "card": true
+  },
+  "Burst Laser": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Companion",
+   "family": "Burst Laser",
+   "card": true
+  },
+  "Burst Laser Prime": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Companion",
+   "family": "Burst Laser",
+   "card": false
+  },
+  "Burston": {
+   "disposition": 1.45,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Burston",
+   "card": true
+  },
+  "Burston Prime": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Burston",
+   "card": false
+  },
+  "Buzlok": {
+   "disposition": 1.45,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Buzlok",
+   "card": true
+  },
+  "Cadus": {
+   "disposition": 1.29,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Cadus",
+   "card": true
+  },
+  "Cantare": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Cantare",
+   "card": true
+  },
+  "Carmine Penta": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Penta",
+   "card": false
+  },
+  "Cassowar": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Cassowar",
+   "card": true
+  },
+  "Castanas": {
+   "disposition": 1.4,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Castanas",
+   "card": true
+  },
+  "Catabolyst": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Catabolyst",
+   "card": true
+  },
+  "Catchmoon (Primary)": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Kitgun",
+   "family": "Catchmoon",
+   "card": true
+  },
+  "Catchmoon (Secondary)": {
+   "disposition": 0.75,
+   "class": "pistol",
+   "type": "Kitgun",
+   "family": "Catchmoon",
+   "card": true
+  },
+  "Caustacyst": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Caustacyst",
+   "card": true
+  },
+  "Cedo": {
+   "disposition": 0.65,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Cedo",
+   "card": true
+  },
+  "Cedo Prime": {
+   "disposition": 0.55,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Cedo",
+   "card": false
+  },
+  "Centaur": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Centaur",
+   "card": true
+  },
+  "Ceramic Dagger": {
+   "disposition": 1.43,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ceramic Dagger",
+   "card": true
+  },
+  "Cerata": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Cerata",
+   "card": true
+  },
+  "Cernos": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Cernos",
+   "card": true
+  },
+  "Cernos Prime": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Cernos",
+   "card": false
+  },
+  "Cestra": {
+   "disposition": 1.52,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Cestra",
+   "card": true
+  },
+  "Ceti Lacera": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Lacera",
+   "card": false
+  },
+  "Cinta": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Cinta",
+   "card": true
+  },
+  "Cobra & Crane": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Cobra & Crane",
+   "card": true
+  },
+  "Cobra & Crane Prime": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Cobra & Crane",
+   "card": false
+  },
+  "Coda Bassocyst": {
+   "disposition": 0.6,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Coda Bassocyst",
+   "card": true
+  },
+  "Coda Bubonico": {
+   "disposition": 0.6,
+   "class": "shotgun",
+   "type": "Rifle",
+   "family": "Bubonico",
+   "card": false
+  },
+  "Coda Catabolyst": {
+   "disposition": 0.7,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Catabolyst",
+   "card": false
+  },
+  "Coda Caustacyst": {
+   "disposition": 0.85,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Caustacyst",
+   "card": false
+  },
+  "Coda Hema": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Hema",
+   "card": false
+  },
+  "Coda Hirudo": {
+   "disposition": 0.75,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Hirudo",
+   "card": false
+  },
+  "Coda Mire": {
+   "disposition": 0.75,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Mire",
+   "card": false
+  },
+  "Coda Motovore": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Coda Motovore",
+   "card": true
+  },
+  "Coda Pathocyst": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Pathocyst",
+   "card": false
+  },
+  "Coda Pox": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Pox",
+   "card": false
+  },
+  "Coda Sporothrix": {
+   "disposition": 0.95,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Sporothrix",
+   "card": false
+  },
+  "Coda Synapse": {
+   "disposition": 0.9,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Synapse",
+   "card": false
+  },
+  "Coda Tysis": {
+   "disposition": 1.0,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Tysis",
+   "card": false
+  },
+  "Convectrix": {
+   "disposition": 1.46,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Convectrix",
+   "card": true
+  },
+  "Corinth": {
+   "disposition": 1.15,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Corinth",
+   "card": true
+  },
+  "Corinth Prime": {
+   "disposition": 1.0,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Corinth",
+   "card": false
+  },
+  "Cortege": {
+   "disposition": 1.0,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Cortege",
+   "card": true
+  },
+  "Corufell": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Corufell",
+   "card": true
+  },
+  "Corufell Prime": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Corufell",
+   "card": false
+  },
+  "Corvas": {
+   "disposition": 1.2,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Corvas",
+   "card": true
+  },
+  "Corvas Prime": {
+   "disposition": 1.0,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Corvas",
+   "card": false
+  },
+  "Cronus": {
+   "disposition": 1.48,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Cronus",
+   "card": true
+  },
+  "Cryotra": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Cryotra",
+   "card": true
+  },
+  "Cyanex": {
+   "disposition": 1.0,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Cyanex",
+   "card": true
+  },
+  "Cyath": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Cyath",
+   "card": true
+  },
+  "Cycron": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Cycron",
+   "card": true
+  },
+  "Cyngas": {
+   "disposition": 1.3,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Cyngas",
+   "card": true
+  },
+  "Daikyu": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Daikyu",
+   "card": true
+  },
+  "Daikyu Prime": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Daikyu",
+   "card": false
+  },
+  "Dakra Prime": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dakra Prime",
+   "card": true
+  },
+  "Dark Dagger": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dark Dagger",
+   "card": true
+  },
+  "Dark Split-Sword": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dark Split-Sword",
+   "card": true
+  },
+  "Dark Sword": {
+   "disposition": 1.48,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dark Sword",
+   "card": true
+  },
+  "Deconstructor": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Companion",
+   "family": "Deconstructor",
+   "card": true
+  },
+  "Deconstructor Prime": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Companion",
+   "family": "Deconstructor",
+   "card": false
+  },
+  "Dehtat": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Dehtat",
+   "card": true
+  },
+  "Dera": {
+   "disposition": 1.4,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Dera",
+   "card": true
+  },
+  "Dera Vandal": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Dera",
+   "card": false
+  },
+  "Despair": {
+   "disposition": 1.3,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Despair",
+   "card": true
+  },
+  "Destreza": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Destreza",
+   "card": true
+  },
+  "Destreza Prime": {
+   "disposition": 1.14,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Destreza",
+   "card": false
+  },
+  "Deth Machine Rifle": {
+   "disposition": 1.455,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Deth Machine Rifle",
+   "card": true
+  },
+  "Deth Machine Rifle Prime": {
+   "disposition": 1.455,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Deth Machine Rifle",
+   "card": false
+  },
+  "Detron": {
+   "disposition": 1.15,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Detron",
+   "card": true
+  },
+  "Dex Dakra": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dex Dakra",
+   "card": true
+  },
+  "Dex Furis": {
+   "disposition": 1.39,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Furis",
+   "card": false
+  },
+  "Dex Nikana": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dex Nikana",
+   "card": true
+  },
+  "Dex Sybaris": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Sybaris",
+   "card": false
+  },
+  "Dokrahm": {
+   "disposition": 0.75,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Dokrahm",
+   "card": true
+  },
+  "Dorrclave": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dorrclave",
+   "card": true
+  },
+  "Dragon Nikana": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dragon Nikana",
+   "card": true
+  },
+  "Drakgoon": {
+   "disposition": 1.4,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Drakgoon",
+   "card": true
+  },
+  "Dread": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Dread",
+   "card": true
+  },
+  "Dual Cestra": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Dual Cestra",
+   "card": true
+  },
+  "Dual Cleavers": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Cleavers",
+   "card": true
+  },
+  "Dual Coda Torxica": {
+   "disposition": 0.55,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Dual Coda Torxica",
+   "card": true
+  },
+  "Dual Decurion": {
+   "disposition": 1.3,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Dual Decurion",
+   "card": true
+  },
+  "Dual Ether": {
+   "disposition": 1.45,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Ether",
+   "card": true
+  },
+  "Dual Heat Swords": {
+   "disposition": 1.44,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Heat Swords",
+   "card": true
+  },
+  "Dual Ichor": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Ichor",
+   "card": true
+  },
+  "Dual Kamas": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Kamas",
+   "card": true
+  },
+  "Dual Kamas Prime": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Kamas",
+   "card": false
+  },
+  "Dual Keres": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Keres",
+   "card": true
+  },
+  "Dual Keres Prime": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Keres",
+   "card": false
+  },
+  "Dual Raza": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Raza",
+   "card": true
+  },
+  "Dual Skana": {
+   "disposition": 1.48,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Skana",
+   "card": true
+  },
+  "Dual Toxocyst": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Dual Toxocyst",
+   "card": true
+  },
+  "Dual Viciss": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Viciss",
+   "card": true
+  },
+  "Dual Zoren": {
+   "disposition": 1.44,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Zoren",
+   "card": true
+  },
+  "Dual Zoren Prime": {
+   "disposition": 0.95,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Zoren",
+   "card": false
+  },
+  "Edun": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Edun",
+   "card": true
+  },
+  "Efv-5 Jupiter": {
+   "disposition": 1.05,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "EFV-5 Jupiter",
+   "card": true
+  },
+  "Efv-8 Mars": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "EFV-8 Mars",
+   "card": true
+  },
+  "Ekhein": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ekhein",
+   "card": true
+  },
+  "Embolist": {
+   "disposition": 1.4,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Embolist",
+   "card": true
+  },
+  "Endura": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Endura",
+   "card": true
+  },
+  "Enkaus": {
+   "disposition": 0.8,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Enkaus",
+   "card": true
+  },
+  "Epitaph": {
+   "disposition": 0.6,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Epitaph",
+   "card": true
+  },
+  "Epitaph Prime": {
+   "disposition": 0.55,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Epitaph",
+   "card": false
+  },
+  "Ether Daggers": {
+   "disposition": 1.49,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ether Daggers",
+   "card": true
+  },
+  "Ether Reaper": {
+   "disposition": 1.45,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ether Reaper",
+   "card": true
+  },
+  "Ether Sword": {
+   "disposition": 1.44,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ether Sword",
+   "card": true
+  },
+  "Euphona Prime": {
+   "disposition": 0.95,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Euphona Prime",
+   "card": true
+  },
+  "Evensong": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Evensong",
+   "card": true
+  },
+  "Exergis": {
+   "disposition": 1.1,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Exergis",
+   "card": true
+  },
+  "Falcor": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Falcor",
+   "card": true
+  },
+  "Fang": {
+   "disposition": 1.36,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Fang",
+   "card": true
+  },
+  "Fang Prime": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Fang",
+   "card": false
+  },
+  "Felarx": {
+   "disposition": 0.6,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Felarx",
+   "card": true
+  },
+  "Ferrox": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Ferrox",
+   "card": true
+  },
+  "Fluctus": {
+   "disposition": 1.1,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Fluctus",
+   "card": true
+  },
+  "Flux Rifle": {
+   "disposition": 1.55,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Flux Rifle",
+   "card": true
+  },
+  "Fragor": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Fragor",
+   "card": true
+  },
+  "Fragor Prime": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Fragor",
+   "card": false
+  },
+  "Fulmin": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Fulmin",
+   "card": true
+  },
+  "Fulmin Prime": {
+   "disposition": 0.75,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Fulmin",
+   "card": false
+  },
+  "Furax": {
+   "disposition": 1.38,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Furax",
+   "card": true
+  },
+  "Furax Wraith": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Furax",
+   "card": false
+  },
+  "Furis": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Furis",
+   "card": true
+  },
+  "Fusilai": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Fusilai",
+   "card": true
+  },
+  "Galariak Prime": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Galariak Prime",
+   "card": true
+  },
+  "Galatine": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Galatine",
+   "card": true
+  },
+  "Galatine Prime": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Galatine",
+   "card": false
+  },
+  "Galvacord": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Galvacord",
+   "card": true
+  },
+  "Gammacor": {
+   "disposition": 1.15,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Gammacor",
+   "card": true
+  },
+  "Gazal Machete": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Gazal Machete",
+   "card": true
+  },
+  "Gaze (Primary)": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Kitgun",
+   "family": "Gaze",
+   "card": true
+  },
+  "Gaze (Secondary)": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Kitgun",
+   "family": "Gaze",
+   "card": true
+  },
+  "Ghoulsaw": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ghoulsaw",
+   "card": true
+  },
+  "Glaive": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Glaive",
+   "card": true
+  },
+  "Glaive Prime": {
+   "disposition": 0.7,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Glaive",
+   "card": false
+  },
+  "Glaxion": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Glaxion",
+   "card": true
+  },
+  "Glaxion Vandal": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Glaxion",
+   "card": false
+  },
+  "Gorgon": {
+   "disposition": 1.4,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Gorgon",
+   "card": true
+  },
+  "Gorgon Wraith": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Gorgon",
+   "card": false
+  },
+  "Gotva Prime": {
+   "disposition": 0.85,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Gotva Prime",
+   "card": true
+  },
+  "Grakata": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Grakata",
+   "card": true
+  },
+  "Gram": {
+   "disposition": 1.44,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Gram",
+   "card": true
+  },
+  "Gram Prime": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Gram",
+   "card": false
+  },
+  "Grattler": {
+   "disposition": 1.1,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Grattler",
+   "card": true
+  },
+  "Grimoire": {
+   "disposition": 0.6,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Grimoire",
+   "card": true
+  },
+  "Grinlok": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Grinlok",
+   "card": true
+  },
+  "Guandao": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Guandao",
+   "card": true
+  },
+  "Guandao Prime": {
+   "disposition": 0.7,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Guandao",
+   "card": false
+  },
+  "Gunsen": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Gunsen",
+   "card": true
+  },
+  "Gunsen Prime": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Gunsen",
+   "card": false
+  },
+  "Haalvu": {
+   "disposition": 0.6,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Haalvu",
+   "card": true
+  },
+  "Halikar": {
+   "disposition": 1.44,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Halikar",
+   "card": true
+  },
+  "Halikar Wraith": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Halikar",
+   "card": false
+  },
+  "Harmony": {
+   "disposition": 0.6,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Harmony",
+   "card": true
+  },
+  "Harpak": {
+   "disposition": 1.55,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Harpak",
+   "card": true
+  },
+  "Hate": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Hate",
+   "card": true
+  },
+  "Heat Dagger": {
+   "disposition": 1.44,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Heat Dagger",
+   "card": true
+  },
+  "Heat Sword": {
+   "disposition": 1.48,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Heat Sword",
+   "card": true
+  },
+  "Hek": {
+   "disposition": 1.2,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Hek",
+   "card": true
+  },
+  "Heliocor": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Heliocor",
+   "card": true
+  },
+  "Helstrum": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Helstrum",
+   "card": true
+  },
+  "Hema": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Hema",
+   "card": true
+  },
+  "Hespar": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Hespar",
+   "card": true
+  },
+  "Higasa": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Higasa",
+   "card": true
+  },
+  "Hikou": {
+   "disposition": 1.3,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Hikou",
+   "card": true
+  },
+  "Hikou Prime": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Hikou",
+   "card": false
+  },
+  "Hind": {
+   "disposition": 1.42,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Hind",
+   "card": true
+  },
+  "Hirudo": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Hirudo",
+   "card": true
+  },
+  "Hystrix": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Hystrix",
+   "card": true
+  },
+  "Hystrix Prime": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Hystrix",
+   "card": false
+  },
+  "Ignis": {
+   "disposition": 0.7,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Ignis",
+   "card": true
+  },
+  "Ignis Wraith": {
+   "disposition": 0.65,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Ignis",
+   "card": false
+  },
+  "Imperator": {
+   "disposition": 1.1,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Imperator",
+   "card": true
+  },
+  "Imperator Vandal": {
+   "disposition": 0.95,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Imperator",
+   "card": false
+  },
+  "Innodem": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Innodem",
+   "card": true
+  },
+  "Jat Kittag": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Jat Kittag",
+   "card": true
+  },
+  "Jat Kusar": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Jat Kusar",
+   "card": true
+  },
+  "Javlok": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Javlok",
+   "card": true
+  },
+  "Jaw Sword": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Jaw Sword",
+   "card": true
+  },
+  "Kama": {
+   "disposition": 1.47,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kama",
+   "card": true
+  },
+  "Karak": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Karak",
+   "card": true
+  },
+  "Karak Wraith": {
+   "disposition": 1.28,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Karak",
+   "card": false
+  },
+  "Karyst": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Karyst",
+   "card": true
+  },
+  "Karyst Prime": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Karyst",
+   "card": false
+  },
+  "Kaszas": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Kaszas",
+   "card": true
+  },
+  "Keratinos": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Keratinos",
+   "card": true
+  },
+  "Kesheg": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kesheg",
+   "card": true
+  },
+  "Kestrel": {
+   "disposition": 1.45,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kestrel",
+   "card": true
+  },
+  "Kestrel Prime": {
+   "disposition": 0.85,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kestrel",
+   "card": false
+  },
+  "Knell": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Knell",
+   "card": true
+  },
+  "Knell Prime": {
+   "disposition": 0.85,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Knell",
+   "card": false
+  },
+  "Knux": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Knux",
+   "card": true
+  },
+  "Kogake": {
+   "disposition": 1.46,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kogake",
+   "card": true
+  },
+  "Kogake Prime": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kogake",
+   "card": false
+  },
+  "Kohm": {
+   "disposition": 1.3,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Kohm",
+   "card": true
+  },
+  "Kohmak": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Kohmak",
+   "card": true
+  },
+  "Komorex": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Komorex",
+   "card": true
+  },
+  "Kompressa": {
+   "disposition": 1.15,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Kompressa",
+   "card": true
+  },
+  "Kompressa Prime": {
+   "disposition": 0.6,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Kompressa",
+   "card": false
+  },
+  "Korrudo": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Korrudo",
+   "card": true
+  },
+  "Korumm": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Korumm",
+   "card": true
+  },
+  "Kraken": {
+   "disposition": 1.53,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Kraken",
+   "card": true
+  },
+  "Kreska": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kreska",
+   "card": true
+  },
+  "Krohkur": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Krohkur",
+   "card": true
+  },
+  "Kronen": {
+   "disposition": 1.43,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kronen",
+   "card": true
+  },
+  "Kronen Prime": {
+   "disposition": 0.7,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kronen",
+   "card": false
+  },
+  "Kronsh": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Kronsh",
+   "card": true
+  },
+  "Kulstar": {
+   "disposition": 1.3,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Kulstar",
+   "card": true
+  },
+  "Kunai": {
+   "disposition": 1.51,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Kunai",
+   "card": true
+  },
+  "Kuva Ayanga": {
+   "disposition": 0.95,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Kuva Ayanga",
+   "card": true
+  },
+  "Kuva Brakk": {
+   "disposition": 0.95,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Brakk",
+   "card": false
+  },
+  "Kuva Bramma": {
+   "disposition": 0.7,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Kuva Bramma",
+   "card": true
+  },
+  "Kuva Chakkhurr": {
+   "disposition": 0.95,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Kuva Chakkhurr",
+   "card": true
+  },
+  "Kuva Drakgoon": {
+   "disposition": 1.15,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Drakgoon",
+   "card": false
+  },
+  "Kuva Ghoulsaw": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ghoulsaw",
+   "card": false
+  },
+  "Kuva Grattler": {
+   "disposition": 0.7,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Grattler",
+   "card": false
+  },
+  "Kuva Hek": {
+   "disposition": 1.0,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Hek",
+   "card": false
+  },
+  "Kuva Hind": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Hind",
+   "card": false
+  },
+  "Kuva Karak": {
+   "disposition": 1.05,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Karak",
+   "card": false
+  },
+  "Kuva Kohm": {
+   "disposition": 0.9,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Kohm",
+   "card": false
+  },
+  "Kuva Kraken": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Kraken",
+   "card": false
+  },
+  "Kuva Nukor": {
+   "disposition": 0.5,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Nukor",
+   "card": false
+  },
+  "Kuva Ogris": {
+   "disposition": 0.7,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Ogris",
+   "card": false
+  },
+  "Kuva Quartakk": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Quartakk",
+   "card": false
+  },
+  "Kuva Seer": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Seer",
+   "card": false
+  },
+  "Kuva Shildeg": {
+   "disposition": 0.85,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Kuva Shildeg",
+   "card": true
+  },
+  "Kuva Sobek": {
+   "disposition": 0.8,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Sobek",
+   "card": false
+  },
+  "Kuva Tonkor": {
+   "disposition": 0.9,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Tonkor",
+   "card": false
+  },
+  "Kuva Twin Stubbas": {
+   "disposition": 1.0,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Kuva Twin Stubbas",
+   "card": true
+  },
+  "Kuva Zarr": {
+   "disposition": 0.7,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Zarr",
+   "card": false
+  },
+  "Lacera": {
+   "disposition": 1.31,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Lacera",
+   "card": true
+  },
+  "Lacerten": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Companion",
+   "family": "Lacerten",
+   "card": true
+  },
+  "Laetum": {
+   "disposition": 0.5,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Laetum",
+   "card": true
+  },
+  "Lanka": {
+   "disposition": 1.05,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Lanka",
+   "card": true
+  },
+  "Larkspur": {
+   "disposition": 1.05,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Larkspur",
+   "card": true
+  },
+  "Larkspur Prime": {
+   "disposition": 0.8,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Larkspur",
+   "card": false
+  },
+  "Laser Rifle": {
+   "disposition": 1.21,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Laser Rifle",
+   "card": true
+  },
+  "Lato": {
+   "disposition": 1.4,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Lato",
+   "card": true
+  },
+  "Lato Prime": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Lato",
+   "card": false
+  },
+  "Lato Vandal": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Lato",
+   "card": false
+  },
+  "Latron": {
+   "disposition": 1.4,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Latron",
+   "card": true
+  },
+  "Latron Prime": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Latron",
+   "card": false
+  },
+  "Latron Wraith": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Latron",
+   "card": false
+  },
+  "Lecta": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Lecta",
+   "card": true
+  },
+  "Lenz": {
+   "disposition": 1.05,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Lenz",
+   "card": true
+  },
+  "Lesion": {
+   "disposition": 0.85,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Lesion",
+   "card": true
+  },
+  "Lex": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Lex",
+   "card": true
+  },
+  "Lex Prime": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Lex",
+   "card": false
+  },
+  "Machete": {
+   "disposition": 1.45,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Machete",
+   "card": true
+  },
+  "Machete Wraith": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Machete",
+   "card": false
+  },
+  "Magistar": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Magistar",
+   "card": true
+  },
+  "Magnus": {
+   "disposition": 1.53,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Magnus",
+   "card": true
+  },
+  "Magnus Prime": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Magnus",
+   "card": false
+  },
+  "Mandonel": {
+   "disposition": 1.1,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Mandonel",
+   "card": true
+  },
+  "Mara Detron": {
+   "disposition": 1.15,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Mara Detron",
+   "card": true
+  },
+  "Marelok": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Marelok",
+   "card": true
+  },
+  "Masseter": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Masseter",
+   "card": true
+  },
+  "Masseter Prime": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Masseter",
+   "card": false
+  },
+  "Mausolon": {
+   "disposition": 0.5,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Mausolon",
+   "card": true
+  },
+  "Mewan": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Mewan",
+   "card": true
+  },
+  "Mios": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Mios",
+   "card": true
+  },
+  "Mire": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Mire",
+   "card": true
+  },
+  "Miter": {
+   "disposition": 1.5,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Miter",
+   "card": true
+  },
+  "Mk1-Bo": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Bo",
+   "card": false
+  },
+  "Mk1-Braton": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Braton",
+   "card": false
+  },
+  "Mk1-Furax": {
+   "disposition": 1.45,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Furax",
+   "card": false
+  },
+  "Mk1-Furis": {
+   "disposition": 1.4,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Furis",
+   "card": false
+  },
+  "Mk1-Kunai": {
+   "disposition": 1.51,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Kunai",
+   "card": false
+  },
+  "Mk1-Paris": {
+   "disposition": 1.45,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Paris",
+   "card": false
+  },
+  "Mk1-Strun": {
+   "disposition": 1.45,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Strun",
+   "card": false
+  },
+  "Morgha": {
+   "disposition": 1.0,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Morgha",
+   "card": true
+  },
+  "Multron": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Multron",
+   "card": true
+  },
+  "Mutalist Cernos": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Mutalist Cernos",
+   "card": true
+  },
+  "Mutalist Quanta": {
+   "disposition": 1.5,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Mutalist Quanta",
+   "card": true
+  },
+  "Nagantaka": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Nagantaka",
+   "card": true
+  },
+  "Nagantaka Prime": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Nagantaka",
+   "card": false
+  },
+  "Nami Skyla": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Nami Skyla",
+   "card": true
+  },
+  "Nami Skyla Prime": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Nami Skyla",
+   "card": false
+  },
+  "Nami Solo": {
+   "disposition": 1.43,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Nami Solo",
+   "card": true
+  },
+  "Nataruk": {
+   "disposition": 0.65,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Nataruk",
+   "card": true
+  },
+  "Nepheri": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Nepheri",
+   "card": true
+  },
+  "Nikana": {
+   "disposition": 0.95,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Nikana",
+   "card": true
+  },
+  "Nikana Prime": {
+   "disposition": 0.6,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Nikana",
+   "card": false
+  },
+  "Ninkondi": {
+   "disposition": 1.41,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ninkondi",
+   "card": true
+  },
+  "Ninkondi Prime": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ninkondi",
+   "card": false
+  },
+  "Nukor": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Nukor",
+   "card": true
+  },
+  "Nunchasa": {
+   "disposition": 0.5,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Nunchasa",
+   "card": true
+  },
+  "Obex": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Obex",
+   "card": true
+  },
+  "Ocucor": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Ocucor",
+   "card": true
+  },
+  "Ogris": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Ogris",
+   "card": true
+  },
+  "Ohma": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ohma",
+   "card": true
+  },
+  "Okina": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Okina",
+   "card": true
+  },
+  "Okina Prime": {
+   "disposition": 0.7,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Okina",
+   "card": false
+  },
+  "Onorix": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Onorix",
+   "card": true
+  },
+  "Onos": {
+   "disposition": 0.85,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Onos",
+   "card": true
+  },
+  "Ooltha": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Ooltha",
+   "card": true
+  },
+  "Opticor": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Opticor",
+   "card": true
+  },
+  "Opticor Vandal": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Opticor",
+   "card": false
+  },
+  "Orthos": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Orthos",
+   "card": true
+  },
+  "Orthos Prime": {
+   "disposition": 0.7,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Orthos",
+   "card": false
+  },
+  "Orvius": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Orvius",
+   "card": true
+  },
+  "Pandero": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Pandero",
+   "card": true
+  },
+  "Pandero Prime": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Pandero",
+   "card": false
+  },
+  "Pangolin Prime": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Pangolin Prime",
+   "card": true
+  },
+  "Pangolin Sword": {
+   "disposition": 1.47,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Pangolin Sword",
+   "card": true
+  },
+  "Panthera": {
+   "disposition": 1.4,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Panthera",
+   "card": true
+  },
+  "Panthera Prime": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Panthera",
+   "card": false
+  },
+  "Paracesis": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Paracesis",
+   "card": true
+  },
+  "Paracyst": {
+   "disposition": 1.31,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Paracyst",
+   "card": true
+  },
+  "Paris": {
+   "disposition": 1.4,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Paris",
+   "card": true
+  },
+  "Paris Prime": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Paris",
+   "card": false
+  },
+  "Pathocyst": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Pathocyst",
+   "card": true
+  },
+  "Pennant": {
+   "disposition": 0.95,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Pennant",
+   "card": true
+  },
+  "Penta": {
+   "disposition": 1.35,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Penta",
+   "card": true
+  },
+  "Perigale": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Perigale",
+   "card": true
+  },
+  "Perigale Prime": {
+   "disposition": 0.8,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Perigale",
+   "card": false
+  },
+  "Phaedra": {
+   "disposition": 1.25,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Phaedra",
+   "card": true
+  },
+  "Phage": {
+   "disposition": 1.46,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Phage",
+   "card": true
+  },
+  "Phantasma": {
+   "disposition": 1.1,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Phantasma",
+   "card": true
+  },
+  "Phantasma Prime": {
+   "disposition": 0.8,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Phantasma",
+   "card": false
+  },
+  "Phenmor": {
+   "disposition": 0.6,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Phenmor",
+   "card": true
+  },
+  "Plague Keewar": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Plague Keewar",
+   "card": true
+  },
+  "Plague Kripath": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Plague Kripath",
+   "card": true
+  },
+  "Plasma Sword": {
+   "disposition": 1.48,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Plasma Sword",
+   "card": true
+  },
+  "Plinx": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Plinx",
+   "card": true
+  },
+  "Pox": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Pox",
+   "card": true
+  },
+  "Praedos": {
+   "disposition": 0.6,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Praedos",
+   "card": true
+  },
+  "Pride": {
+   "disposition": 0.7,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Pride",
+   "card": true
+  },
+  "Prime Laser Rifle": {
+   "disposition": 1.21,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Prime Laser Rifle",
+   "card": true
+  },
+  "Prisma Angstrum": {
+   "disposition": 1.3,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Angstrum",
+   "card": false
+  },
+  "Prisma Burst Laser": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Companion",
+   "family": "Burst Laser",
+   "card": false
+  },
+  "Prisma Dual Cleavers": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dual Cleavers",
+   "card": false
+  },
+  "Prisma Dual Decurions": {
+   "disposition": 1.25,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Prisma Dual Decurions",
+   "card": true
+  },
+  "Prisma Gorgon": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Gorgon",
+   "card": false
+  },
+  "Prisma Grakata": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Grakata",
+   "card": false
+  },
+  "Prisma Grinlok": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Grinlok",
+   "card": false
+  },
+  "Prisma Lenz": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Lenz",
+   "card": false
+  },
+  "Prisma Machete": {
+   "disposition": 1.45,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Machete",
+   "card": false
+  },
+  "Prisma Obex": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Obex",
+   "card": false
+  },
+  "Prisma Ohma": {
+   "disposition": 0.95,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ohma",
+   "card": false
+  },
+  "Prisma Skana": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Skana",
+   "card": false
+  },
+  "Prisma Tetra": {
+   "disposition": 1.45,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Tetra",
+   "card": false
+  },
+  "Prisma Twin Gremlins": {
+   "disposition": 1.15,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Twin Gremlins",
+   "card": false
+  },
+  "Prisma Veritux": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Veritux",
+   "card": false
+  },
+  "Proboscis Cernos": {
+   "disposition": 0.9,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Proboscis Cernos",
+   "card": true
+  },
+  "Prova": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Prova",
+   "card": true
+  },
+  "Prova Vandal": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Prova",
+   "card": false
+  },
+  "Pulmonars": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Pulmonars",
+   "card": true
+  },
+  "Pupacyst": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Pupacyst",
+   "card": true
+  },
+  "Purgator 1": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Purgator 1",
+   "card": true
+  },
+  "Pyrana": {
+   "disposition": 0.95,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Pyrana",
+   "card": true
+  },
+  "Pyrana Prime": {
+   "disposition": 0.65,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Pyrana",
+   "card": false
+  },
+  "Quanta": {
+   "disposition": 1.4,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Quanta",
+   "card": true
+  },
+  "Quanta Vandal": {
+   "disposition": 1.4,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Quanta",
+   "card": false
+  },
+  "Quartakk": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Quartakk",
+   "card": true
+  },
+  "Quassus": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Quassus",
+   "card": true
+  },
+  "Quassus Prime": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Quassus",
+   "card": false
+  },
+  "Quatz": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Quatz",
+   "card": true
+  },
+  "Quellor": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Quellor",
+   "card": true
+  },
+  "Rabvee": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Rabvee",
+   "card": true
+  },
+  "Rakta Ballistica": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Ballistica",
+   "card": false
+  },
+  "Rakta Cernos": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Bow",
+   "family": "Cernos",
+   "card": false
+  },
+  "Rakta Dark Dagger": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Dark Dagger",
+   "card": false
+  },
+  "Rathbone": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Rathbone",
+   "card": true
+  },
+  "Rattleguts (Primary)": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Kitgun",
+   "family": "Rattleguts",
+   "card": true
+  },
+  "Rattleguts (Secondary)": {
+   "disposition": 1.0,
+   "class": "pistol",
+   "type": "Kitgun",
+   "family": "Rattleguts",
+   "card": true
+  },
+  "Rauta": {
+   "disposition": 1.1,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Rauta",
+   "card": true
+  },
+  "Reaper Prime": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Reaper Prime",
+   "card": true
+  },
+  "Reconifex": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Reconifex",
+   "card": true
+  },
+  "Redeemer": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Redeemer",
+   "card": true
+  },
+  "Redeemer Prime": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Redeemer",
+   "card": false
+  },
+  "Riot-848": {
+   "disposition": 1.0,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Riot-848",
+   "card": true
+  },
+  "Ripkas": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ripkas",
+   "card": true
+  },
+  "Rubico": {
+   "disposition": 0.95,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Rubico",
+   "card": true
+  },
+  "Rubico Prime": {
+   "disposition": 0.7,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Rubico",
+   "card": false
+  },
+  "Rumblejack": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Rumblejack",
+   "card": true
+  },
+  "Ruvox": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Ruvox",
+   "card": true
+  },
+  "Sagek Prime": {
+   "disposition": 0.9,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Sagek Prime",
+   "card": true
+  },
+  "Sampotes": {
+   "disposition": 1.0,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sampotes",
+   "card": true
+  },
+  "Sancti Castanas": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Castanas",
+   "card": false
+  },
+  "Sancti Magistar": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Magistar",
+   "card": false
+  },
+  "Sancti Tigris": {
+   "disposition": 1.0,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Tigris",
+   "card": false
+  },
+  "Sarofang": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sarofang",
+   "card": true
+  },
+  "Sarofang Prime": {
+   "disposition": 0.75,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sarofang",
+   "card": false
+  },
+  "Sarpa": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sarpa",
+   "card": true
+  },
+  "Scindo": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Scindo",
+   "card": true
+  },
+  "Scindo Prime": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Scindo",
+   "card": false
+  },
+  "Scoliac": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Scoliac",
+   "card": true
+  },
+  "Scourge": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Scourge",
+   "card": true
+  },
+  "Scourge Prime": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Scourge",
+   "card": false
+  },
+  "Scyotid": {
+   "disposition": 0.75,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Scyotid",
+   "card": true
+  },
+  "Secura Dual Cestra": {
+   "disposition": 1.3,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Dual Cestra",
+   "card": false
+  },
+  "Secura Lecta": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Lecta",
+   "card": false
+  },
+  "Secura Penta": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Penta",
+   "card": false
+  },
+  "Seer": {
+   "disposition": 1.5,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Seer",
+   "card": true
+  },
+  "Sepfahn": {
+   "disposition": 0.7,
+   "class": "melee",
+   "type": "Zaw",
+   "family": "Sepfahn",
+   "card": true
+  },
+  "Sepulcrum": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Sepulcrum",
+   "card": true
+  },
+  "Serro": {
+   "disposition": 1.38,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Serro",
+   "card": true
+  },
+  "Shaku": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Shaku",
+   "card": true
+  },
+  "Shedu": {
+   "disposition": 0.75,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Shedu",
+   "card": true
+  },
+  "Sheev": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sheev",
+   "card": true
+  },
+  "Sibear": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sibear",
+   "card": true
+  },
+  "Sicarus": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Sicarus",
+   "card": true
+  },
+  "Sicarus Prime": {
+   "disposition": 1.15,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Sicarus",
+   "card": false
+  },
+  "Sigma & Octantis": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sigma & Octantis",
+   "card": true
+  },
+  "Silva & Aegis": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Silva & Aegis",
+   "card": true
+  },
+  "Silva & Aegis Prime": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Silva & Aegis",
+   "card": false
+  },
+  "Simulor": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Simulor",
+   "card": true
+  },
+  "Skana": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Skana",
+   "card": true
+  },
+  "Skana Prime": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Skana",
+   "card": false
+  },
+  "Skiajati": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Skiajati",
+   "card": true
+  },
+  "Slaytra": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Slaytra",
+   "card": true
+  },
+  "Snipetron": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Snipetron",
+   "card": true
+  },
+  "Snipetron Vandal": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Snipetron",
+   "card": false
+  },
+  "Sobek": {
+   "disposition": 1.33,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Sobek",
+   "card": true
+  },
+  "Soma": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Soma",
+   "card": true
+  },
+  "Soma Prime": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Soma",
+   "card": false
+  },
+  "Sonicor": {
+   "disposition": 1.15,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Sonicor",
+   "card": true
+  },
+  "Spectra": {
+   "disposition": 1.49,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Spectra",
+   "card": true
+  },
+  "Spectra Vandal": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Spectra",
+   "card": false
+  },
+  "Spinnerex": {
+   "disposition": 0.85,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Spinnerex",
+   "card": true
+  },
+  "Spira": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Spira",
+   "card": true
+  },
+  "Spira Prime": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Spira",
+   "card": false
+  },
+  "Sporelacer (Primary)": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Kitgun",
+   "family": "Sporelacer",
+   "card": true
+  },
+  "Sporelacer (Secondary)": {
+   "disposition": 0.6,
+   "class": "pistol",
+   "type": "Kitgun",
+   "family": "Sporelacer",
+   "card": true
+  },
+  "Sporothrix": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Sporothrix",
+   "card": true
+  },
+  "Stahlta": {
+   "disposition": 1.05,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Stahlta",
+   "card": true
+  },
+  "Staticor": {
+   "disposition": 0.9,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Staticor",
+   "card": true
+  },
+  "Steflos": {
+   "disposition": 1.25,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Steflos",
+   "card": true
+  },
+  "Steflos Prime": {
+   "disposition": 0.5,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Steflos",
+   "card": false
+  },
+  "Stinger": {
+   "disposition": 1.315,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Stinger",
+   "card": true
+  },
+  "Stradavar": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Stradavar",
+   "card": true
+  },
+  "Stradavar Prime": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Stradavar",
+   "card": false
+  },
+  "Stropha": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Stropha",
+   "card": true
+  },
+  "Strun": {
+   "disposition": 1.4,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Strun",
+   "card": true
+  },
+  "Strun Prime": {
+   "disposition": 1.2,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Strun",
+   "card": false
+  },
+  "Strun Wraith": {
+   "disposition": 1.35,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Strun",
+   "card": false
+  },
+  "Stubba": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Stubba",
+   "card": true
+  },
+  "Stug": {
+   "disposition": 1.48,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Stug",
+   "card": true
+  },
+  "Sun & Moon": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sun & Moon",
+   "card": true
+  },
+  "Supra": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Supra",
+   "card": true
+  },
+  "Supra Vandal": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Supra",
+   "card": false
+  },
+  "Sweeper": {
+   "disposition": 1.0,
+   "class": "shotgun",
+   "type": "Companion",
+   "family": "Sweeper",
+   "card": true
+  },
+  "Sweeper Prime": {
+   "disposition": 1.0,
+   "class": "shotgun",
+   "type": "Companion",
+   "family": "Sweeper",
+   "card": false
+  },
+  "Syam": {
+   "disposition": 0.75,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Syam",
+   "card": true
+  },
+  "Sybaris": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Sybaris",
+   "card": true
+  },
+  "Sybaris Prime": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Sybaris",
+   "card": false
+  },
+  "Sydon": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sydon",
+   "card": true
+  },
+  "Synapse": {
+   "disposition": 1.31,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Synapse",
+   "card": true
+  },
+  "Synoid Gammacor": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Gammacor",
+   "card": false
+  },
+  "Synoid Heliocor": {
+   "disposition": 1.35,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Heliocor",
+   "card": false
+  },
+  "Synoid Simulor": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Simulor",
+   "card": false
+  },
+  "Tak & Lug": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tak & Lug",
+   "card": true
+  },
+  "Talons": {
+   "disposition": 1.44,
+   "class": "pistol",
+   "type": "Throwing",
+   "family": "Talons",
+   "card": true
+  },
+  "Tatsu": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tatsu",
+   "card": true
+  },
+  "Tatsu Prime": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tatsu",
+   "card": false
+  },
+  "Tazicor": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Tazicor",
+   "card": true
+  },
+  "Tekko": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tekko",
+   "card": true
+  },
+  "Tekko Prime": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tekko",
+   "card": false
+  },
+  "Telos Akbolto": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Akbolto",
+   "card": false
+  },
+  "Telos Boltace": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Boltace",
+   "card": false
+  },
+  "Telos Boltor": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Boltor",
+   "card": false
+  },
+  "Tenet Agendus": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tenet Agendus",
+   "card": true
+  },
+  "Tenet Arca Plasmor": {
+   "disposition": 0.6,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Arca Plasmor",
+   "card": false
+  },
+  "Tenet Cycron": {
+   "disposition": 0.7,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Cycron",
+   "card": false
+  },
+  "Tenet Detron": {
+   "disposition": 1.0,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Detron",
+   "card": false
+  },
+  "Tenet Diplos": {
+   "disposition": 0.8,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Tenet Diplos",
+   "card": true
+  },
+  "Tenet Envoy": {
+   "disposition": 0.65,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Tenet Envoy",
+   "card": true
+  },
+  "Tenet Exec": {
+   "disposition": 0.8,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tenet Exec",
+   "card": true
+  },
+  "Tenet Ferrox": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Ferrox",
+   "card": false
+  },
+  "Tenet Flux Rifle": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Flux Rifle",
+   "card": false
+  },
+  "Tenet Glaxion": {
+   "disposition": 0.65,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Glaxion",
+   "card": false
+  },
+  "Tenet Grigori": {
+   "disposition": 0.95,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tenet Grigori",
+   "card": true
+  },
+  "Tenet Livia": {
+   "disposition": 0.95,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tenet Livia",
+   "card": true
+  },
+  "Tenet Plinx": {
+   "disposition": 0.75,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Plinx",
+   "card": false
+  },
+  "Tenet Quanta": {
+   "disposition": 0.85,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Quanta",
+   "card": false
+  },
+  "Tenet Spirex": {
+   "disposition": 1.05,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Tenet Spirex",
+   "card": true
+  },
+  "Tenet Tetra": {
+   "disposition": 1.25,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Tetra",
+   "card": false
+  },
+  "Tenora": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Tenora",
+   "card": true
+  },
+  "Tenora Prime": {
+   "disposition": 1.05,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Tenora",
+   "card": false
+  },
+  "Tetra": {
+   "disposition": 1.5,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Tetra",
+   "card": true
+  },
+  "Thalys": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Thalys",
+   "card": true
+  },
+  "Thornbak": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Thornbak",
+   "card": true
+  },
+  "Tiberon": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Tiberon",
+   "card": true
+  },
+  "Tiberon Prime": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Tiberon",
+   "card": false
+  },
+  "Tigris": {
+   "disposition": 1.1,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Tigris",
+   "card": true
+  },
+  "Tigris Prime": {
+   "disposition": 0.95,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Tigris",
+   "card": false
+  },
+  "Tipedo": {
+   "disposition": 1.31,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tipedo",
+   "card": true
+  },
+  "Tipedo Prime": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tipedo",
+   "card": false
+  },
+  "Tombfinger (Primary)": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Kitgun",
+   "family": "Tombfinger",
+   "card": true
+  },
+  "Tombfinger (Secondary)": {
+   "disposition": 0.9,
+   "class": "pistol",
+   "type": "Kitgun",
+   "family": "Tombfinger",
+   "card": true
+  },
+  "Tonbo": {
+   "disposition": 1.38,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tonbo",
+   "card": true
+  },
+  "Tonkkatt": {
+   "disposition": 0.95,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Tonkkatt",
+   "card": true
+  },
+  "Tonkor": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Tonkor",
+   "card": true
+  },
+  "Torid": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Torid",
+   "card": true
+  },
+  "Trumna": {
+   "disposition": 0.85,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Trumna",
+   "card": true
+  },
+  "Trumna Prime": {
+   "disposition": 0.65,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Trumna",
+   "card": false
+  },
+  "Twin Basolk": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Twin Basolk",
+   "card": true
+  },
+  "Twin Grakatas": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Twin Grakatas",
+   "card": true
+  },
+  "Twin Gremlins": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Twin Gremlins",
+   "card": true
+  },
+  "Twin Kohmak": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Twin Kohmak",
+   "card": true
+  },
+  "Twin Krohkur": {
+   "disposition": 1.2,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Twin Krohkur",
+   "card": true
+  },
+  "Twin Rogga": {
+   "disposition": 1.3,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Twin Rogga",
+   "card": true
+  },
+  "Twin Vipers": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Dual Pistols",
+   "family": "Twin Vipers",
+   "card": true
+  },
+  "Twin Vipers Wraith": {
+   "disposition": 1.41,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Twin Vipers",
+   "card": false
+  },
+  "Tysis": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Tysis",
+   "card": true
+  },
+  "Vadarya Prime": {
+   "disposition": 0.8,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Vadarya Prime",
+   "card": true
+  },
+  "Vastilok": {
+   "disposition": 0.9,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Vastilok",
+   "card": true
+  },
+  "Vasto": {
+   "disposition": 1.4,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Vasto",
+   "card": true
+  },
+  "Vasto Prime": {
+   "disposition": 1.35,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Vasto",
+   "card": false
+  },
+  "Vaykor Hek": {
+   "disposition": 1.15,
+   "class": "shotgun",
+   "type": "Shotgun",
+   "family": "Hek",
+   "card": false
+  },
+  "Vaykor Marelok": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Marelok",
+   "card": false
+  },
+  "Vaykor Sydon": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Sydon",
+   "card": false
+  },
+  "Vectis": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Vectis",
+   "card": true
+  },
+  "Vectis Prime": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Vectis",
+   "card": false
+  },
+  "Veldt": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Veldt",
+   "card": true
+  },
+  "Velocitus": {
+   "disposition": 1.1,
+   "class": "archgun",
+   "type": "Arch-Gun",
+   "family": "Velocitus",
+   "card": true
+  },
+  "Velox": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Velox",
+   "card": true
+  },
+  "Velox Prime": {
+   "disposition": 0.85,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Velox",
+   "card": false
+  },
+  "Venato": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Venato",
+   "card": true
+  },
+  "Venato Prime": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Venato",
+   "card": false
+  },
+  "Venka": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Venka",
+   "card": true
+  },
+  "Venka Prime": {
+   "disposition": 0.85,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Venka",
+   "card": false
+  },
+  "Verdilac": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Verdilac",
+   "card": true
+  },
+  "Verglas": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Verglas",
+   "card": true
+  },
+  "Verglas Prime": {
+   "disposition": 1.3,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Verglas",
+   "card": false
+  },
+  "Vericres": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Vericres",
+   "card": true
+  },
+  "Veritux": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Arch-Melee",
+   "family": "Veritux",
+   "card": true
+  },
+  "Vermisplicer (Primary)": {
+   "disposition": 0.9,
+   "class": "rifle",
+   "type": "Kitgun",
+   "family": "Vermisplicer",
+   "card": true
+  },
+  "Vermisplicer (Secondary)": {
+   "disposition": 1.15,
+   "class": "pistol",
+   "type": "Kitgun",
+   "family": "Vermisplicer",
+   "card": true
+  },
+  "Vesper 77": {
+   "disposition": 0.8,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Vesper 77",
+   "card": true
+  },
+  "Vinquibus (Melee)": {
+   "disposition": 0.5,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Vinquibus",
+   "card": true
+  },
+  "Vinquibus (Primary)": {
+   "disposition": 0.6,
+   "class": "rifle",
+   "type": "Primary",
+   "family": "Vinquibus",
+   "card": true
+  },
+  "Viper": {
+   "disposition": 1.45,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Viper",
+   "card": true
+  },
+  "Viper Wraith": {
+   "disposition": 1.4,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Viper",
+   "card": false
+  },
+  "Vitrica": {
+   "disposition": 1.1,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Vitrica",
+   "card": true
+  },
+  "Volnus": {
+   "disposition": 1.4,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Volnus",
+   "card": true
+  },
+  "Volnus Prime": {
+   "disposition": 1.3,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Volnus",
+   "card": false
+  },
+  "Vulcax": {
+   "disposition": 1.0,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Vulcax",
+   "card": true
+  },
+  "Vulkar": {
+   "disposition": 1.45,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Vulkar",
+   "card": true
+  },
+  "Vulkar Wraith": {
+   "disposition": 1.4,
+   "class": "rifle",
+   "type": "Sniper",
+   "family": "Vulkar",
+   "card": false
+  },
+  "Vulklok": {
+   "disposition": 1.245,
+   "class": "rifle",
+   "type": "Companion",
+   "family": "Vulklok",
+   "card": true
+  },
+  "War": {
+   "disposition": 1.05,
+   "class": "melee",
+   "type": "Melee",
+   "family": "War",
+   "card": true
+  },
+  "War Prime": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "War",
+   "card": false
+  },
+  "Wolf Sledge": {
+   "disposition": 1.25,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Wolf Sledge",
+   "card": true
+  },
+  "Wrath": {
+   "disposition": 0.7,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Wrath",
+   "card": true
+  },
+  "Xoris": {
+   "disposition": 0.65,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Xoris",
+   "card": true
+  },
+  "Zakti": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Zakti",
+   "card": true
+  },
+  "Zakti Prime": {
+   "disposition": 1.1,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Zakti",
+   "card": false
+  },
+  "Zarr": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Launcher",
+   "family": "Zarr",
+   "card": true
+  },
+  "Zenistar": {
+   "disposition": 1.15,
+   "class": "melee",
+   "type": "Melee",
+   "family": "Zenistar",
+   "card": true
+  },
+  "Zenith": {
+   "disposition": 1.1,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Zenith",
+   "card": true
+  },
+  "Zhuge": {
+   "disposition": 1.2,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Zhuge",
+   "card": true
+  },
+  "Zhuge Prime": {
+   "disposition": 1.15,
+   "class": "rifle",
+   "type": "Rifle",
+   "family": "Zhuge",
+   "card": false
+  },
+  "Zylok": {
+   "disposition": 1.25,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Zylok",
+   "card": true
+  },
+  "Zylok Prime": {
+   "disposition": 0.95,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Zylok",
+   "card": false
+  },
+  "Zymos": {
+   "disposition": 1.2,
+   "class": "pistol",
+   "type": "Pistol",
+   "family": "Zymos",
+   "card": true
+  }
+ }
+}

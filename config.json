@@ -1,0 +1,11 @@
+{
+  "roll_files": ["rolls"],
+
+  "rating": { "type_weight": 0.9, "bad_stat_score": 0.5, "missing_required_score": 0.25 },
+  "bad": [],
+  "dealbreakers": [],
+
+  "window_title": "Warframe",
+  "font_size": 11,
+  "hotkeys": { "toggle": "F8", "reload": "F9", "snapshot": "F10" }
+}
