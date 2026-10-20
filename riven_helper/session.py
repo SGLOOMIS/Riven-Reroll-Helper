@@ -8,6 +8,7 @@ Kept apart from the live loop (app.py) so the same logic can be replayed on a sc
   ("track", [card position or None])  where each card is now (None: lost, or dimmed by a dialog)
   ("relayout", [card geometry])       the cards slid somewhere new and stopped: place panels again
   ("upgrade", weapon or None)         the weapon upgrade screen opened (for which weapon) or closed
+  ("config", name or None)            the config tab selected on the upgrade screen ("CONFIG A", "Main")
   ("theme", Theme)                    the player's UI theme, when first seen or changed (theme.py)
 
 Rules:
@@ -142,13 +143,19 @@ class Session:
         return []
 
     def _upgrade_event(self):
-        """("upgrade", weapon or None) when the upgrade screen's weapon changes, else nothing."""
-        before = self.upgrade.weapon
+        """("upgrade", weapon or None) when the upgrade screen's weapon changes, and ("config", name) when
+        another config tab is selected on it; else nothing."""
+        before, config_before = self.upgrade.weapon, self.upgrade.config
         if self.results:
             self.upgrade.clear()
         else:
             self.upgrade.update(self.img, self.lines, self.ocr, self.analyzer.gamedata)
-        return [("upgrade", self.upgrade.weapon)] if self.upgrade.weapon != before else []
+        events = []
+        if self.upgrade.config != config_before:
+            events.append(("config", self.upgrade.config))
+        if self.upgrade.weapon != before:
+            events.append(("upgrade", self.upgrade.weapon))
+        return events
 
     # -- each frame ----------------------------------------------------------------------------
     def step(self, frame, now=None):

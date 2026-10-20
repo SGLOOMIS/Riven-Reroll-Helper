@@ -141,10 +141,10 @@ def plan_riven_screen(analyzer, results, W, H, cfg, geometries=None, theme=None)
     return list(zip(images, spots)), ideal
 
 
-def plan_upgrade_screen(analyzer, weapon_name, W, H, cfg, theme=None):
+def plan_upgrade_screen(analyzer, weapon_name, W, H, cfg, theme=None, config=None):
     """The IDEAL RIVEN panel for a weapon's upgrade screen, fitted into UPGRADE_AREA: the largest text
     that fits, with the negatives on one line or wrapped two or one per line. (image, (x, y)) or None."""
-    if not upgrade_rows(analyzer, weapon_name):
+    if not upgrade_rows(analyzer, weapon_name, config=config):
         return None
     weapon = analyzer.gamedata.weapon_by_base_name(weapon_name)
     fx, fy, fw, fh = UPGRADE_AREA["melee" if weapon and weapon.cls == "melee" else "gun"]
@@ -153,14 +153,15 @@ def plan_upgrade_screen(analyzer, weapon_name, W, H, cfg, theme=None):
     image = None
     for shrink in (1.0, 0.92, 0.85, 0.78, 0.72, 0.66, 0.6):
         for per_line in (3, 2, 1):
-            image = render_panel(upgrade_rows(analyzer, weapon_name, per_line), scale * shrink, cfg["font_size"],
+            image = render_panel(upgrade_rows(analyzer, weapon_name, per_line, config), scale * shrink,
+                                 cfg["font_size"],
                                  min_width=aw * 0.9 - 14 * scale * shrink, palette=palette(theme))
             if image.width <= aw + 2 and image.height <= ah + 2:
                 return image, (int(ax + aw - image.width), int(ay))
     return image, (int(ax + aw - image.width), int(ay))
 
 
-def render_to_image(img, analyzer, results, cfg, upgrade_weapon=None, theme=None):
+def render_to_image(img, analyzer, results, cfg, upgrade_weapon=None, theme=None, config=None):
     """A screenshot with the overlay's panels pasted on (F10 snapshots, --image --out), in theme's
     colours (by default the theme read off the screenshot itself)."""
     theme = theme or detect_theme(img)
@@ -168,7 +169,8 @@ def render_to_image(img, analyzer, results, cfg, upgrade_weapon=None, theme=None
     cards, ideal = plan_riven_screen(analyzer, results, img.width, img.height, cfg, theme=theme)
     panels = cards + ([ideal] if ideal else [])
     if upgrade_weapon and not results:
-        panels += [p for p in [plan_upgrade_screen(analyzer, upgrade_weapon, img.width, img.height, cfg, theme)] if p]
+        plan = plan_upgrade_screen(analyzer, upgrade_weapon, img.width, img.height, cfg, theme, config)
+        panels += [plan] if plan else []
     for panel, (x, y) in panels:
         out.alpha_composite(panel, (int(x), int(y)))
     return out.convert("RGB")

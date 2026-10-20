@@ -95,6 +95,45 @@ class TestUpgradeScreen(unittest.TestCase):
             self.assertTrue(320 <= y and y + panel.height <= 615, fixture)
 
 
+class TestConfigTab(unittest.TestCase):
+    """IDEAL RIVEN shows the roll named like the selected config tab ("Main", "CONFIG A"), if there is one."""
+
+    def test_selected_tab_read(self):
+        from PIL import Image
+
+        from riven_helper.upgrade_screen import selected_config
+        ocr = windows_ocr(self)
+        for fixture, tab in (("upgrade_gold_theme_epitaph_prime.jpg", "Main"),       # config A, renamed
+                             ("upgrade_spectra_vandal.jpg", "CONFIG A"), ("upgrade_melee_praedos.jpg", "CONFIG A")):
+            img = Image.open(FIXTURES / "img" / fixture).convert("RGB")
+            self.assertEqual(selected_config(img, ocr.read(img, 1.5)), tab, fixture)
+
+    def test_roll_named_like_the_config(self):
+        from riven_helper.panel_text import rows_text, upgrade_rows
+        from tests.helpers import roll_library
+        an = analyzer()
+        an.library = roll_library(
+            {"weapons": {"Epitaph Prime": [{"label": "crit", "positives": ["Critical Damage", "Multishot"]},
+                                           {"label": "Main", "positives": ["Status Chance", "Toxin"]}]}},
+            {"fallback": True, "weapons": {"*pistol": {"label": "config b", "positives": ["Zoom", "Impact"]}}})
+        text = lambda config: rows_text(upgrade_rows(an, "epitaph prime", config=config))
+        self.assertIn("Status Chance", text("MAIN"))              # case and spacing don't matter
+        self.assertIn("Main  (config)", text("Main"))
+        self.assertIn("Zoom", text("CONFIG B"))                   # found in any tier, even a fallback file
+        self.assertIn("Critical Damage", text("CONFIG C"))        # no roll named so: the first roll, as before
+        self.assertNotIn("(config)", text("CONFIG C"))
+        self.assertIn("Critical Damage", text(None))
+
+    def test_session_reports_the_tab(self):
+        import cv2
+
+        from riven_helper.session import Session
+        session = Session(analyzer(), windows_ocr(self))
+        events, _ = session.step(cv2.imread(str(FIXTURES / "img" / "upgrade_gold_theme_epitaph_prime.jpg")), now=0.0)
+        self.assertIn(("config", "Main"), events)
+        self.assertIn(("upgrade", "epitaph prime"), events)
+
+
 class TestWindowsOcr(unittest.TestCase):
     """Riven screens end to end through Windows OCR."""
 

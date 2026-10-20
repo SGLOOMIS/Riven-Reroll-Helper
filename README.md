@@ -56,7 +56,9 @@ language > Language & region > your language > Language options*.
 - **Far left, IDEAL ROLL:** the best roll for the weapon being rerolled, with the highest value each stat
   can reach on it (assuming 3 positives + 1 negative) and the negatives that roll accepts.
 - **Weapon upgrade screen, IDEAL RIVEN:** a compact panel below the arcane slot with the weapon's best
-  stats and their maximum values on a maxed riven. The weapon's name is read from the screen's header,
+  stats and their maximum values on a maxed riven. It shows the roll whose `label` matches the selected
+  config tab ("CONFIG A", or the name you gave it, like "Main"; case doesn't matter), so a roll labelled
+  "Main" is shown while that config is open. Without a matching roll it shows the weapon's first roll. The weapon's name is read from the screen's header,
   which works with every Warframe UI theme, light or dark.
 
 The panels take on your UI theme's colours, read from the screen's header ("INVENTORY/MODS",

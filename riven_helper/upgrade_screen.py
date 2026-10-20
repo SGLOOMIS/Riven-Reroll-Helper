@@ -27,6 +27,37 @@ CONFIG_RE = re.compile(r"\bCONFIG\s*[ABC]\b", re.I)
 HEADER_AREA = (0.097, 0.025, 0.62, 0.095)        # the header text, as fractions of the window (x0, y0, x1, y1)
 
 
+COUNT_RE = re.compile(r"^\W*\d+\s*/\s*\d+\W*$")      # the capacity count beside CAPACITY ("3/60")
+
+
+def selected_config(img, lines):
+    """The name of the selected config tab ("CONFIG A", or a name the player gave it, like "Main"), or None.
+
+    The tabs sit in a row with the "CONFIG B" / "CONFIG C" labels; the selected one has a bar under
+    its name. That bar is found as pixels standing out from the strip just below each name.
+    """
+    from .parse import _segments
+    labels = [s for s in _segments(lines) if CONFIG_RE.search(s.text)]
+    if not labels:
+        return None
+    y = float(np.median([s.y for s in labels]))
+    h = float(np.median([s.h for s in labels]))
+    tabs = [s for s in _segments(lines) if abs(s.y - y) < 0.8 * h
+            and not CAPACITY_RE.search(s.text) and not COUNT_RE.match(s.text)]
+    rgb = np.asarray(img.convert("RGB")).astype(np.int16)
+    scores = []
+    for tab in tabs:
+        strip = rgb[int(tab.bottom + 2):int(tab.bottom + 0.9 * h), int(tab.x):int(tab.x + tab.w)]
+        if not strip.size:
+            continue
+        background = np.median(strip.reshape(-1, 3), axis=0)
+        scores.append((float(np.mean(np.abs(strip - background).max(axis=2) > 60)), tab.text.strip()))
+    scores.sort(reverse=True)
+    if not scores or scores[0][0] < 0.08 or (len(scores) > 1 and scores[1][0] > scores[0][0] / 2):
+        return None
+    return scores[0][1]
+
+
 def _texts(lines):
     return [" ".join(w[0] for w in line) for line in lines]
 
@@ -219,6 +250,7 @@ class UpgradeScreen:
 
     def __init__(self):
         self.weapon = None
+        self.config = None               # the selected config tab's name
         self._fingerprint = None
         self._misses = 0
 
@@ -226,9 +258,10 @@ class UpgradeScreen:
         if not is_upgrade_screen(lines):
             self._misses += 1
             if self._misses >= 2:
-                self.weapon = None
+                self.weapon = self.config = None
             return self.weapon
         self._misses = 0
+        self.config = selected_config(img, lines) or self.config
         fingerprint = _fingerprint(img)
         same = (self._fingerprint is not None and fingerprint is not None
                 and self._fingerprint.shape == fingerprint.shape
@@ -239,4 +272,4 @@ class UpgradeScreen:
         return self.weapon
 
     def clear(self):
-        self.weapon, self._fingerprint, self._misses = None, None, 0
+        self.weapon, self.config, self._fingerprint, self._misses = None, None, None, 0

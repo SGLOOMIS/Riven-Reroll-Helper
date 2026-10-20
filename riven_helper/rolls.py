@@ -210,7 +210,18 @@ class RollLibrary:
         return sorted(g for g, members in self.groups.items() if members & names)
 
     def rolls_for(self, weapon):
-        """The rolls a riven for this weapon is rated against, from the highest-priority source that has any:
+        """The rolls a riven for this weapon is rated against (see _tiers for the order)."""
+        return next((tier for tier in self._tiers(weapon) if tier), [])
+
+    def roll_named(self, weapon, label):
+        """The first roll for this weapon labelled label (ignoring case and spacing), searching every
+        tier in priority order, or None."""
+        wanted = norm(label or "")
+        return next((r for tier in self._tiers(weapon) for r in tier if wanted and norm(r.label) == wanted), None)
+
+    def _tiers(self, weapon):
+        """Every roll that applies to this weapon, as four tiers in priority order; a riven is rated
+        against the first tier that has any:
 
         1. your rolls for the weapon or its riven family (any variant), and for groups it's in
         2. your class fallbacks ("*rifle", "*")
@@ -230,11 +241,8 @@ class RollLibrary:
         for group in self.groups_of(weapon):
             specific += [r for r in self.rolls.get("@" + group, []) if r not in specific]
         fallbacks = self.rolls.get("*" + weapon.cls, []) + self.rolls.get("*", [])
-        for tier in ([r for r in specific if not r.fallback], [r for r in fallbacks if not r.fallback],
-                     [r for r in specific if r.fallback], [r for r in fallbacks if r.fallback]):
-            if tier:
-                return tier
-        return []
+        return [[r for r in specific if not r.fallback], [r for r in fallbacks if not r.fallback],
+                [r for r in specific if r.fallback], [r for r in fallbacks if r.fallback]]
 
 
 def rate(ev, rolls, gamedata, rating=None):

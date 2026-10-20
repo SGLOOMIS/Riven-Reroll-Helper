@@ -111,6 +111,8 @@ class App:
             self.state.on_relayout(payload)
         elif kind == "hold":
             self.state.on_hold()
+        elif kind == "config":
+            self.state.on_config(payload)
         elif kind == "upgrade":
             self.upgrade_weapon = payload
             self.state.on_upgrade(size, payload)
@@ -193,7 +195,9 @@ class App:
         img, lines, results = self.last_read
         img.save(out / f"{stamp}.png")
         (out / f"{stamp}.ocr.json").write_text(json.dumps(lines, indent=1), encoding="utf-8")
-        render_to_image(img, self.analyzer, results, self.cfg, self.upgrade_weapon, self.state.theme)             .save(out / f"{stamp}.annotated.png")
+        annotated = render_to_image(img, self.analyzer, results, self.cfg, self.upgrade_weapon, self.state.theme,
+                                    self.state.upgrade_config)
+        annotated.save(out / f"{stamp}.annotated.png")
         return out / f"{stamp}.png"
 
     def run(self):

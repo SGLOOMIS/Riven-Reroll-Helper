@@ -86,6 +86,9 @@ def main():
                     state.on_hold()
                     print(f"{t:6.2f}s  read #{session.reads} not trusted yet, reading again   [{spent * 1000:.0f} ms]",
                           flush=True)
+                elif kind == "config":
+                    state.on_config(payload)
+                    print(f"{t:6.2f}s  config: {payload}", flush=True)
                 elif kind == "upgrade":
                     state.on_upgrade((W, H), payload)
                     print(f"{t:6.2f}s  upgrade screen: {payload or 'left'}", flush=True)

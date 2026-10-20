@@ -40,6 +40,7 @@ class OverlayState:
         self.visible = True             # F8 toggles this
         self.theme = None               # the UI theme the panels are drawn in (None: the default)
         self.upgrade_weapon = None
+        self.upgrade_config = None      # the selected config tab: picks the roll shown (panel_text.upgrade_rows)
         self._tracks = []
 
     def on_results(self, size, results):
@@ -84,12 +85,21 @@ class OverlayState:
     def on_upgrade(self, size, weapon_name):
         """The weapon upgrade screen opened for weapon_name, or closed (None)."""
         self.size, self.upgrade_weapon = size, weapon_name
-        plan = (plan_upgrade_screen(self.analyzer, weapon_name, size[0], size[1], self.cfg, self.theme)
-                if weapon_name else None)
+        plan = (plan_upgrade_screen(self.analyzer, weapon_name, size[0], size[1], self.cfg, self.theme,
+                                    self.upgrade_config) if weapon_name else None)
         if plan:
             self.upgrade = Panel(plan[0], *plan[1], alpha=self.upgrade.alpha if self.upgrade else 0)
         elif self.upgrade:
             self.upgrade.wanted = False
+
+    def on_config(self, name):
+        """Another config tab was selected on the upgrade screen: show the roll for it."""
+        self.upgrade_config = name
+        if self.upgrade_weapon and self.size:
+            plan = plan_upgrade_screen(self.analyzer, self.upgrade_weapon, self.size[0], self.size[1], self.cfg,
+                                       self.theme, name)
+            if plan and self.upgrade:
+                self.upgrade.image, (self.upgrade.x, self.upgrade.y) = plan[0], plan[1]
 
     def on_theme(self, theme):
         """The player's UI theme was read (or changed): draw the panels showing now in its colours,
@@ -105,7 +115,8 @@ class OverlayState:
             if ideal and self.ideal:
                 self.ideal.image = ideal[0]
         if self.upgrade_weapon and self.upgrade:
-            plan = plan_upgrade_screen(self.analyzer, self.upgrade_weapon, self.size[0], self.size[1], self.cfg, theme)
+            plan = plan_upgrade_screen(self.analyzer, self.upgrade_weapon, self.size[0], self.size[1], self.cfg, theme,
+                                       self.upgrade_config)
             if plan:
                 self.upgrade.image = plan[0]
 

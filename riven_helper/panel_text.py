@@ -127,17 +127,22 @@ def ideal_rows(analyzer, results):
     return rows
 
 
-def upgrade_rows(analyzer, weapon_name, per_line=3):
+def upgrade_rows(analyzer, weapon_name, per_line=3, config=None):
     """The compact IDEAL RIVEN for a weapon's upgrade screen: the top 3 stats at their maximum on a
-    maxed riven for exactly this weapon, and its harmless negatives (per_line to a row)."""
+    maxed riven for exactly this weapon, and its harmless negatives (per_line to a row).
+
+    The roll shown is the one labelled like the selected config tab (config), if there is one;
+    otherwise the weapon's first roll."""
     weapon = analyzer.gamedata.weapon_by_base_name(weapon_name)
     if weapon is None:
         return None
-    rolls = analyzer.library.rolls_for(weapon)
+    named = analyzer.library.roll_named(weapon, config) if config else None
+    rolls = [named] if named else analyzer.library.rolls_for(weapon)
     if not rolls:
         return [("title", "IDEAL RIVEN"), ("meta", f"no rolls listed for {weapon.family}")]
     roll, rank = rolls[0], 8
-    rows = [("title", "IDEAL RIVEN"), ("meta", f"{weapon.name}  R{rank}  dispo {weapon.disposition:g}")]
+    rows = [("title", "IDEAL RIVEN")] + ([("label", f"{roll.label}  (config)")] if named else [])
+    rows.append(("meta", f"{weapon.name}  R{rank}  dispo {weapon.disposition:g}"))
     rows += [("stat", "+", display_name(stat, weapon), value, "good")
              for stat, value in _best_stats(analyzer, roll, weapon, rank, 3)]
     names = [display_name(n, weapon) for n in roll.negatives[:3]]

@@ -39,7 +39,7 @@ def rate_screenshot(analyzer, cfg, path, out=None):
 
     from .capture import Ocr
     from .theme import detect as detect_theme
-    from .upgrade_screen import detect_weapon
+    from .upgrade_screen import detect_weapon, selected_config
     img = Image.open(path).convert("RGB")
     ocr = Ocr()
     results, lines = analyzer.analyze_image(img, ocr)
@@ -55,12 +55,13 @@ def rate_screenshot(analyzer, cfg, path, out=None):
         for line in rows_text(card_rows(analyzer, res, best)).splitlines():
             print("   ", line)
     upgrade = None if results else detect_weapon(img, lines, ocr, analyzer.gamedata)
+    config = selected_config(img, lines) if upgrade else None
     if upgrade:
-        print(f"Upgrade screen for {upgrade}:")
-        for line in rows_text(upgrade_rows(analyzer, upgrade)).splitlines():
+        print(f"Upgrade screen for {upgrade}, config tab: {config or '(not found)'}")
+        for line in rows_text(upgrade_rows(analyzer, upgrade, config=config)).splitlines():
             print("   ", line)
     if out:
-        render_to_image(img, analyzer, results, cfg, upgrade, theme).save(out)
+        render_to_image(img, analyzer, results, cfg, upgrade, theme, config).save(out)
         print(f"Annotated image written to {out}")
 
 
