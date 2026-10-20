@@ -32,6 +32,7 @@ VALUE_RE = re.compile(
     r"[^A-Za-z]*"                                       # an element icon between number and name: "+41.9% *Cold"
     r"(?P<name>[A-Za-z].*)$")
 PERCENT_MISREAD_RE = re.compile(r"(\d)\s*[0oO°]\s*/\s*[0oO°]")   # "%" read as "0/0": "41.90/0" -> "41.9%"
+MULTIPLIER_MISREAD_RE = re.compile(r"^(\W*[xX×])\s*[lI|1]\s*[.,]\s*(?=\d)")  # "xl .32" / "x1 .32" -> "x1.32"
 FOOTER_RE = re.compile(r"^\W*MR\s*\d+", re.I)                     # "MR 12" at the bottom of a card
 FITS_IN_RE = re.compile(r"fits\s*in", re.I)
 # Labels only the riven and cycle screens have (the inventory grid has none of these).
@@ -74,7 +75,8 @@ class Card:
 
 
 def match_value(text):
-    return VALUE_RE.match(PERCENT_MISREAD_RE.sub(lambda m: m.group(1) + "%", text.strip()))
+    text = PERCENT_MISREAD_RE.sub(lambda m: m.group(1) + "%", text.strip())
+    return VALUE_RE.match(MULTIPLIER_MISREAD_RE.sub(lambda m: m.group(1) + "1.", text))
 
 
 def parse_stat(text, gamedata):

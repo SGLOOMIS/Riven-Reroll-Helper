@@ -198,8 +198,10 @@ disposition.
 
 ## Testing
 
-- **Nothing shows up:** press F10 on the cycle screen, then look at `debug/*.annotated.png` and
-  `*.ocr.json` to see what was read.
+- **Nothing shows up, or only sometimes:** check the console window. It says which OCR language is in
+  use (English is best, since the game's text is English) and whether the game is being watched or
+  paused because it isn't the active window. Then press F10 on the cycle screen and look at
+  `debug/*.annotated.png` and `*.ocr.json` to see what was read.
 - **Rate a screenshot** without the game:
 
 ```bash

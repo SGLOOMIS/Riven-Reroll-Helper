@@ -21,8 +21,9 @@ except Exception:
 _MSS = getattr(mss, "MSS", None) or mss.mss
 
 
-def game_area(window_title):
-    """(left, top, width, height) of the screen area to watch, or None when there's nothing to watch.
+def find_game(window_title):
+    """(area, status): the (left, top, width, height) to watch, or None when there's nothing to watch,
+    and a sentence for the console saying which.
 
     With a window title: that window's client area, while it's open, not minimised and in front.
     With None: the whole primary monitor.
@@ -30,15 +31,22 @@ def game_area(window_title):
     if not window_title:
         with _MSS() as sct:
             m = sct.monitors[1]
-            return m["left"], m["top"], m["width"], m["height"]
+            area = m["left"], m["top"], m["width"], m["height"]
+        return area, f"watching the primary monitor, {area[2]}x{area[3]}"
     hwnd = user32.FindWindowW(None, window_title)
-    if not hwnd or user32.IsIconic(hwnd) or user32.GetForegroundWindow() != hwnd:
-        return None
+    if not hwnd:
+        return None, f'no window titled "{window_title}" (is the game running?)'
+    if user32.IsIconic(hwnd):
+        return None, f"{window_title} is minimised"
+    if user32.GetForegroundWindow() != hwnd:
+        return None, f"paused: {window_title} isn't the active window (click into the game)"
     rect, corner = wt.RECT(), wt.POINT(0, 0)
     user32.GetClientRect(hwnd, ctypes.byref(rect))
     user32.ClientToScreen(hwnd, ctypes.byref(corner))
     w, h = rect.right - rect.left, rect.bottom - rect.top
-    return (corner.x, corner.y, w, h) if w >= 200 and h >= 200 else None
+    if w < 200 or h < 200:
+        return None, f"{window_title}'s window is too small ({w}x{h})"
+    return (corner.x, corner.y, w, h), f"watching {window_title}: {w}x{h} at ({corner.x}, {corner.y})"
 
 
 class Screen:
@@ -55,14 +63,19 @@ class Screen:
 
 
 class Ocr:
-    """Windows' built-in text recognition (the language set in Windows)."""
+    """Windows' built-in text recognition: English when installed (the game's text is English),
+    otherwise the language set in Windows."""
 
     def __init__(self):
+        from winrt.windows.globalization import Language
         from winrt.windows.media.ocr import OcrEngine
-        self.engine = OcrEngine.try_create_from_user_profile_languages()
+        english = [lang for lang in OcrEngine.available_recognizer_languages if lang.language_tag.startswith("en")]
+        self.engine = (OcrEngine.try_create_from_language(Language(english[0].language_tag)) if english
+                       else OcrEngine.try_create_from_user_profile_languages())
         if self.engine is None:
             raise RuntimeError("Windows OCR is not available. Install an OCR language pack: Settings > "
                                "Time & language > Language & region > your language > Language options.")
+        self.language = self.engine.recognizer_language.language_tag
         self.max_size = OcrEngine.max_image_dimension
         self.loop = asyncio.new_event_loop()
 

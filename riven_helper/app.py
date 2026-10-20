@@ -57,9 +57,15 @@ class App:
 
     # -- worker thread: screenshots and the session -----------------------------------------
     def worker(self):
-        from .capture import Ocr, Screen, game_area
+        from .capture import Ocr, Screen, find_game
         from .session import Session
-        session, screen = Session(self.analyzer, Ocr()), Screen()
+        ocr = Ocr()
+        print(f"OCR language: {ocr.language}", flush=True)
+        if not ocr.language.startswith("en"):
+            print("WARNING: no English OCR installed; add English in Windows' language settings "
+                  "(Settings > Time & language > Language & region) for reliable reads.", flush=True)
+        session, screen = Session(self.analyzer, ocr), Screen()
+        status = None
         while self.running:
             started, wait = time.time(), 1.0
             try:
@@ -69,7 +75,10 @@ class App:
                         self.events.put(("reloaded", None, None))
                     self.rescan.clear()
                     session.reset()
-                area = game_area(self.cfg["window_title"])
+                area, now_status = find_game(self.cfg["window_title"])
+                if now_status != status:              # say what's going on, once per change
+                    print(now_status, flush=True)
+                    status = now_status
                 if area is None:                 # not open, minimised, or not in front
                     self.events.put(("hide", None, None))
                     session.reset()

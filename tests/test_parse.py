@@ -90,6 +90,14 @@ class TestRealScreens(unittest.TestCase):
         self.assertEqual((res.ev.weapon.name, res.ev.rank), ("Velox Prime", 8))
         self.assertTrue(res.ev.consistent)
 
+    def test_split_multiplier_at_1440p(self):
+        # From a 2560x1440 system: "x1.32 Damage to Grineer" OCR'd as two words, "xl" ".32".
+        (res,) = analyzer().analyze_lines(saved_ocr("ocr_cedo_split_multiplier.json"), 2560)
+        self.assertEqual([(s.name, round(s.magnitude, 3)) for s in res.ev.stats],
+                         [("Ammo Maximum", 0.555), ("Damage to Grineer", 0.32), ("Projectile Speed", 0.249)])
+        self.assertEqual((res.ev.weapon.name, res.ev.rank), ("Cedo Prime", 8))
+        self.assertTrue(res.ev.consistent)
+
     def test_cycle_screen_same_riven_both_states(self):
         # Carousel: the selected card is large, the other small and dimmed. The same two rivens
         # must read the same whichever one is selected (wrapped "Damage" claimed, "9.3s" kept).
