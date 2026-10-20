@@ -117,6 +117,19 @@ class TestTheme(unittest.TestCase):
         self.assertLess(max(over_art.background), 60)
         self.assertTrue(near(over_art.primary, (253, 132, 2)))
 
+    def test_background_is_the_buttons_fill(self):
+        # The panels' background is the LOCK TRAIT / CONFIRM button's fill, read around its label.
+        from PIL import Image
+
+        from riven_helper.theme import button_colour, detect
+        img = Image.open(FIXTURES / "img" / "riven_locked_amprex.jpg").convert("RGB")
+        lines = saved_ocr("ocr_amprex_locked.json")
+        fill = button_colour(img, lines)
+        self.assertTrue(max(abs(a - b) for a, b in zip(fill, (17, 25, 35))) <= 6, fill)
+        self.assertEqual(detect(img, lines).background, fill)
+        self.assertIsNone(button_colour(img, []))                    # no button on screen
+        self.assertEqual(detect(img, [], button=(1, 2, 3)).background, (1, 2, 3))   # one seen before
+
     def test_palette_stays_readable(self):
         from riven_helper.theme import _luminance, detect, palette
         from tests.theme_headers import theme_frames

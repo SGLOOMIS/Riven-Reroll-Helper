@@ -98,6 +98,17 @@ class TestRealScreens(unittest.TestCase):
         self.assertEqual((res.ev.weapon.name, res.ev.rank), ("Cedo Prime", 8))
         self.assertTrue(res.ev.consistent)
 
+    def test_locked_traits_list_is_not_a_card(self):
+        # A spliced Blast and a locked Critical Chance: the riven screen lists both above LOCK TRAIT
+        # ("O +119.6% *Blast", "O +173.5% Critical Chance"), which must not become a second card. On the card,
+        # OCR split "+115.4% Cold" as "+1 15.4%".
+        (res,) = self.analyze("ocr_torid_locked_list.json")
+        self.assertEqual([(s.name, round(s.magnitude, 3)) for s in res.ev.stats],
+                         [("Critical Chance", 1.735), ("Blast", 1.197), ("Cold", 1.154), ("Weapon Recoil", 0.927)])
+        self.assertEqual((res.ev.weapon.name, res.ev.rank), ("Torid", 8))
+        self.assertTrue(res.ev.consistent)
+        self.assertAlmostEqual(parse_stat("-81 .7% Projectile Speed", G).magnitude, 0.817)
+
     def test_cycle_screen_same_riven_both_states(self):
         # Carousel: the selected card is large, the other small and dimmed. The same two rivens
         # must read the same whichever one is selected (wrapped "Damage" claimed, "9.3s" kept).

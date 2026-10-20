@@ -1,10 +1,13 @@
 """What each panel says, as rows for style.render_panel (see style.py for the row types).
 
-  card_rows     the panel above a riven card: rating, stats, and how the negative counts
+  card_rows     the panel above a riven card: rating, stats, how the negative counts, and the next step
   ideal_rows    IDEAL ROLL on the riven screens: the best stats for this weapon, with maximum values
   upgrade_rows  the compact IDEAL RIVEN on a weapon's upgrade screen
 """
 
+import textwrap
+
+from .advice import next_step, progress, spliced_stats
 from .riven_math import format_value, max_value
 
 MARK = {"good": "+", "ok": "~", "unwanted": "x", "harmless": "+", "neutral": "=", "bad": "x", "dealbreaker": "!"}
@@ -38,12 +41,19 @@ def card_rows(analyzer, result, best=False):
     if ev is None:
         return [("score", "?", "bad", False), ("label", r.detail)]
     label = roll_label(analyzer, r.roll) if r.roll else r.detail
-    rows = [("score", f"{r.score:.0f}%", grade(r.score), best)] + ([("label", label)] if label else []) + [("rule",)]
+    rows = [("score", f"{r.score:.0f}%", grade(r.score), best)] + ([("label", label)] if label else [])
+    if best:
+        why = progress(result, analyzer)[1]
+        if why:                                   # better than its rating says: it's closer to the ideal roll
+            rows += [("note", line, "warn") for line in textwrap.wrap(f"closer to the ideal: {why}", 44)]
+    rows.append(("rule",))
 
+    spliced = spliced_stats()
     for st in ev.positives:
         tag = r.tags.get(st.name, "unwanted")
         flag = {"bad": "  BAD", "dealbreaker": "  DEALBREAKER"}.get(tag, "")
-        rows.append(("stat", MARK[tag], display_name(st.name, ev.weapon), f"{st.quality * 100:.0f}%{flag}", tag))
+        held = "spliced  " if st.name in spliced else "locked  " if st.locked else ""
+        rows.append(("stat", MARK[tag], display_name(st.name, ev.weapon), f"{held}{st.quality * 100:.0f}%{flag}", tag))
     neg = ev.negative
     if neg is None:
         rows.append(("stat", " ", "no negative", "", "neutral"))
@@ -57,6 +67,11 @@ def card_rows(analyzer, result, best=False):
     if r.missing:
         rows.append(("note", "missing " + ", ".join(r.missing), "warn"))
     rows += [("note", n, "warn") for n in ev.notes + result.card.problems]
+    step = next_step(result, analyzer.gamedata)
+    if step:
+        action, why = step
+        rows += [("rule",)] + [("note", line, "next") for line in textwrap.wrap(f"NEXT: {action}", 34)]
+        rows += [("meta", line) for line in textwrap.wrap(why, 48)]
 
     rows += [("rule",), ("meta", f"{ev.weapon.name}  R{ev.rank}  dispo {ev.weapon.disposition:g}")]
     others = [w for w in analyzer.gamedata.family_members(ev.weapon.family)

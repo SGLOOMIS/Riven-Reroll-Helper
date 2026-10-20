@@ -9,6 +9,7 @@ live overlay, F10 snapshots and video replays, so all three show exactly the sam
   IDEAL RIVEN   on the upgrade screen, in the empty area by the arcane slot (see UPGRADE_AREA)
 """
 
+from .advice import progress
 from .panel_text import card_rows, ideal_rows, upgrade_rows
 from .style import render_panel
 from .theme import detect as detect_theme
@@ -109,10 +110,11 @@ def place_card_panels(items, W, H, avoid=()):
     return [(int(s[0]), int(s[1])) for s in spots]
 
 
-def best_flags(results):
-    """Which card gets the BETTER badge (only when one scores strictly higher)."""
-    scores = [r.rating.score if r.ev else -1 for r in results]
-    if len(scores) < 2 or max(scores) <= 0 or scores.count(max(scores)) > 1:
+def best_flags(results, analyzer):
+    """Which card gets the BETTER badge: the one further towards the ideal roll (advice.progress),
+    only when one is strictly further."""
+    scores = [progress(r, analyzer)[0] if r.ev else (-1,) for r in results]
+    if len(scores) < 2 or max(scores) <= (0, 0.0, 0.0) or scores.count(max(scores)) > 1:
         return [False] * len(scores)
     return [s == max(scores) for s in scores]
 
@@ -133,7 +135,7 @@ def plan_riven_screen(analyzer, results, W, H, cfg, geometries=None, theme=None)
         ideal = (image, at)
         avoid.append((*at, image.width, image.height))
     images = [render_panel(card_rows(analyzer, r, best), scale, base, highlight=best, palette=colours)
-              for r, best in zip(results, best_flags(results))]
+              for r, best in zip(results, best_flags(results, analyzer))]
     geometries = geometries or [r.card.geometry for r in results]
     spots = place_card_panels([(g, im.size) for g, im in zip(geometries, images)], W, H, avoid)
     return list(zip(images, spots)), ideal

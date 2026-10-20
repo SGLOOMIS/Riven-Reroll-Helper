@@ -1,0 +1,27 @@
+{
+  "_source": "Riven Splicing combinations, from https://wiki.warframe.com/w/Riven_Mods#Splicing (table 'By Weapon Type'). Two traits on the same riven combine into the spliced trait, which keeps the higher of their two rolls, is always positive and stays locked; a random trait takes the freed slot. Only one spliced trait per riven.",
+  "splices": [
+    {"traits": ["Magazine Capacity", "Reload Speed"], "result": "Ammo Efficiency", "classes": ["rifle", "shotgun", "pistol", "archgun"]},
+    {"traits": ["Weapon Recoil", "Ammo Maximum"], "result": "Ammo Efficiency", "classes": ["rifle", "shotgun", "pistol", "archgun"]},
+    {"traits": ["Heat", "Cold"], "result": "Blast", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Toxin", "Electricity"], "result": "Corrosive", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Damage to Grineer", "Damage to Corpus"], "result": "Damage to Orokin", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Damage to Infested", "Damage to Grineer"], "result": "Damage to Scaldra", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Damage to Corpus", "Damage to Infested"], "result": "Damage to Techrot", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Toxin", "Heat"], "result": "Gas", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Heavy Attack Efficiency", "Combo Duration"], "result": "Heavy Attack Wind Up Speed", "classes": ["melee"]},
+    {"traits": ["Electricity", "Cold"], "result": "Magnetic", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Heavy Attack Efficiency", "Additional Combo Count Chance"], "result": "Melee Damage on Heavy Attack", "classes": ["melee"]},
+    {"traits": ["Fire Rate", "Range"], "result": "Parry Angle", "classes": ["melee"]},
+    {"traits": ["Heat", "Electricity"], "result": "Radiation", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Ammo Maximum", "Reload Speed"], "result": "Reload While Holstered", "classes": ["rifle", "shotgun", "pistol"]},
+    {"traits": ["Ammo Maximum", "Magazine Capacity"], "result": "Reload While Holstered", "classes": ["rifle", "shotgun", "pistol"]},
+    {"traits": ["Damage", "Fire Rate"], "result": "Slam Attack Damage", "classes": ["melee"]},
+    {"traits": ["Damage", "Status Chance"], "result": "Status Damage", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Toxin", "Cold"], "result": "Viral", "classes": ["rifle", "shotgun", "pistol", "archgun", "melee"]},
+    {"traits": ["Critical Chance", "Zoom"], "result": "Weak Point Critical Chance", "classes": ["rifle", "shotgun", "pistol", "archgun"]},
+    {"traits": ["Critical Chance", "Multishot"], "result": "Weak Point Critical Chance", "classes": ["rifle", "shotgun", "pistol", "archgun"]},
+    {"traits": ["Damage", "Zoom"], "result": "Weak Point Damage", "classes": ["rifle", "shotgun", "pistol", "archgun"]},
+    {"traits": ["Damage", "Multishot"], "result": "Weak Point Damage", "classes": ["rifle", "shotgun", "pistol", "archgun"]}
+  ]
+}

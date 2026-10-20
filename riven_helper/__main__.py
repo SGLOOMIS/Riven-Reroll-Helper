@@ -43,12 +43,12 @@ def rate_screenshot(analyzer, cfg, path, out=None):
     img = Image.open(path).convert("RGB")
     ocr = Ocr()
     results, lines = analyzer.analyze_image(img, ocr)
-    theme = detect_theme(img)
+    theme = detect_theme(img, lines)
     if theme:
         print(f"UI theme: {theme.primary} / {theme.accent} on {theme.background}")
     if not results:
         print("No riven cards found.")
-    for i, (res, best) in enumerate(zip(results, best_flags(results))):
+    for i, (res, best) in enumerate(zip(results, best_flags(results, analyzer))):
         print(f"--- card {i + 1}{'  << BETTER' if best else ''}  (box {tuple(int(v) for v in res.card.box)})")
         for st in res.card.stats:
             print(f"    read: {st.text!r} -> {st.name} {'NEG' if st.is_negative else 'POS'} {st.magnitude:.4f}")

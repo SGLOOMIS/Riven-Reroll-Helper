@@ -18,6 +18,7 @@ Rules:
       - a lone card moves (the cycle animation starting) -> read once it settles;
       - the cycle screen's two cards slide but are still found (switching between the old and
         new riven) -> no read; once they stop, re-lay out the panels.
+  * A stat locked or unlocked on the riven screen (LOCK_AREA changes) -> read again.
   * A reading is only shown once trustworthy (see _trust).
 """
 
@@ -28,6 +29,7 @@ import numpy as np
 from PIL import Image
 
 from .tracker import CardTracker, to_gray_small
+from .theme import button_colour
 from .theme import detect as detect_theme
 from .upgrade_screen import UpgradeScreen
 
@@ -42,6 +44,10 @@ DIMMED = 0.5                 # card text darker than this share of normal: a dia
 CONFIRM_AFTER = 0.6          # s before re-reading to confirm a reading
 MAX_CONFIRMS = 3
 RIVEN_SCREEN_GRACE = 5.0     # s the riven screen's labels may be hidden (dialog, animation) and still count
+# The riven screen shows the locked trait above LOCK TRAIT ("[lock] +89.4% Critical Damage  x"). Locking or
+# unlocking only adds or removes a small icon on the card, so a change here is what triggers a new read.
+LOCK_AREA = (0.05, 0.765, 0.22, 0.815)      # x0, y0, x1, y1 as fractions of the window
+LOCK_CHANGE = 12.0           # mean pixel difference (0-255) in LOCK_AREA that counts as a lock change
 
 
 def to_image(frame):
@@ -58,10 +64,12 @@ class Session:
         self.upgrade = UpgradeScreen()
         self.theme = None                    # the UI theme in use (reported once two reads agree)
         self._theme_seen = None
+        self._button = None                  # the riven screen's button fill, once seen (panel background)
         self.reads = 0                       # OCR passes so far
         self.results = []                    # the cards of the last reading
         self.riven_screen_seen = -1e9        # when the riven screen's labels were last read
         self.img, self.lines = None, []      # the last frame read, and its OCR lines
+        self.lock_area = None                # LOCK_AREA at the last read
         self.reset()
 
     def reset(self):
@@ -86,6 +94,7 @@ class Session:
         results, lines = self.analyzer.analyze_image(img, self.ocr)
         self.reads += 1
         self.lines, self.img = lines, img
+        self.lock_area = self._lock_area(to_gray_small(frame))
         # Only the riven and cycle screens count, not a riven selected in the inventory grid.
         if any(r.card.riven_screen for r in results):
             self.riven_screen_seen = now
@@ -123,7 +132,8 @@ class Session:
 
     def _theme_event(self):
         """("theme", Theme) when the last two reads agree on a theme other than the current one."""
-        seen = detect_theme(self.img)
+        self._button = button_colour(self.img, self.lines) or self._button
+        seen = detect_theme(self.img, button=self._button)
         agreed = seen is not None and seen.close_to(self._theme_seen)
         self._theme_seen = seen
         if agreed and not seen.close_to(self.theme):
@@ -150,9 +160,23 @@ class Session:
             return [self._read(frame, now)] + self._upgrade_event() + self._theme_event(), 0.25
         return self._watch(frame, now)
 
+    def _lock_area(self, gray):
+        h, w = gray.shape
+        x0, y0, x1, y1 = LOCK_AREA
+        return gray[int(h * y0):int(h * y1), int(w * x0):int(w * x1)].astype(np.int16)
+
+    def _lock_changed(self, gray):
+        """A stat was locked or unlocked since the last read (only the single-card riven screen has locks)."""
+        if len(self.results) != 1 or self.lock_area is None:
+            return False
+        area = self._lock_area(gray)
+        return area.shape == self.lock_area.shape and float(np.mean(np.abs(area - self.lock_area))) > LOCK_CHANGE
+
     def _watch(self, frame, now):
         gray = to_gray_small(frame)
         tracks = self.tracker.update(gray)
+        if self.confirm_at is None and not self.changed and self._lock_changed(gray):
+            self.confirm_at = now + CONFIRM_AFTER / 2     # read once the lock dialog has gone
         positions = [(t.x, t.y, t.scale) if t and not t.lost else None for t in tracks]
         events = [("track", [(t.x, t.y, t.scale, t.origin) if p and t.dim >= DIMMED else None
                              for t, p in zip(tracks, positions)])]

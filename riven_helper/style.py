@@ -12,7 +12,7 @@ A panel is a list of rows:
     ("title", "IDEAL ROLL")               heading in the game's orange label style
     ("label", text)                       which roll it matched
     ("stat", mark, name, value, tag)      one stat: tag picks the colour
-    ("note", text, kind)                  explanation (kind "warn" or "bad")
+    ("note", text, kind)                  explanation (kind "warn" or "bad"), or the next step ("next")
     ("meta", text)                        weapon / rank / disposition
     ("rule",)                             thin divider
 """
@@ -91,6 +91,8 @@ def _row_height(row, m):
         return round(m.line * 1.5)
     if kind == "rule":
         return round(m.line * 0.5)
+    if kind == "note" and row[2] == "next":
+        return m.line
     if kind in ("meta", "note", "label"):
         return m.small_line
     return m.line
@@ -110,6 +112,8 @@ def _row_width(draw, row, m):
         return draw.textlength(f"{mark}  {name}", font=m.body) + 3 * m.pad + draw.textlength(value, font=m.body)
     if kind == "rule":
         return 0
+    if kind == "note" and row[2] == "next":
+        return draw.textlength(row[1], font=m.body)
     return draw.textlength(row[1], font=m.small)
 
 
@@ -183,7 +187,8 @@ def render_panel(rows, scale=1.0, base=11, highlight=False, min_width=0, palette
                 vcol = p.bad if tag in ("bad", "dealbreaker") else (p.text if tag not in ("unwanted", "neutral") else p.grey)
                 d.text((right - d.textlength(value, font=m.body), y), value, font=m.body, fill=vcol)
         elif kind == "note":
-            d.text((left, y), row[1], font=m.small, fill=p.bad if row[2] == "bad" else p.label)
+            colour = p.bad if row[2] == "bad" else p.label
+            d.text((left, y), row[1], font=m.body if row[2] == "next" else m.small, fill=colour)
         elif kind == "meta":
             d.text((left, y), row[1], font=m.small, fill=p.grey)
         elif kind == "rule":

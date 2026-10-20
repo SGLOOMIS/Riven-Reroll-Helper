@@ -31,6 +31,7 @@ class RivenStat:
     magnitude: float          # size of the value as a fraction: 0.952 for +95.2%, 2.7 for +2.7 Punch Through
     is_negative: bool         # True for the riven's negative (the curse)
     text: str = ""            # the line as OCR read it
+    locked: bool = False      # shown with a lock icon: locked for cycling (or a spliced trait)
 
 
 @dataclass
@@ -41,6 +42,7 @@ class StatResult:
     is_negative: bool
     roll: float               # W, 0.9 .. 1.1
     quality: float            # value / maximum possible value, 0.82 .. 1.0
+    locked: bool = False
 
 
 @dataclass
@@ -107,7 +109,7 @@ def evaluate(stats, weapon, rank, gamedata):
         W = s.magnitude / base
         worst = max(worst, W_MIN - W, W - W_MAX, 0.0)
         quality = min(max(W, W_MIN), W_MAX) / W_MAX
-        results.append(StatResult(s.name, s.magnitude, s.is_negative, W, quality))
+        results.append(StatResult(s.name, s.magnitude, s.is_negative, W, quality, s.locked))
     return RivenEval(weapon, rank, results, consistent=worst == 0.0), worst
 
 

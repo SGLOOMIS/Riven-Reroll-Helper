@@ -1,13 +1,16 @@
 """The player's UI theme, read off the screen, and the panel colours that go with it.
 
 Every menu screen has a header like "INVENTORY/MODS" or "UPGRADES/SPECTRA VANDAL [30]": the first
-part in the theme's main colour, the last part in its accent colour, on the theme's background.
-Those three colours are sampled from the header's letters (upgrade_screen.header_pixels) and turned
-into a Palette for drawing the panels (style.py). Without a readable header (in a mission, or a
-screen without one) nothing is detected and the last theme seen is kept.
+part in the theme's main colour, the last part in its accent colour. Those two are sampled from the
+header's letters (upgrade_screen.header_pixels). The panels' background is the fill of the riven
+screen's buttons (LOCK TRAIT, CONFIRM), sampled around their labels (button_colour); until those
+have been seen, the header bar behind the text stands in. The colours become a Palette for drawing
+the panels (style.py). Without a readable header (in a mission, or a screen without one) nothing is
+detected and the last theme seen is kept.
 """
 
-from dataclasses import dataclass
+import re
+from dataclasses import dataclass, replace
 
 import cv2
 import numpy as np
@@ -19,7 +22,7 @@ from .upgrade_screen import header_pixels
 class Theme:
     primary: tuple       # header text colour: labels and outlines
     accent: tuple        # the header's last word: highlights (the BETTER badge)
-    background: tuple    # the header bar behind the text: panel fill
+    background: tuple    # panel fill: the buttons' fill (or the header bar's, before a button is seen)
 
     def close_to(self, other, tolerance=24):
         return other is not None and all(
@@ -31,8 +34,17 @@ class Theme:
 DEFAULT = Theme(primary=(253, 132, 2), accent=(253, 132, 2), background=(16, 24, 35))
 
 
-def detect(img):
-    """The Theme whose header is on this screenshot (PIL image), or None when there's no header."""
+def detect(img, lines=(), button=None):
+    """The Theme whose header is on this screenshot (PIL image), or None when there's no header.
+
+    Its background is the LOCK TRAIT / CONFIRM button's fill when lines (the frame's OCR) show one,
+    else button (one seen before), else the header bar's."""
+    theme = _from_header(img)
+    fill = button_colour(img, lines) or button
+    return replace(theme, background=fill) if theme and fill else theme
+
+
+def _from_header(img):
     rgb, letters = header_pixels(img)
     count, labels, stats, _ = cv2.connectedComponentsWithStats(letters.astype(np.uint8), connectivity=8)
     glyphs = sorted((x, i) for i, (x, y, w, h, _) in enumerate(stats) if i)
@@ -57,6 +69,28 @@ def detect(img):
         # stands out from its background, so this isn't the theme's. Use a plain one for the text.
         background = DEFAULT.background if _luminance(primary) > 0.45 else (225, 225, 228)
     return Theme(primary, accent, background)
+
+
+BUTTON_LABELS = re.compile(r"LOCK\s*TRAIT|CONFIRM", re.I)
+
+
+def button_colour(img, lines):
+    """The fill of the LOCK TRAIT / CONFIRM button (RGB), sampled just above and below its label, or None.
+
+    lines: the frame's OCR lines (words of (text, x, y, w, h))."""
+    rgb = np.asarray(img.convert("RGB"))
+    for line in lines:
+        if not BUTTON_LABELS.search(" ".join(w[0] for w in line)):
+            continue
+        x0, y0 = min(w[1] for w in line), min(w[2] for w in line)
+        x1, y1 = max(w[1] + w[3] for w in line), max(w[2] + w[4] for w in line)
+        h = y1 - y0
+        strips = [rgb[int(y0 - 0.6 * h):int(y0 - 0.25 * h), int(x0):int(x1)],
+                  rgb[int(y1 + 0.25 * h):int(y1 + 0.6 * h), int(x0):int(x1)]]
+        pixels = np.vstack([s.reshape(-1, 3) for s in strips if s.size])
+        if len(pixels):
+            return tuple(int(c) for c in np.median(pixels, axis=0))
+    return None
 
 
 def _surround(rgb, inside):

@@ -24,17 +24,20 @@ from .riven_math import RivenStat
 # A stat line: optional icon junk, optional "x", sign, number, unit, then the stat name.
 VALUE_RE = re.compile(
     r"^[^\w+\-−–—×%]*"                                  # element icons before the number
-    r"(?:[^\s+\-−–—]{1,2}\s*(?=[+\-−–—~]|[xX×]\s*\d))?"  # an icon read as a letter: "O +224.4%", "0+111.1%"
-    r"(?P<x>[xX×])?\s*"                                 # (the lock icon), "N x 1.26" (on the dimmed card)
+    r"(?P<icon>[^\s+\-−–—]{1,2}\s*(?=[+\-−–—~]|[xX×]\s*\d))?"  # an icon read as a letter: "O +224.4%",
+    r"(?P<x>[xX×])?\s*"                                 # "0+111.1%" (the lock icon), "N x 1.26" (on the dimmed card)
     r"(?P<sign>[+\-−–—~])?\s*"
     r"(?P<num>\d{1,4}(?:[.,]\d{1,3})?)\s*"
     r"(?P<unit>%|s(?=\s)|m(?=\s))?\s*"
     r"[^A-Za-z]*"                                       # an element icon between number and name: "+41.9% *Cold"
     r"(?P<name>[A-Za-z].*)$")
+LOCK_ICON = set("O0oQD@©°")                          # how OCR reads the lock icon of a locked trait
 PERCENT_MISREAD_RE = re.compile(r"(\d)\s*[0oO°]\s*/\s*[0oO°]")   # "%" read as "0/0": "41.90/0" -> "41.9%"
 MULTIPLIER_MISREAD_RE = re.compile(r"^(\W*[xX×])\s*[lI|1]\s*[.,]\s*(?=\d)")  # "xl .32" / "x1 .32" -> "x1.32"
 FOOTER_RE = re.compile(r"^\W*MR\s*\d+", re.I)                     # "MR 12" at the bottom of a card
 FITS_IN_RE = re.compile(r"fits\s*in", re.I)
+LOCK_TRAIT_RE = re.compile(r"lock\s*trait", re.I)
+SPLIT_NUMBER_RE = re.compile(r"(?<=\d)\s+(?=[.,]?\d)|(?<=\d[.,])\s+(?=\d)")   # "+1 15.4%", "-81 .7%"
 # Labels only the riven and cycle screens have (the inventory grid has none of these).
 RIVEN_SCREEN_RE = re.compile(r"fits\s*in|cycle\s*for|confirm|lock\s*trait|show\s*ranked", re.I)
 
@@ -75,7 +78,8 @@ class Card:
 
 
 def match_value(text):
-    text = PERCENT_MISREAD_RE.sub(lambda m: m.group(1) + "%", text.strip())
+    text = SPLIT_NUMBER_RE.sub("", text.strip())
+    text = PERCENT_MISREAD_RE.sub(lambda m: m.group(1) + "%", text)
     return VALUE_RE.match(MULTIPLIER_MISREAD_RE.sub(lambda m: m.group(1) + "1.", text))
 
 
@@ -106,7 +110,8 @@ def parse_stat(text, gamedata):
         return None
     # A minus sign is the negative, except for stats where minus is good (Weapon Recoil).
     is_negative = negative_sign != (sd.good_sign < 0)
-    return RivenStat(name, magnitude, is_negative, text.strip())
+    locked = bool(m.group("icon")) and m.group("icon").strip()[:1] in LOCK_ICON
+    return RivenStat(name, magnitude, is_negative, text.strip(), locked)
 
 
 def _segments(lines, gap_factor=2.2):
@@ -236,10 +241,19 @@ def _fits_in(segments, gamedata, family):
     return None
 
 
+def _locked_list(segment, label):
+    """Is this stat line in the list of locked traits above the LOCK TRAIT label?"""
+    return (0 <= label.y - segment.bottom < 6 * label.h
+            and segment.x < label.x + 2 * label.w and segment.x + segment.w > label.x - label.w)
+
+
 def parse_cards(lines, image_width, gamedata):
     """The riven cards in a frame's OCR lines, left to right."""
     segments = _segments(lines)
     found, used = _stat_lines(segments, gamedata)
+    # The riven screen lists the locked and spliced traits just above LOCK TRAIT: those aren't a card.
+    labels = [s for s in segments if LOCK_TRAIT_RE.search(s.text)]
+    found = [f for f in found if not any(_locked_list(f[0], label) for label in labels)]
     others = [s for i, s in enumerate(segments) if i not in used]
     cards = [_card(block, others, gamedata)
              for block in map(_stat_block, _columns(found, image_width)) if len(block) >= 2]

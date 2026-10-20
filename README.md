@@ -38,6 +38,21 @@ language > Language & region > your language > Language options*.
 
 - **Above each card:** the rating, which roll it matched, how well each stat rolled, how the negative
   counts (harmless, neutral, bad or dealbreaker), and which weapon's numbers the card uses.
+- **NEXT on each card panel:** the next step towards the roll, following how locking and splicing
+  work (see [Trait Locking and Splicing](https://wiki.warframe.com/w/Riven_Mods#Splicing)):
+  1. *Shape first.* A locked stat keeps the riven's shape (how many positives, and whether it has a
+     negative), so while the shape is wrong the step is **Cycle without a lock**. The shape aimed for is
+     the one that holds the most wanted stat value; one within 5% of it is kept.
+  2. *Splice once.* When two stats on the riven splice into a stat the roll wants at least as much as
+     the ones used up, the step is **Splice A + B**. A spliced stat keeps the better of the two rolls,
+     stays locked and fixes the shape. Splicers are rare, so the advice never suggests a second one.
+  3. *One lock.* Otherwise **Lock** the wanted stat that matters most (highest weight, then better
+     roll) and cycle for the rest. A spliced stat doesn't count as the lock.
+  4. *Values last.* Once the stats are right it's **Done**, and a low roll on an unspliced stat is only
+     mentioned.
+
+  Locked and spliced stats are recognised by the lock icon in front of them on the card. The splice
+  combinations are in `riven_helper/data/splices.json`.
 - **Far left, IDEAL ROLL:** the best roll for the weapon being rerolled, with the highest value each stat
   can reach on it (assuming 3 positives + 1 negative) and the negatives that roll accepts.
 - **Weapon upgrade screen, IDEAL RIVEN:** a compact panel below the arcane slot with the weapon's best
@@ -191,6 +206,7 @@ disposition.
 | `gamedata.py` | Stats, weapons, dispositions and riven families |
 | `riven_math.py` | The riven formula: rank, roll and quality of each stat |
 | `rolls.py` | Loads roll files and rates a riven against them |
+| `advice.py` | The NEXT step: cycle, lock, splice or done |
 | `analyze.py` | Screenshot → rated cards, re-reading doubtful ones |
 | `session.py` | Live loop: when to read, card tracking, waiting for the screen to settle |
 | `tracker.py` | Follows cards between reads by image matching |
