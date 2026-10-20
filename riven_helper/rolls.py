@@ -156,6 +156,7 @@ class RollLibrary:
     def reload(self):
         self.warnings = []
         self.rolls, self.groups, self.files = {}, {}, {}
+        self._tier_cache = {}                  # weapon name -> its tiers (see _tiers), until the next reload
         for path in self._paths():
             self.files[str(path)] = path.stat().st_mtime
             try:
@@ -226,6 +227,11 @@ class RollLibrary:
         return next((r for tier in self._tiers(weapon) for r in tier if wanted and norm(r.label) == wanted), None)
 
     def _tiers(self, weapon):
+        if weapon.name not in self._tier_cache:
+            self._tier_cache[weapon.name] = self._find_tiers(weapon)
+        return self._tier_cache[weapon.name]
+
+    def _find_tiers(self, weapon):
         """Every roll that applies to this weapon, as four tiers in priority order; a riven is rated
         against the first tier that has any:
 

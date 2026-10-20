@@ -90,15 +90,16 @@ def button_colour(img, lines):
     """The fill of the LOCK TRAIT / CONFIRM button (RGB), sampled just above and below its label, or None.
 
     lines: the frame's OCR lines (words of (text, x, y, w, h))."""
-    rgb = np.asarray(img.convert("RGB"))
     for line in lines:
         if not BUTTON_LABELS.search(" ".join(w[0] for w in line)):
             continue
         x0, y0 = min(w[1] for w in line), min(w[2] for w in line)
         x1, y1 = max(w[1] + w[3] for w in line), max(w[2] + w[4] for w in line)
         h = y1 - y0
-        strips = [rgb[int(y0 - 0.6 * h):int(y0 - 0.25 * h), int(x0):int(x1)],
-                  rgb[int(y1 + 0.25 * h):int(y1 + 0.6 * h), int(x0):int(x1)]]
+        top, bottom = int(max(0, y0 - 0.6 * h)), int(y1 + 0.6 * h)
+        rgb = np.asarray(img.crop((int(x0), top, int(x1), bottom)).convert("RGB"))   # just around the label
+        strips = [rgb[int(y0 - 0.6 * h) - top:int(y0 - 0.25 * h) - top],
+                  rgb[int(y1 + 0.25 * h) - top:int(y1 + 0.6 * h) - top]]
         pixels = np.vstack([s.reshape(-1, 3) for s in strips if s.size])
         if len(pixels):
             return tuple(int(c) for c in np.median(pixels, axis=0))

@@ -82,6 +82,35 @@ class TestUpgradeScreen(unittest.TestCase):
                                                "CUSTOMIZEUITHEME/THEME").ratio() for scale in (1.0, 1.5))
             self.assertGreater(best, 0.85, name)
 
+    def test_leaving_hides_the_panel_at_once(self):
+        # The header is compared with the upgrade screen's in every frame: leaving hides the panel within a
+        # couple of frames, without waiting for OCR reads; the cursor passing over the header doesn't.
+        import cv2
+
+        from riven_helper.session import Session
+        session = Session(analyzer(), windows_ocr(self))
+        upgrade = cv2.imread(str(FIXTURES / "img" / "upgrade_spectra_vandal.jpg"))
+        events, _ = session.step(upgrade, now=0.0)
+        self.assertIn(("upgrade", "spectra vandal"), events)
+        cursor = upgrade.copy()
+        h, w = cursor.shape[:2]
+        cursor[int(h * 0.04):int(h * 0.07), int(w * 0.2):int(w * 0.215)] = 255
+        t, hidden = 0.1, []
+        for frame in [cursor, upgrade] * 10:
+            hidden += [e for e in session.step(frame, now=t)[0] if e[0] == "upgrade"]
+            t += 1 / 15
+        self.assertEqual(hidden, [])
+        elsewhere = cv2.imread(str(FIXTURES / "img" / "cycle_full_a.jpg"))
+        elsewhere = cv2.resize(elsewhere, (w, h))
+        left_at = None
+        for i in range(10):
+            events, _ = session.step(elsewhere, now=t)
+            if ("upgrade", None) in events:
+                left_at = i
+                break
+            t += 1 / 15
+        self.assertEqual(left_at, 1)                       # the second frame after leaving
+
     def test_melee_screens(self):
         # The melee header OCRs as "[30]" or "PRIME [30]" only; the header reader still gets the weapon,
         # and the panel goes below the arcane slot at the top right (melee has a different layout).

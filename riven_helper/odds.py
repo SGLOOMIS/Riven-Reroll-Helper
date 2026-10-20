@@ -37,12 +37,13 @@ def chance_of_better(result, analyzer, samples=SAMPLES):
     rolls = analyzer.library.rolls_for(ev.weapon)
     if not rolls:
         return None
-    key = (ev.weapon.name, ev.rank, rating.score, id(analyzer.library),
-           tuple((s.name, round(s.magnitude, 4), s.is_negative, s.locked) for s in ev.stats))
+    riven = (ev.weapon.name, ev.rank, rating.score,
+             tuple((s.name, round(s.magnitude, 4), s.is_negative, s.locked) for s in ev.stats))
+    key = (id(analyzer.library), riven)
     if key not in _cache:
         if len(_cache) > 64:
             _cache.clear()
-        seed = zlib.crc32(repr(key).encode())       # the same riven always gives the same answer
+        seed = zlib.crc32(repr(riven).encode())     # the same riven always gives the same answer
         _cache[key] = _simulate(ev, rating.score, rolls, analyzer, samples, random.Random(seed))
     return _cache[key]
 

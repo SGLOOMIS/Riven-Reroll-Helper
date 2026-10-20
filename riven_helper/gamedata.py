@@ -8,14 +8,19 @@ import difflib
 import json
 import re
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
 
+_NOT_ALNUM = re.compile(r"[^a-z0-9]+")
+
+
+@lru_cache(maxsize=8192)
 def norm(text):
     """Lowercase, letters and digits only, single spaces: "Rubico Prime!" -> "rubico prime"."""
-    return re.sub(r"[^a-z0-9]+", " ", text.lower()).strip()
+    return _NOT_ALNUM.sub(" ", text.lower()).strip()
 
 
 @dataclass
@@ -62,6 +67,11 @@ class GameData:
         # Longest first, so "Twin Grakatas" is found before "Grakata" and "Dex Nikana" before "Nikana".
         self.family_names = sorted({norm(w.family) for w in self.weapons.values()}, key=len, reverse=True)
         self.weapon_names = sorted({norm(w.base_name) for w in self.weapons.values()}, key=len, reverse=True)
+        # Name lookups (the first weapon of a name wins, as dispositions.json lists them).
+        self._by_name, self._by_base_name = {}, {}
+        for w in self.weapons.values():
+            self._by_name.setdefault(norm(w.name), w)
+            self._by_base_name.setdefault(norm(w.base_name), w)
 
     # -- stats -------------------------------------------------------------------------
     def match_stat(self, text, cutoff=0.78):
@@ -90,13 +100,11 @@ class GameData:
 
     def weapon_by_name(self, name):
         """The weapon with this exact name (e.g. "Rubico Prime"), or None."""
-        key = norm(name)
-        return next((w for w in self.weapons.values() if norm(w.name) == key), None)
+        return self._by_name.get(norm(name))
 
     def weapon_by_base_name(self, name):
         """The weapon with this name, ignoring a kitgun slot ("catchmoon" -> Catchmoon (Primary)), or None."""
-        key = norm(name)
-        return next((w for w in self.weapons.values() if norm(w.base_name) == key), None)
+        return self._by_base_name.get(norm(name))
 
     def family_members(self, family):
         return self.families.get(norm(family), [])

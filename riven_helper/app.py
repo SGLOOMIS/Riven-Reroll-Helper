@@ -22,6 +22,7 @@ from pathlib import Path
 
 from .config import ROOT, load_config
 from .layout import render_to_image, text_scale
+from .odds import chance_of_better
 from .overlay_state import OverlayState
 from .style import render_status
 from .theme import palette
@@ -109,6 +110,8 @@ class App:
                     events, wait = session.step(screen.grab(area))
                     self.reads = session.reads
                     for kind, payload in events:
+                        if kind == "results" and len(payload[2]) == 1:
+                            chance_of_better(payload[2][0], self.analyzer)   # worked out here, not while drawing
                         self.events.put((kind, area, payload))
             except Exception as e:               # keep going; show what went wrong
                 self.events.put(("error", None, f"{type(e).__name__}: {e}"))
@@ -185,8 +188,10 @@ class App:
             return
         self.status_window = self.status_window or Panel()
         scale = text_scale(self.cfg, self.area[3])
-        image = render_status(text, scale, self.cfg["font_size"], palette(self.state.theme))
-        self.status_window.set_image(image, key=(text, scale, self.state.theme))
+        key = (text, scale, self.state.theme)
+        if key != self.status_window.image_key:           # draw the text only when it changes
+            self.status_window.set_image(render_status(text, scale, self.cfg["font_size"], palette(self.state.theme)),
+                                         key=key)
         self.status_window.place(left + 8, top + 8, 255)
         self.status_window.show()
 

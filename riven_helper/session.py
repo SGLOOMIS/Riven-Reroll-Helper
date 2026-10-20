@@ -20,6 +20,8 @@ Rules:
       - the cycle screen's two cards slide but are still found (switching between the old and
         new riven) -> no read; once they stop, re-lay out the panels.
   * A stat locked or unlocked on the riven screen (LOCK_AREA changes) -> read again.
+  * The upgrade screen's panel showing: its header is compared with the upgrade screen's in every
+    frame (no OCR), so leaving the screen hides the panel at once.
   * A reading is only shown once trustworthy (see _trust).
 """
 
@@ -32,7 +34,7 @@ from PIL import Image
 from .tracker import CardTracker, to_gray_small
 from .theme import button_colour
 from .theme import detect as detect_theme
-from .upgrade_screen import UpgradeScreen
+from .upgrade_screen import HEADER_AREA, UpgradeScreen
 
 SCAN_EVERY = 1.0             # s between reads while no cards are known
 FAST, SLOW = 1 / 30, 1 / 8   # s between frames while cards move / while they're still
@@ -49,6 +51,10 @@ RIVEN_SCREEN_GRACE = 5.0     # s the riven screen's labels may be hidden (dialog
 # unlocking only adds or removes a small icon on the card, so a change here is what triggers a new read.
 LOCK_AREA = (0.05, 0.765, 0.22, 0.815)      # x0, y0, x1, y1 as fractions of the window
 LOCK_CHANGE = 12.0           # mean pixel difference (0-255) in LOCK_AREA that counts as a lock change
+# Leaving the upgrade screen: the header (UPGRADES/<weapon>) no longer looks like it did there.
+HEADER_CHANGED = 0.2         # share of the header's pixels that must have changed (the cursor alone is less)
+LEFT_AFTER = 2               # frames in a row with the header changed (not a single flicker)
+UPGRADE_WATCH = 1 / 15       # s between those checks while the upgrade screen's panel is showing
 
 
 def to_image(frame):
@@ -71,6 +77,8 @@ class Session:
         self.riven_screen_seen = -1e9        # when the riven screen's labels were last read
         self.img, self.lines = None, []      # the last frame read, and its OCR lines
         self.lock_area = None                # LOCK_AREA at the last read
+        self.upgrade_header = None           # the header as the upgrade screen showed it (half-size grey)
+        self._header_changes = 0
         self.reset()
 
     def reset(self):
@@ -150,6 +158,9 @@ class Session:
             self.upgrade.clear()
         else:
             self.upgrade.update(self.img, self.lines, self.ocr, self.analyzer.gamedata)
+        # Remember how the header looks here, to notice leaving the screen without OCR (step).
+        self.upgrade_header = self._header(to_gray_small(self.img)) if self.upgrade.weapon else None
+        self._header_changes = 0
         events = []
         if self.upgrade.config != config_before:
             events.append(("config", self.upgrade.config))
@@ -162,10 +173,29 @@ class Session:
         """Handle one frame (BGR or BGRA numpy array). Returns (events, seconds until the next frame)."""
         now = time.time() if now is None else now
         if not self.tracker.tracks:
+            if self.upgrade.weapon and self._left_upgrade_screen(frame):
+                self.upgrade.clear()                 # hide the panel now; read what's there next frame
+                self.last_read = -1e9
+                return [("upgrade", None)], UPGRADE_WATCH
             if now - self.last_read < SCAN_EVERY:
-                return [], 0.25
+                return [], UPGRADE_WATCH if self.upgrade.weapon else 0.25
             return [self._read(frame, now)] + self._upgrade_event() + self._theme_event(), 0.25
         return self._watch(frame, now)
+
+    def _header(self, gray):
+        h, w = gray.shape
+        x0, y0, x1, y1 = HEADER_AREA
+        return gray[int(h * y0):int(h * y1), int(w * x0):int(w * x1)].astype(np.int16)
+
+    def _left_upgrade_screen(self, frame):
+        """Has the header stopped looking like the upgrade screen's (for LEFT_AFTER frames in a row)?"""
+        if self.upgrade_header is None:
+            return False
+        now = self._header(to_gray_small(frame))
+        changed = now.shape != self.upgrade_header.shape or \
+            float(np.mean(np.abs(now - self.upgrade_header) > 40)) > HEADER_CHANGED
+        self._header_changes = self._header_changes + 1 if changed else 0
+        return self._header_changes >= LEFT_AFTER
 
     def _lock_area(self, gray):
         h, w = gray.shape

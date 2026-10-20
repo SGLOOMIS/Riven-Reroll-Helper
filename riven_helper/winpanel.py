@@ -12,6 +12,7 @@ mouse, and are hidden from screen capture so OCR never reads them.
 
 import ctypes
 import ctypes.wintypes as wt
+import time
 
 user32 = ctypes.WinDLL("user32", use_last_error=True)
 gdi32 = ctypes.WinDLL("gdi32", use_last_error=True)
@@ -100,6 +101,7 @@ class Panel:
         self.alpha = 255
         self.visible = False
         self.image_key = None
+        self.raised_at = 0.0           # when it was last put back on top of other windows
         self._mem_dc = None
         self._bitmap = None
         self._old = None
@@ -137,10 +139,10 @@ class Panel:
                                        ctypes.byref(blend), ULW_ALPHA)
 
     def place(self, x, y, alpha=None):
+        if (int(x), int(y)) == tuple(map(int, self.pos)) and (alpha is None or int(alpha) == int(self.alpha)):
+            return                     # nothing changed: no redraw
         if alpha is not None:
             self.alpha = alpha
-        if (int(x), int(y)) == tuple(map(int, self.pos)) and alpha is None:
-            return
         self.pos = (x, y)
         if self._mem_dc:
             self._update()
@@ -149,7 +151,10 @@ class Panel:
         if not self.visible and self._mem_dc:
             user32.ShowWindow(self.hwnd, SW_SHOWNOACTIVATE)
             self.visible = True
-        user32.SetWindowPos(self.hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE)
+            self.raised_at = 0.0
+        if time.monotonic() - self.raised_at > 0.5:      # stay above the game (twice a second is plenty)
+            user32.SetWindowPos(self.hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE)
+            self.raised_at = time.monotonic()
 
     def hide(self):
         if self.visible:
