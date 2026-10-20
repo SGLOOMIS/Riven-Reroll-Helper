@@ -7,6 +7,10 @@ splice, or stop. On the cycle screen it marks the better of the two rivens.
 **It only looks at the screen.** It works from screenshots alone: it never attaches to Warframe,
 never reads or changes its memory or files, and never sends it input.
 
+**Made with AI.** Most of the code was written by an AI assistant (Anthropic's Claude) under the
+author's direction. The program itself uses no AI and works offline. It's an unofficial fan tool, not
+affiliated with Digital Extremes. See [AI-DISCLAIMER.md](AI-DISCLAIMER.md).
+
 ## Install
 
 1. [Download](../../releases) the latest release and unzip it anywhere (for example your Documents).

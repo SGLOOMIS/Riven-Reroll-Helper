@@ -215,10 +215,16 @@ class RollLibrary:
                 if not positives:
                     w.append(f"{where}: no valid positives, skipped")
                     continue
+                bad = file_bad + parse_rules(entry.get("bad"), gd, w, where)
+                # A stat that's bad as a positive ("+Zoom") is a good negative: having it there uses up the
+                # riven's curse on something you don't want anyway. Unless the roll wants it as a positive.
+                negatives = _stats(entry.get("negatives"), gd, w, where)
+                negatives = list(dict.fromkeys(negatives + [r.stat for r in bad
+                                                            if r.sign == "+" and r.stat not in positives]))
                 roll = Roll(label=entry.get("label", ""), positives=positives,
-                            negatives=_stats(entry.get("negatives"), gd, w, where),
+                            negatives=negatives,
                             required=_stats(entry.get("required"), gd, w, where),
-                            bad=file_bad + parse_rules(entry.get("bad"), gd, w, where),
+                            bad=bad,
                             dealbreakers=file_deal + parse_rules(entry.get("dealbreakers"), gd, w, where),
                             source=name, fallback=bool(data.get("fallback", False)))
                 rolls.setdefault(_key(weapon_key), []).append(roll)

@@ -100,6 +100,9 @@ of them except `warframe_market.json`, so players' own rolls stay local.
   at the top of a file (every roll in it), or in `config.json` (every file).
 - Stat names match loosely (`Critical Damage`, `crit damage`, `CD`).
 
+A `"+Stat"` bad rule also makes that stat a harmless negative for the roll (having it as the negative
+spends the riven's curse on something you don't want), unless the roll wants it as a positive.
+
 Rules are strings: `"-Multishot"` (as the negative), `"+Zoom"` (as a positive), `"Impact"` (either way),
 `"-Damage > 100"` (`>`, `>=`, `<`, `<=`). The number is what the card shows: 100 means 100%, 25 means
 ×1.25 (×0.75 as a negative) for faction damage; flat stats compare as shown.

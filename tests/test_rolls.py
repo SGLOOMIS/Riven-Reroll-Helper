@@ -156,6 +156,21 @@ class TestRating(unittest.TestCase):
         self.assertEqual(r.tags["Zoom"], "bad")                                 # roll rule, positive side
         self.assertAlmostEqual(r.score, 50.0 * 0.5 * 0.5)                       # 1 of 2 wanted, 2 bad stats
 
+    def test_bad_as_positive_is_a_good_negative(self):
+        # "+Zoom" is bad (you don't want it as a positive), so Zoom as the negative is a good place for the
+        # riven's curse: harmless, and listed with the roll's accepted negatives. Wherever the rule is written.
+        lib = roll_library({"bad": ["+Zoom", "-Impact", "Puncture"],
+                            "weapons": {"Soma": {"positives": ["CD", "MS", "CC"], "bad": ["+Weapon Recoil"]}}})
+        (roll,) = lib.rolls_for(G.weapon_by_name("Soma"))
+        self.assertEqual(roll.negatives, ["Zoom", "Weapon Recoil"])
+        tag = lambda neg: rate(riven("Soma", ["Critical Damage", "Multishot"], neg), [roll], G).tags[neg]
+        self.assertEqual([tag(n) for n in ("Zoom", "Weapon Recoil", "Impact", "Puncture", "Slash")],
+                         ["harmless", "harmless", "bad", "bad", "neutral"])
+        self.assertEqual(rate(riven("Soma", ["Critical Damage", "Zoom"], "Impact"), [roll], G).tags["Zoom"], "bad")
+        # A stat the roll wants is never a good negative, even with a "+" bad rule somewhere.
+        wants = roll_library({"bad": ["+Multishot"], "weapons": {"Soma": {"positives": ["CD", "MS"]}}})
+        self.assertEqual(wants.rolls_for(G.weapon_by_name("Soma"))[0].negatives, [])
+
     def test_dealbreakers(self):
         lib = roll_library({"dealbreakers": ["-Damage > 100"],
                             "weapons": {"Soma": [{"label": "crit", "positives": ["CD", "MS"]},

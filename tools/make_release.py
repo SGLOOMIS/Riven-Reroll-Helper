@@ -3,7 +3,7 @@ Riven Helper.exe in it. No Python or setup needed: unzip and double-click.
 
 The exe and its _internal/ folder (Python, the libraries and the program, packed by PyInstaller) sit
 beside the files players can see and change: config.json (the defaults, never your own settings),
-rolls/ (the market default rolls; their own roll files go here too) and README.md. Not the tests,
+rolls/ (the market default rolls; their own roll files go here too), README.md and AI-DISCLAIMER.md. Not the tests,
 tools, snapshots or anyone's own roll files.
 
     .venv\\Scripts\\python -m pip install -r requirements-build.txt      (once)
@@ -62,6 +62,7 @@ def main():
     shutil.copy(ROOT / "rolls" / "warframe_market.json", folder / "rolls")
     (folder / "config.json").write_text(json.dumps(DEFAULTS, indent=2) + "\n", encoding="utf-8")
     shutil.copy(ROOT / "README.md", folder)
+    shutil.copy(ROOT / "AI-DISCLAIMER.md", folder)
 
     out = ROOT / "dist" / f"Riven-Helper-{date.today():%Y%m%d}.zip"
     out.parent.mkdir(exist_ok=True)
