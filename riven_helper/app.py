@@ -5,6 +5,10 @@ the Session's events into panels (OverlayState) and shows them in click-through 
 the screen (winpanel.py). Everything works from screenshots: the overlay never attaches to the
 game, reads or changes its memory, or sends it input.
 
+It normally runs inside the roll editor's window (Riven Helper.bat): App(root=the editor's window)
+uses that window's event loop, and report() puts the overlay's status in the editor. Alone
+(python -m riven_helper --overlay) it has a hidden window of its own and prints to the console.
+
 Hotkeys (config.json): toggle the overlay, reload roll files, save a snapshot to debug/.
 """
 
@@ -28,11 +32,15 @@ TICK_MS = 15                       # how often panels are redrawn
 
 
 class App:
-    def __init__(self, cfg, analyzer):
+    def __init__(self, cfg, analyzer, root=None, report=print):
+        """root: a Tk window whose event loop to share (the editor's); without one, a hidden one of its own.
+        report(text): where status messages go (the console, or the editor's status line)."""
         import tkinter as tk
-        self.cfg, self.analyzer = cfg, analyzer
-        self.root = tk.Tk()            # only for its event loop and timers; never shown
-        self.root.withdraw()
+        self.cfg, self.analyzer, self.report = cfg, analyzer, report
+        if root is None:
+            root = tk.Tk()             # only for its event loop and timers; never shown
+            root.withdraw()
+        self.root = root
         self.events = queue.Queue()    # (kind, area, payload) from the worker thread
         self.running = True
         self.rescan = threading.Event()
@@ -52,7 +60,7 @@ class App:
     def _library_summary(self):
         lib = self.analyzer.library
         for w in lib.warnings:
-            print("WARNING:", w)
+            self.report("WARNING: " + w)
         text = f"Riven Helper: {len(lib.files)} roll file(s), {sum(map(len, lib.rolls.values()))} rolls"
         return text + (f"  |  {len(lib.warnings)} warning(s): {lib.warnings[0]}" if lib.warnings else "")
 
@@ -70,10 +78,10 @@ class App:
         from .capture import Ocr, Screen, find_game
         from .session import Session
         ocr = Ocr()
-        print(f"OCR language: {ocr.language}", flush=True)
+        self.events.put(("status", None, f"OCR language: {ocr.language}"))
         if not ocr.language.startswith("en"):
-            print("WARNING: no English OCR installed; add English in Windows' language settings "
-                  "(Settings > Time & language > Language & region) for reliable reads.", flush=True)
+            self.events.put(("status", None, "WARNING: no English OCR installed; add English in Windows' "
+                                             "language settings (Time & language > Language & region)"))
         session, screen = Session(self.analyzer, ocr), Screen()
         status = None
         while self.running:
@@ -92,7 +100,7 @@ class App:
                     session.reset()
                 area, now_status = find_game(self.cfg["window_title"])
                 if now_status != status:              # say what's going on, once per change
-                    print(now_status, flush=True)
+                    self.events.put(("status", None, now_status))
                     status = now_status
                 if area is None:                 # not open, minimised, or not in front
                     self.events.put(("hide", None, None))
@@ -115,7 +123,8 @@ class App:
             img, lines, results = payload
             summary = [(r.ev.weapon.name, r.rating.score) for r in results]
             if summary != getattr(self, "_last_summary", None):
-                print(f"read {self.reads}:", summary or "no riven cards", flush=True)
+                self.report(f"read {self.reads}: " + (", ".join(f"{w} {s:.0f}%" for w, s in summary)
+                                                      or "no riven cards"))
                 self._last_summary = summary
             self.last_read = (img, lines, results)
             self.state.on_results(size, results)
@@ -131,17 +140,19 @@ class App:
             self.upgrade_weapon = payload
             self.state.on_upgrade(size, payload)
         elif kind == "theme":
-            print(f"UI theme: {payload.primary} / {payload.accent} on {payload.background}", flush=True)
+            self.report(f"UI theme: {payload.primary} / {payload.accent} on {payload.background}")
             self.state.on_theme(payload)
         elif kind == "hide":
             self.state.on_hide()
+        elif kind == "status":
+            self.report(payload)
         elif kind == "settings":
-            print("Settings changed (config.json): applied", flush=True)
+            self.report("Settings changed (config.json): applied")
             self.flash("Settings applied: " + self._library_summary(), 6)
         elif kind == "reloaded":
             self.flash(self._library_summary(), 6)
         elif kind == "error":
-            print("ERROR:", payload)
+            self.report("ERROR: " + payload)
             self.flash(payload, 5)
 
     def _draw(self):
@@ -217,9 +228,14 @@ class App:
         annotated.save(out / f"{stamp}.annotated.png")
         return out / f"{stamp}.png"
 
-    def run(self):
+    def start(self):
+        """Start watching the game (the event loop is whoever owns root)."""
         threading.Thread(target=self.worker, daemon=True).start()
         self.root.after(TICK_MS, self.tick)
+
+    def run(self):
+        """Run on its own, until the hidden window's event loop ends (Ctrl+C in the console)."""
+        self.start()
         try:
             self.root.mainloop()
         finally:

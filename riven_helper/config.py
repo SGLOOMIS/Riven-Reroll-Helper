@@ -24,7 +24,7 @@ DEFAULTS = {
                                 # (off: no NEXT, and BETTER simply for the higher rating)
     "upgrade_overlay": True,    # IDEAL RIVEN on weapon upgrade screens
     "config_rolls": True,       # there, the roll labelled like the selected config tab ("Main", "CONFIG A")
-    "editor_theme": "Default",  # the roll editor's colours: "Default" or a Warframe UI theme's name
+    "editor_theme": "Vitruvian",  # the roll editor's colours: a Warframe UI theme's name
 }
 
 

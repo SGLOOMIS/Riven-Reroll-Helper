@@ -20,10 +20,12 @@ capture so they never end up in recordings or get read back by the OCR.
 
 1. Install Python 3.10+ (python.org) and tick "Add to PATH".
 2. Run Warframe in **Borderless Fullscreen** or **Windowed** (nothing can draw over exclusive fullscreen).
-3. Double-click `run.bat` for the overlay, or `edit.bat` for the roll editor. The first run creates a
-   Python environment in `.venv` and installs `requirements.txt` (a few minutes). Later runs start
-   straight away, and it installs again on its own if `requirements.txt` changes. Delete `.venv` to start
-   fresh.
+3. Double-click **`Riven Helper.bat`**. It opens the roll editor, and the overlay runs for as long as
+   the editor is open: minimise it while you play, close it to stop everything. The editor's toolbar
+   shows what the overlay is doing ("watching Warframe", "paused: Warframe isn't the active window").
+   The first run creates a Python environment in `.venv` and installs `requirements.txt` (a few
+   minutes). Later runs start straight away, and it installs again on its own if `requirements.txt`
+   changes. Delete `.venv` to start fresh.
 
 OCR is Windows' built-in OCR. If it isn't available, add your language's OCR feature in *Settings > Time &
 language > Language & region > your language > Language options*.
@@ -38,6 +40,11 @@ language > Language & region > your language > Language options*.
 
 - **Above each card:** the rating, which roll it matched, how well each stat rolled, how the negative
   counts (harmless, neutral, bad or dealbreaker), and which weapon's numbers the card uses.
+- **Next-cycle odds (one card on screen):** "next cycle rates higher: 37%", the chance that cycling
+  gives a riven your rolls rate higher than this one. It's worked out by simulating a few thousand
+  cycles that keep the locked and spliced stats (and with them the shape). The game doesn't publish
+  its odds, so it assumes the four shapes are equally likely, stats are drawn evenly from the weapon
+  class's pool, and rolls are spread evenly over 90–110%.
 - **NEXT on each card panel:** the next step towards the roll, following how locking and splicing
   work (see [Trait Locking and Splicing](https://wiki.warframe.com/w/Riven_Mods#Splicing)):
   1. *Shape first.* A locked stat keeps the riven's shape (how many positives, and whether it has a
@@ -58,14 +65,15 @@ language > Language & region > your language > Language options*.
 - **Weapon upgrade screen, IDEAL RIVEN:** a compact panel below the arcane slot with the weapon's best
   stats and their maximum values on a maxed riven. It shows the roll whose `label` matches the selected
   config tab ("CONFIG A", or the name you gave it, like "Main"; case doesn't matter), so a roll labelled
-  "Main" is shown while that config is open. Without a matching roll it shows the weapon's first roll. The weapon's name is read from the screen's header,
-  which works with every Warframe UI theme, light or dark.
+  "Main" is shown while that config is open. Without a matching roll it shows the weapon's first
+  roll. The weapon's name is read from the screen's header, which works with every Warframe UI theme,
+  light or dark.
 
-The panels take on your UI theme's colours, read from the screen's header ("INVENTORY/MODS",
-"UPGRADES/…"): its text colour for the headings and outline, its accent for the better card, and its
-background for the panel. Stat names keep the riven's lavender, and every colour is adjusted where
-needed to stay readable on light themes. Until a header has been seen, the default orange theme is
-used.
+The panels take on your UI theme's colours: the screen header's ("INVENTORY/MODS", "UPGRADES/…")
+text colour for the headings and outline, its accent for the better card, and the fill of the LOCK
+TRAIT / CONFIRM buttons for the panel's background. Stat names keep the riven's lavender, and every
+colour is adjusted where needed to stay readable on light themes. Until a header has been seen, the
+game's default theme, Vitruvian, is used.
 
 Panels only show while the screen is at rest: the riven screen with its card, or the cycle screen with
 the new or the old riven selected. While the cards move, or a dialog dims the screen, the card panels fade
@@ -77,7 +85,7 @@ agree). Between readings the cards are followed by image matching, so OCR runs o
 Every `.json` file in `rolls/` is loaded, and they're all used together. Use `roll_files` in
 `config.json` to load files from elsewhere (files, folders or globs).
 
-The easiest way to write them is the **editor** (`edit.bat`). It has tabs for the rolls, weapon groups and
+The easiest way to write them is the **editor** (the window `Riven Helper.bat` opens). It has tabs for the rolls, weapon groups and
 file-wide rules, autocompletes weapon and stat names, and checks the file with the same loader the overlay
 uses when you save.
 
@@ -114,7 +122,7 @@ By hand, a file looks like this (`tests/fixtures/` has two more examples):
 - **required** *(optional)*: stats the riven must have.
 - **bad** / **dealbreakers** *(optional)*: rules, on a roll, at the top of a file (for every roll in it)
   or in `config.json` (for every file).
-- Stat names match loosely: `Critical Damage`, `crit damage` and `CD` all work. `run.bat --check` lists
+- Stat names match loosely: `Critical Damage`, `crit damage` and `CD` all work. `.venv\Scripts\python -m riven_helper --check` lists
   every roll that loaded and anything it couldn't read.
 
 Rules are strings. The number is what the card shows: 100 means 100%, 25 means ×1.25 (or ×0.75 as a
@@ -187,9 +195,10 @@ disposition.
 
 ## Settings
 
-The roll editor (`edit.bat`) has a **Settings** tab:
+The roll editor has a **Settings** tab:
 
-- **Editor look:** colour the editor like one of Warframe's 20 UI themes (or keep its default).
+- **Editor look:** colour the editor like one of Warframe's 20 UI themes (Vitruvian, the game's
+  default, to start).
 - **Overlay:** switch off the next-step advice (no NEXT lines; BETTER then simply goes to the higher
   rating), the upgrade screen's IDEAL RIVEN, or its config-specific rolls (then it always shows the
   weapon's first roll).
@@ -211,7 +220,7 @@ The roll editor (`edit.bat`) has a **Settings** tab:
 | `next_step` | NEXT advice, and BETTER for the card closest to the ideal roll (false: BETTER by rating) |
 | `upgrade_overlay` | IDEAL RIVEN on weapon upgrade screens |
 | `config_rolls` | On the upgrade screen, the roll labelled like the selected config tab |
-| `editor_theme` | The roll editor's colours: `"Default"` or a UI theme's name (`riven_helper/data/themes.json`) |
+| `editor_theme` | The roll editor's colours: a UI theme's name (`riven_helper/data/themes.json`), `"Vitruvian"` by default |
 
 ## The code
 
@@ -226,6 +235,7 @@ The roll editor (`edit.bat`) has a **Settings** tab:
 | `riven_math.py` | The riven formula: rank, roll and quality of each stat |
 | `rolls.py` | Loads roll files and rates a riven against them |
 | `advice.py` | The NEXT step: cycle, lock, splice or done |
+| `odds.py` | The chance that the next cycle rates higher |
 | `analyze.py` | Screenshot → rated cards, re-reading doubtful ones |
 | `session.py` | Live loop: when to read, card tracking, waiting for the screen to settle |
 | `tracker.py` | Follows cards between reads by image matching |
@@ -245,10 +255,12 @@ The roll editor (`edit.bat`) has a **Settings** tab:
   use (English is best, since the game's text is English) and whether the game is being watched or
   paused because it isn't the active window. Then press F10 on the cycle screen and look at
   `debug/*.annotated.png` and `*.ocr.json` to see what was read.
+- **Overlay messages in a console:** `.venv\Scripts\python -m riven_helper --overlay` runs only the
+  overlay and prints everything it does (`--edit` runs only the editor).
 - **Rate a screenshot** without the game:
 
 ```bash
-run.bat --image debug\20261019-120000.png --out result.png
+.venv\Scripts\python -m riven_helper --image debug\20261019-120000.png --out result.png
 ```
 
 - **Replay a recording** through the same live logic, to check how panels behave during transitions:

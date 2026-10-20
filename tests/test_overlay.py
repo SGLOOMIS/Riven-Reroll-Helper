@@ -73,7 +73,7 @@ class TestPlacement(unittest.TestCase):
 class TestPanelStyle(unittest.TestCase):
     def test_panels_render_in_game_colours(self):
         from riven_helper.theme import palette
-        NAVY, ORANGE = palette().fill, palette().label
+        NAVY, OUTLINES = palette().fill, (palette().label, palette().highlight)   # the better card: the accent
         an = analyzer()
         results = an.analyze_lines(saved_ocr("ocr_cycle_selected_left.json"), W)
         cards, ideal = plan_riven_screen(an, results, W, H, fixture_config())
@@ -84,7 +84,7 @@ class TestPanelStyle(unittest.TestCase):
         px = img.getpixel((img.width // 2, img.height - 6))
         self.assertTrue(px[3] < 255 and abs(px[0] - NAVY[0]) < 25)                        # translucent navy
         border = [img.getpixel((i, 1)) for i in range(img.width)]
-        self.assertTrue(any(p[3] > 100 and abs(p[0] - ORANGE[0]) < 10 for p in border))   # orange outline
+        self.assertTrue(any(p[3] > 100 and any(abs(p[0] - c[0]) < 10 for c in OUTLINES) for p in border))
         self.assertEqual(img.getpixel((0, 0))[3], 0)                                      # cut corner is clear
 
 

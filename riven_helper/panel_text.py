@@ -1,6 +1,7 @@
 """What each panel says, as rows for style.render_panel (see style.py for the row types).
 
-  card_rows     the panel above a riven card: rating, stats, how the negative counts, and the next step
+  card_rows     the panel above a riven card: rating, stats, how the negative counts, the next step,
+                and (a lone card) the chance that the next cycle rates higher
   ideal_rows    IDEAL ROLL on the riven screens: the best stats for this weapon, with maximum values
   upgrade_rows  the compact IDEAL RIVEN on a weapon's upgrade screen
 """
@@ -8,6 +9,7 @@
 import textwrap
 
 from .advice import next_step, progress, spliced_stats
+from .odds import chance_of_better
 from .riven_math import format_value, max_value
 
 MARK = {"good": "+", "ok": "~", "unwanted": "x", "harmless": "+", "neutral": "=", "bad": "x", "dealbreaker": "!"}
@@ -35,13 +37,19 @@ def _chunks(items, n):
     return [items[i:i + n] for i in range(0, len(items), n)]
 
 
-def card_rows(analyzer, result, best=False):
-    """The panel for one card. best: this card is the better of the two on the cycle screen."""
+def card_rows(analyzer, result, best=False, alone=False):
+    """The panel for one card. best: this card is the better of the two on the cycle screen. alone: it's
+    the only card (the riven screen, before cycling): show the chance that the next cycle rates higher."""
     r, ev = result.rating, result.ev
     if ev is None:
         return [("score", "?", "bad", False), ("label", r.detail)]
     label = roll_label(analyzer, r.roll) if r.roll else r.detail
     rows = [("score", f"{r.score:.0f}%", grade(r.score), best)] + ([("label", label)] if label else [])
+    if alone:
+        chance = chance_of_better(result, analyzer)
+        if chance is not None:
+            shown = "under 1" if 0 < chance < 0.005 else f"{chance * 100:.0f}"
+            rows.append(("note", f"next cycle rates higher: {shown}%", "warn"))
     advise = analyzer.cfg.get("next_step", True)
     if best and advise:
         why = progress(result, analyzer)[1]

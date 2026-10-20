@@ -137,7 +137,8 @@ def plan_riven_screen(analyzer, results, W, H, cfg, geometries=None, theme=None)
         at = (int(W * IDEAL_AT[0]), int(H * IDEAL_AT[1]))
         ideal = (image, at)
         avoid.append((*at, image.width, image.height))
-    images = [render_panel(card_rows(analyzer, r, best), scale, base, highlight=best, palette=colours)
+    alone = len(results) == 1
+    images = [render_panel(card_rows(analyzer, r, best, alone), scale, base, highlight=best, palette=colours)
               for r, best in zip(results, best_flags(results, analyzer))]
     geometries = geometries or [r.card.geometry for r in results]
     spots = place_card_panels([(g, im.size) for g, im in zip(geometries, images)], W, H, avoid)

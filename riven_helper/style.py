@@ -118,7 +118,7 @@ def _row_width(draw, row, m):
 
 
 def render_panel(rows, scale=1.0, base=11, highlight=False, min_width=0, palette=None):
-    """Draw one panel (in palette's colours, theme.palette(); the default theme's when None); returns
+    """Draw one panel (in palette's colours, theme.palette(); Vitruvian's, the default, when None); returns
     an RGBA image."""
     p = palette or theme_palette()
     grade_colour, tag_colour, mark_colour = _colours(p)

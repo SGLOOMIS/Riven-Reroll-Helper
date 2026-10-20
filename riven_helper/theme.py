@@ -34,7 +34,9 @@ class Theme:
                          (self.background, other.background)))
 
 
-DEFAULT = Theme(primary=(253, 132, 2), accent=(253, 132, 2), background=(16, 24, 35))
+# Vitruvian, the default theme: its header colours, and its buttons' fill (the panels' background).
+DEFAULT = Theme(primary=(188, 170, 106), accent=(243, 227, 176), background=(19, 16, 26))
+DEFAULT_NAME = "Vitruvian"
 
 
 @lru_cache(maxsize=1)

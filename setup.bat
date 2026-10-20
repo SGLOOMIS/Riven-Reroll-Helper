@@ -1,5 +1,5 @@
 @echo off
-rem First-run setup for Riven Reroll Helper, used by run.bat and edit.bat.
+rem First-run setup for Riven Reroll Helper, used by "Riven Helper.bat".
 rem Creates the Python environment in .venv and installs everything in requirements.txt.
 rem After a successful install it keeps a copy of requirements.txt in .venv, so later runs start
 rem straight away, and it installs again if requirements.txt changes or an install didn't finish.

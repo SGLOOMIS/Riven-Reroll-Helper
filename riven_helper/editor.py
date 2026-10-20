@@ -1,6 +1,6 @@
 """Roll-file editor: make and edit your roll JSON files without writing JSON.
 
-    edit.bat                    (or: python -m riven_helper --edit [file])
+    Riven Helper.bat            (the editor with the overlay; only the editor: python -m riven_helper --edit [file])
 
 Tabs:
   Rolls   - the weapons (and @groups, *class fallbacks) in the file, their rolls, and each roll's
@@ -21,24 +21,20 @@ from .editor_model import (CLASSES, OPERATORS, SIGNS, RollFile, describe_rule, n
                            weapon_choices)
 from .gamedata import GameData
 from .rolls import roll_paths
-from .theme import luminance, mix, named_themes, palette
+from .theme import DEFAULT_NAME, luminance, mix, named_themes, palette
 
 ROLLS_DIR = ROOT / "rolls"
 
 
 class Colours:
-    """The editor's colours: its own dark navy and orange, or a Warframe UI theme's (set_theme)."""
+    """The editor's colours, from a Warframe UI theme (set_theme; Vitruvian, the game's default, to start)."""
 
     def __init__(self):
-        self.set_theme("Default")
+        self.set_theme(DEFAULT_NAME)
 
     def set_theme(self, name):
-        theme = named_themes().get(name)
-        if theme is None:                           # "Default" (or a name not in data/themes.json)
-            self.bg, self.panel, self.field = "#101823", "#16202e", "#1d2a3b"
-            self.text, self.dim, self.orange, self.lavender = "#dedee8", "#8a8fa3", "#fd8402", "#c9b4f6"
-            self.border, self.active = "#2b3a50", "#26364c"
-            return
+        themes = named_themes()
+        theme = themes.get(name) or themes[DEFAULT_NAME]     # an unknown name: the default theme
         p = palette(theme)
         bg = theme.background
         toward = (255, 255, 255) if luminance(bg) < 0.5 else (0, 0, 0)
@@ -209,6 +205,8 @@ class Editor:
         for text, cmd in (("New", self.new), ("Open…", self.open_dialog), ("Save", self.save),
                           ("Save as…", self.save_as), ("Check", self.check)):
             ttk.Button(bar, text=text, command=cmd).pack(side="left", padx=3)
+        self.overlay_status = ttk.Label(bar, text="", style="Bar.TLabel")
+        self.overlay_status.pack(side="left", padx=(16, 0))
         self._refresh_files()
 
     def _refresh_files(self):
@@ -409,8 +407,9 @@ class Editor:
         tab.columnconfigure(1, weight=1)
         ttk.Label(tab, text="Editor look", style="Head.TLabel").grid(row=0, column=0, columnspan=2, sticky="w")
         ttk.Label(tab, text="Theme").grid(row=1, column=0, sticky="w", pady=4)
-        self.theme_pick = ttk.Combobox(tab, values=["Default"] + sorted(named_themes()), state="readonly", width=24)
-        self.theme_pick.set(self.settings["editor_theme"])
+        self.theme_pick = ttk.Combobox(tab, values=sorted(named_themes()), state="readonly", width=24)
+        self.theme_pick.set(self.settings["editor_theme"] if self.settings["editor_theme"] in named_themes()
+                            else DEFAULT_NAME)
         self.theme_pick.grid(row=1, column=1, sticky="w", pady=4)
         self.theme_pick.bind("<<ComboboxSelected>>", lambda e: self._apply_theme(self.theme_pick.get()))
 
@@ -863,6 +862,10 @@ class Editor:
         self._fill_entries(select=key)
         self.tabs.select(0)
 
+    def show_overlay_status(self, text):
+        """The overlay's latest message (it runs alongside the editor), shown in the toolbar."""
+        self.overlay_status.configure(text=f"Overlay: {text}"[:110])
+
     def run(self):
         self.root.mainloop()
 
@@ -871,7 +874,7 @@ def main(path=None):
     try:
         Editor(path).run()
     except Exception:
-        # edit.bat runs without a console, so show what went wrong instead of just closing.
+        # Started without a console (pythonw), so show what went wrong instead of just closing.
         import traceback
         root = tk.Tk()
         root.withdraw()

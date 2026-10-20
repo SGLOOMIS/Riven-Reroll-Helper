@@ -91,7 +91,7 @@ class TestSettings(unittest.TestCase):
             self.assertIn("friend.json", " ".join(ed.files))     # now in the File list too
         finally:
             ed.root.destroy()
-            C.set_theme("Default")
+            C.set_theme("Vitruvian")
         cfg = load_config(self.config)
         self.assertEqual((cfg["editor_theme"], cfg["next_step"], cfg["config_rolls"], cfg["upgrade_overlay"]),
                          ("Orokin", False, False, True))
@@ -128,6 +128,31 @@ class TestOverlaySwitches(unittest.TestCase):
         an.apply_settings(new)
         self.assertIs(an.cfg, held)
         self.assertFalse(held["upgrade_overlay"])
+
+
+class TestOneProgram(unittest.TestCase):
+    """Riven Helper.bat: the editor with the overlay running inside it."""
+
+    def test_overlay_reports_to_the_editor(self):
+        import tkinter as tk
+
+        from riven_helper.app import App
+        from tests.helpers import analyzer
+        root = tk.Tk()
+        root.withdraw()
+        try:
+            said = []
+            app = App(analyzer().cfg, analyzer(), root=root, report=said.append)
+            self.assertIs(app.root, root)                         # the editor's window, not a hidden one
+            app._handle("status", None, "paused: Warframe isn't the active window")
+            self.assertIn("paused: Warframe isn't the active window", said)
+        finally:
+            root.destroy()
+
+    def test_only_one_copy_runs(self):
+        from riven_helper.__main__ import _first_copy
+        _first_copy()                                             # this test run holds the flag now...
+        self.assertFalse(_first_copy())                           # ...so a second copy would stop
 
 
 if __name__ == "__main__":
