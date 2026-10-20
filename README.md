@@ -38,8 +38,9 @@ language > Language & region > your language > Language options*.
 
 ## What it shows
 
-- **Above each card:** the rating, which roll it matched, how well each stat rolled, how the negative
-  counts (harmless, neutral, bad or dealbreaker), and which weapon's numbers the card uses.
+- **Above each card:** the rating, which roll it matched, how well each stat rolled, and how the
+  negative counts (harmless, neutral, bad or dealbreaker). The weapon and its disposition aren't
+  repeated, since the game shows them already.
 - **Next-cycle odds (one card on screen):** "next cycle rates higher: 37%", the chance that cycling
   gives a riven your rolls rate higher than this one. It's worked out by simulating a few thousand
   cycles that keep the locked and spliced stats (and with them the shape). The game doesn't publish

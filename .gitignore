@@ -2,3 +2,7 @@
 __pycache__/
 debug/
 tools/.market_cache/
+
+# Roll files: only the generated market defaults are shared; your own rolls stay local.
+rolls/*
+!rolls/warframe_market.json

@@ -26,7 +26,7 @@ class TestPanelText(unittest.TestCase):
         rows = ideal_rows(an, an.analyze_lines(saved_ocr("ocr_plinx_tenet.json"), W))
         text = rows_text(rows)
         self.assertEqual(rows[0], ("title", "IDEAL ROLL"))
-        self.assertIn("Tenet Plinx  R8", text)            # the FITS IN variant and the card's rank
+        self.assertNotIn("dispo", text)                    # the weapon and disposition are on screen already
         self.assertIn("up to +69.6%", text)               # max Critical Damage (see test_math)
         self.assertIn("~ Damage", text)                   # a lower-weighted stat shown as an alternative
         self.assertIn("- Zoom, Weapon Recoil", text)

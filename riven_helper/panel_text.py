@@ -81,13 +81,6 @@ def card_rows(analyzer, result, best=False, alone=False):
         action, why = step
         rows += [("rule",)] + [("note", line, "next") for line in textwrap.wrap(f"NEXT: {action}", 34)]
         rows += [("meta", line) for line in textwrap.wrap(why, 48)]
-
-    rows += [("rule",), ("meta", f"{ev.weapon.name}  R{ev.rank}  dispo {ev.weapon.disposition:g}")]
-    others = [w for w in analyzer.gamedata.family_members(ev.weapon.family)
-              if w is not ev.weapon and w.cls == ev.weapon.cls]
-    if others:
-        rows.append(("meta", f"{ev.weapon.family} riven, also fits "
-                             + ", ".join(f"{w.name} {w.disposition:g}" for w in others)))
     return rows
 
 
@@ -118,8 +111,9 @@ def ideal_rows(analyzer, results):
         return [("title", "IDEAL ROLL"), ("meta", f"no rolls listed for {weapon.family}")]
 
     label = roll_label(analyzer, roll)
-    rows = [("title", "IDEAL ROLL"), ("meta", f"{weapon.name}  R{rank}  dispo {weapon.disposition:g}")] \
-        + ([("label", label)] if label else []) + [("rule",)]
+    # The weapon and its disposition are on screen already; only an unranked riven's rank is worth saying.
+    rows = [("title", "IDEAL ROLL")] + ([("label", label)] if label else []) \
+        + ([("meta", f"values at rank {rank}")] if rank < 8 else []) + [("rule",)]
     for i, (stat, value) in enumerate(_best_stats(analyzer, roll, weapon, rank, 6)):
         name = display_name(stat, weapon) + (" (required)" if stat in roll.required else "")
         rows.append(("stat", "+" if i < 3 else "~", name, f"up to {value}", "good" if i < 3 else "ok"))
@@ -151,7 +145,6 @@ def upgrade_rows(analyzer, weapon_name, per_line=3, config=None):
         return [("title", "IDEAL RIVEN"), ("meta", f"no rolls listed for {weapon.family}")]
     roll, rank = rolls[0], 8
     rows = [("title", "IDEAL RIVEN")] + ([("label", f"{roll.label}  (config)")] if named else [])
-    rows.append(("meta", f"{weapon.name}  R{rank}  dispo {weapon.disposition:g}"))
     rows += [("stat", "+", display_name(stat, weapon), value, "good")
              for stat, value in _best_stats(analyzer, roll, weapon, rank, 3)]
     names = [display_name(n, weapon) for n in roll.negatives[:3]]
