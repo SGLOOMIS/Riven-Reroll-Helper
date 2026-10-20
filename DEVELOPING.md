@@ -16,7 +16,7 @@ back by the OCR.
 
 ## Running it
 
-`Riven Helper.bat` runs `setup.bat` (find or install Python 3.10+, create `.venv`, install
+Players get `Riven Helper.exe` (see *Making a release*). From the source, `Riven Helper.bat` runs `setup.bat` (find or install Python 3.10+, create `.venv`, install
 `requirements.txt` when it changes), then starts `pythonw -m riven_helper`: the roll editor, with the
 overlay running inside its event loop. Other ways to run it:
 
@@ -207,9 +207,17 @@ One file per topic in `tests/`, using OCR saved from real snapshots and screensh
 ## Making a release
 
 ```bash
+.venv\Scripts\python -m pip install pyinstaller
 .venv\Scripts\python tools\make_release.py
 ```
 
-builds `dist/Riven-Helper-<date>.zip` with only what players need (the program, `Riven Helper.bat`,
-`setup.bat`, the market defaults, a fresh `config.json`, the README): no tests, tools, snapshots or
-personal roll files. Upload it as a GitHub release; the README's download link points there.
+packs the program with PyInstaller (`tools/exe_entry.py` is the entry point) and builds
+`dist/Riven-Helper-<date>.zip`: a `Riven Helper` folder with `Riven Helper.exe` and `_internal/`
+(Python, the libraries and the program), beside what players can see and change: a fresh `config.json`,
+`rolls/` with the market defaults, and the README. No tests, tools, snapshots or personal roll files.
+When packaged, `config.ROOT` is the exe's folder, so `config.json`, `rolls/` and `debug/` live there.
+Upload the zip as a GitHub release; the README's download link points there.
+
+It's a folder build, not a single-file exe, because single-file builds unpack themselves on every start
+and are flagged by antivirus far more often. To sign it, sign `Riven Helper.exe` with `signtool`
+(and a timestamp server) before zipping.

@@ -132,11 +132,17 @@ def _tell(text):
     root.destroy()
 
 
-if __name__ == "__main__":
+def run():
+    """main(), with anything that goes wrong shown in a message box when there's no console
+    (Riven Helper.exe, or Riven Helper.bat)."""
     try:
         sys.exit(main())
     except Exception:
-        if sys.stdout is None:            # no console (Riven Helper.bat): show what went wrong
+        if sys.stdout is None:
             import traceback
             _tell("Riven Helper couldn't start:\n\n" + traceback.format_exc())
         raise
+
+
+if __name__ == "__main__":
+    run()

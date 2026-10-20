@@ -12,14 +12,14 @@ never reads or changes its memory or files, and never sends it input.
 1. [Download](../../releases) the latest release and unzip it anywhere (for example your Documents).
 2. Run Warframe in **Borderless Fullscreen** or **Windowed** (nothing can draw over exclusive
    fullscreen).
-3. Double-click **`Riven Helper.bat`**.
+3. Double-click **`Riven Helper.exe`** in the unzipped folder. Nothing else to install.
 
-The first start takes a few minutes: it sets up what it needs and, if Python isn't installed yet,
-offers to install it for you. After that it starts straight away.
+The program isn't digitally signed yet, so Windows may say *"Windows protected your PC"* the first
+time: click **More info**, then **Run anyway**.
 
 ## Use
 
-`Riven Helper.bat` opens the **roll editor**, and the overlay runs for as long as it's open: minimise
+`Riven Helper.exe` opens the **roll editor**, and the overlay runs for as long as it's open: minimise
 it while you play, close it when you're done. The editor's top bar shows what the overlay is doing.
 
 | Key | Action |
@@ -73,8 +73,8 @@ Changes apply straight away. Everything is saved in `config.json`.
   English in *Settings > Time & language > Language & region*.
 - **A stat or weapon is misread:** press F10 on that screen and share the files from `debug/` when you
   report it.
-- **Setup failed:** check your internet connection and start `Riven Helper.bat` again. To start over
-  completely, delete the `.venv` folder.
+- **Windows or your antivirus blocks it:** see *Install* above. Unsigned programs packed this way are
+  sometimes flagged by mistake; the full source code is on the project page.
 
 Technical details (the riven math, the roll file format, the code, testing) are in
 [DEVELOPING.md](DEVELOPING.md).

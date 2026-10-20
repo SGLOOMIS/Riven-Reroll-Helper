@@ -1,9 +1,12 @@
 """Settings from config.json (anything missing falls back to these defaults)."""
 
 import json
+import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent          # the project folder
+# Where config.json, rolls/ and debug/ live: the project folder, or the folder holding Riven Helper.exe
+# when packaged (the program's own files are then inside it, in _internal/).
+ROOT = Path(sys.executable).parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent.parent
 
 DEFAULTS = {
     # Roll files, folders or globs, relative to the project folder.
