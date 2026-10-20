@@ -19,6 +19,7 @@ from .config import ROOT
 from .layout import render_to_image, text_scale
 from .overlay_state import OverlayState
 from .style import render_status
+from .theme import palette
 
 KEY_CODES = {f"F{i}": 0x6F + i for i in range(1, 13)} | {"INSERT": 0x2D, "HOME": 0x24, "END": 0x23,
                                                        "PAUSE": 0x13, "SCROLLLOCK": 0x91}
@@ -113,6 +114,9 @@ class App:
         elif kind == "upgrade":
             self.upgrade_weapon = payload
             self.state.on_upgrade(size, payload)
+        elif kind == "theme":
+            print(f"UI theme: {payload.primary} / {payload.accent} on {payload.background}", flush=True)
+            self.state.on_theme(payload)
         elif kind == "hide":
             self.state.on_hide()
         elif kind == "reloaded":
@@ -151,7 +155,8 @@ class App:
             return
         self.status_window = self.status_window or Panel()
         scale = text_scale(self.cfg, self.area[3])
-        self.status_window.set_image(render_status(text, scale, self.cfg["font_size"]), key=(text, scale))
+        image = render_status(text, scale, self.cfg["font_size"], palette(self.state.theme))
+        self.status_window.set_image(image, key=(text, scale, self.state.theme))
         self.status_window.place(left + 8, top + 8, 255)
         self.status_window.show()
 
@@ -188,7 +193,7 @@ class App:
         img, lines, results = self.last_read
         img.save(out / f"{stamp}.png")
         (out / f"{stamp}.ocr.json").write_text(json.dumps(lines, indent=1), encoding="utf-8")
-        render_to_image(img, self.analyzer, results, self.cfg, self.upgrade_weapon).save(out / f"{stamp}.annotated.png")
+        render_to_image(img, self.analyzer, results, self.cfg, self.upgrade_weapon, self.state.theme)             .save(out / f"{stamp}.annotated.png")
         return out / f"{stamp}.png"
 
     def run(self):

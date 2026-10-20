@@ -72,7 +72,8 @@ class TestPlacement(unittest.TestCase):
 
 class TestPanelStyle(unittest.TestCase):
     def test_panels_render_in_game_colours(self):
-        from riven_helper.style import NAVY, ORANGE
+        from riven_helper.theme import palette
+        NAVY, ORANGE = palette().fill, palette().label
         an = analyzer()
         results = an.analyze_lines(saved_ocr("ocr_cycle_selected_left.json"), W)
         cards, ideal = plan_riven_screen(an, results, W, H, fixture_config())
@@ -85,6 +86,58 @@ class TestPanelStyle(unittest.TestCase):
         border = [img.getpixel((i, 1)) for i in range(img.width)]
         self.assertTrue(any(p[3] > 100 and abs(p[0] - ORANGE[0]) < 10 for p in border))   # orange outline
         self.assertEqual(img.getpixel((0, 0))[3], 0)                                      # cut corner is clear
+
+
+class TestTheme(unittest.TestCase):
+    """Panels are drawn in the player's UI theme, read off the screen header."""
+
+    def theme(self, number):
+        """The Theme read off theme screenshot number (1-20)."""
+        from riven_helper.theme import detect
+        from tests.theme_headers import theme_frames
+        return next(detect(frame) for name, frame in theme_frames() if name.startswith(f"theme_{number:02d}_"))
+
+    def test_detected_from_header(self):
+        def near(a, b):
+            return max(abs(x - y) for x, y in zip(a, b)) <= 30
+        orange = self.theme(1)                              # orange "CUSTOMIZE UI THEME/", red-orange "THEME"
+        self.assertTrue(near(orange.primary, (249, 133, 8)) and near(orange.accent, (248, 54, 5)), orange)
+        self.assertLess(max(orange.background), 60)          # on a dark bar
+        light = self.theme(17)                              # dark green text, gold accent, on light grey
+        self.assertLess(max(light.primary), 80)
+        self.assertGreater(min(light.background), 180)
+        from PIL import Image
+
+        from riven_helper.theme import detect
+        self.assertIsNone(detect(Image.new("RGB", (1920, 1080), (40, 40, 40))))   # no header: nothing
+        # The cycle animation's bright crystal right behind the header (no bar): not the theme's background.
+        frame = Image.new("RGB", (1920, 1080))
+        frame.paste(Image.open(FIXTURES / "img" / "header_over_art_1920x1080.png").convert("RGB"), (0, 0))
+        over_art = detect(frame)
+        self.assertLess(max(over_art.background), 60)
+        self.assertTrue(near(over_art.primary, (253, 132, 2)))
+
+    def test_palette_stays_readable(self):
+        from riven_helper.theme import _luminance, detect, palette
+        from tests.theme_headers import theme_frames
+        for name, frame in theme_frames():
+            p = palette(detect(frame))
+            for colour in (p.label, p.text, p.stat, p.good, p.bad):
+                self.assertGreaterEqual(abs(_luminance(colour) - _luminance(p.fill)), 0.3, (name, colour, p.fill))
+
+    def test_overlay_redraws_in_new_theme(self):
+        from riven_helper.overlay_state import OverlayState
+        an = analyzer()
+        state = OverlayState(an, fixture_config())
+        state.on_results((W, H), an.analyze_lines(saved_ocr("ocr_cycle_selected_left.json"), W))
+        for _ in range(8):
+            before = {key: (img, x, y, a) for key, img, x, y, a in state.tick()}
+        state.on_theme(self.theme(17))                       # light theme picked
+        after = {key: (img, x, y, a) for key, img, x, y, a in state.tick()}
+        card = ("card", 0)
+        self.assertEqual(before[card][1:], after[card][1:])  # same place, same fade
+        fill = after[card][0].getpixel((after[card][0].width // 2, after[card][0].height - 6))
+        self.assertGreater(min(fill[:3]), 150)              # now light, like the theme
 
 
 class TestTracker(unittest.TestCase):

@@ -38,10 +38,14 @@ def rate_screenshot(analyzer, cfg, path, out=None):
     from PIL import Image
 
     from .capture import Ocr
+    from .theme import detect as detect_theme
     from .upgrade_screen import detect_weapon
     img = Image.open(path).convert("RGB")
     ocr = Ocr()
     results, lines = analyzer.analyze_image(img, ocr)
+    theme = detect_theme(img)
+    if theme:
+        print(f"UI theme: {theme.primary} / {theme.accent} on {theme.background}")
     if not results:
         print("No riven cards found.")
     for i, (res, best) in enumerate(zip(results, best_flags(results))):
@@ -56,7 +60,7 @@ def rate_screenshot(analyzer, cfg, path, out=None):
         for line in rows_text(upgrade_rows(analyzer, upgrade)).splitlines():
             print("   ", line)
     if out:
-        render_to_image(img, analyzer, results, cfg, upgrade).save(out)
+        render_to_image(img, analyzer, results, cfg, upgrade, theme).save(out)
         print(f"Annotated image written to {out}")
 
 

@@ -38,12 +38,14 @@ class OverlayState:
         self.ideal = None               # IDEAL ROLL
         self.upgrade = None             # IDEAL RIVEN on the upgrade screen
         self.visible = True             # F8 toggles this
+        self.theme = None               # the UI theme the panels are drawn in (None: the default)
+        self.upgrade_weapon = None
         self._tracks = []
 
     def on_results(self, size, results):
         """A trusted new reading: panels for its cards (fading in) and IDEAL ROLL."""
         self.size, self.results = size, results
-        cards, ideal = plan_riven_screen(self.analyzer, results, size[0], size[1], self.cfg)
+        cards, ideal = plan_riven_screen(self.analyzer, results, size[0], size[1], self.cfg, theme=self.theme)
         alphas = [c.alpha for c in self.cards]
         self.cards = [Panel(image, x, y, alpha=alphas[i] if i < len(alphas) else 0)
                       for i, (image, (x, y)) in enumerate(cards)]
@@ -70,9 +72,10 @@ class OverlayState:
         """The cards came to rest somewhere new: place their panels again there."""
         if not self.results or not self.size:
             return
-        cards, _ = plan_riven_screen(self.analyzer, self.results, self.size[0], self.size[1], self.cfg, geometries)
-        for i, (panel, (_, (x, y))) in enumerate(zip(self.cards, cards)):
-            panel.x, panel.y = x, y
+        cards, _ = plan_riven_screen(self.analyzer, self.results, self.size[0], self.size[1], self.cfg, geometries,
+                                     self.theme)
+        for i, (panel, (image, (x, y))) in enumerate(zip(self.cards, cards)):
+            panel.image, panel.x, panel.y = image, x, y
             t = self._tracks[i] if i < len(self._tracks) else None
             if t is not None:
                 panel.home = (t[0], t[1], t[2])
@@ -80,11 +83,31 @@ class OverlayState:
 
     def on_upgrade(self, size, weapon_name):
         """The weapon upgrade screen opened for weapon_name, or closed (None)."""
-        plan = plan_upgrade_screen(self.analyzer, weapon_name, size[0], size[1], self.cfg) if weapon_name else None
+        self.size, self.upgrade_weapon = size, weapon_name
+        plan = (plan_upgrade_screen(self.analyzer, weapon_name, size[0], size[1], self.cfg, self.theme)
+                if weapon_name else None)
         if plan:
             self.upgrade = Panel(plan[0], *plan[1], alpha=self.upgrade.alpha if self.upgrade else 0)
         elif self.upgrade:
             self.upgrade.wanted = False
+
+    def on_theme(self, theme):
+        """The player's UI theme was read (or changed): draw the panels showing now in its colours,
+        keeping where they are and how faded."""
+        self.theme = theme
+        if not self.size:
+            return
+        if self.results:
+            cards, ideal = plan_riven_screen(self.analyzer, self.results, self.size[0], self.size[1], self.cfg,
+                                             theme=theme)
+            for panel, (image, _) in zip(self.cards, cards):
+                panel.image = image
+            if ideal and self.ideal:
+                self.ideal.image = ideal[0]
+        if self.upgrade_weapon and self.upgrade:
+            plan = plan_upgrade_screen(self.analyzer, self.upgrade_weapon, self.size[0], self.size[1], self.cfg, theme)
+            if plan:
+                self.upgrade.image = plan[0]
 
     def on_hold(self):
         """A new reading is being confirmed: the old card panels belong to cards that are gone."""

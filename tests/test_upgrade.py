@@ -67,6 +67,21 @@ class TestUpgradeScreen(unittest.TestCase):
         for size in ((1920, 1080), (2560, 1440), (3840, 2160)):
             self.assertEqual(weapon_from_header(src.resize(size, Image.LANCZOS), ocr, G), "skiajati", size)
 
+    def test_every_ui_theme(self):
+        # Warframe's 20 UI themes: light and dark, one or two text colours. Each one's screen header
+        # ("CUSTOMIZE UI THEME/THEME", the same style as the upgrade screen's) must come out readable.
+        import difflib
+
+        from riven_helper.upgrade_screen import _capitals, _glyphs, _respaced, _texts, header_mask
+        from tests.theme_headers import theme_frames
+        ocr = windows_ocr(self)
+        for name, frame in theme_frames():
+            mask = header_mask(frame)
+            image = _respaced(mask, _glyphs(mask), widen=True)
+            best = max(difflib.SequenceMatcher(None, _capitals(" ".join(_texts(ocr.read(image, scale)))).replace(" ", ""),
+                                               "CUSTOMIZEUITHEME/THEME").ratio() for scale in (1.0, 1.5))
+            self.assertGreater(best, 0.85, name)
+
     def test_melee_screens(self):
         # The melee header OCRs as "[30]" or "PRIME [30]" only; the header reader still gets the weapon,
         # and the panel goes below the arcane slot at the top right (melee has a different layout).

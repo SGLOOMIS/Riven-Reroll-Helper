@@ -8,6 +8,7 @@ Kept apart from the live loop (app.py) so the same logic can be replayed on a sc
   ("track", [card position or None])  where each card is now (None: lost, or dimmed by a dialog)
   ("relayout", [card geometry])       the cards slid somewhere new and stopped: place panels again
   ("upgrade", weapon or None)         the weapon upgrade screen opened (for which weapon) or closed
+  ("theme", Theme)                    the player's UI theme, when first seen or changed (theme.py)
 
 Rules:
   * No cards known: read (OCR) once a second, which also notices the upgrade screen.
@@ -27,6 +28,7 @@ import numpy as np
 from PIL import Image
 
 from .tracker import CardTracker, to_gray_small
+from .theme import detect as detect_theme
 from .upgrade_screen import UpgradeScreen
 
 SCAN_EVERY = 1.0             # s between reads while no cards are known
@@ -54,6 +56,8 @@ class Session:
         self.analyzer, self.ocr = analyzer, ocr
         self.tracker = CardTracker()
         self.upgrade = UpgradeScreen()
+        self.theme = None                    # the UI theme in use (reported once two reads agree)
+        self._theme_seen = None
         self.reads = 0                       # OCR passes so far
         self.results = []                    # the cards of the last reading
         self.riven_screen_seen = -1e9        # when the riven screen's labels were last read
@@ -117,6 +121,16 @@ class Session:
         self.shown_before = bool(results)
         return ("results", (img, lines, results))
 
+    def _theme_event(self):
+        """("theme", Theme) when the last two reads agree on a theme other than the current one."""
+        seen = detect_theme(self.img)
+        agreed = seen is not None and seen.close_to(self._theme_seen)
+        self._theme_seen = seen
+        if agreed and not seen.close_to(self.theme):
+            self.theme = seen
+            return [("theme", seen)]
+        return []
+
     def _upgrade_event(self):
         """("upgrade", weapon or None) when the upgrade screen's weapon changes, else nothing."""
         before = self.upgrade.weapon
@@ -133,7 +147,7 @@ class Session:
         if not self.tracker.tracks:
             if now - self.last_read < SCAN_EVERY:
                 return [], 0.25
-            return [self._read(frame, now)] + self._upgrade_event(), 0.25
+            return [self._read(frame, now)] + self._upgrade_event() + self._theme_event(), 0.25
         return self._watch(frame, now)
 
     def _watch(self, frame, now):
@@ -171,17 +185,17 @@ class Session:
 
         if self.confirm_at is not None and now >= self.confirm_at and not self.changed and not moving:
             self.confirm_at = None
-            return events + [self._read(frame, now)], FAST
+            return events + [self._read(frame, now)] + self._theme_event(), FAST
         waited = now - max(self.last_motion, min(self.lost_since.values(), default=now))
         if self.changed and (settled or waited > GIVE_UP_WAITING):
-            events.append(self._read(frame, now, after_change=True))
+            events += [self._read(frame, now, after_change=True)] + self._theme_event()
         elif self.moved and settled:
             if len(self.results) >= 2:          # the cycle screen's cards swapped places: same rivens
                 events.append(("relayout", [self.tracker.map_box(i, r.card.geometry) if self.tracker.tracks[i]
                                             else r.card.geometry for i, r in enumerate(self.results)]))
                 self.moved = False
             else:                               # a lone card moving: the cycle animation began
-                events.append(self._read(frame, now))
+                events += [self._read(frame, now)] + self._theme_event()
         busy = moving or self.changed or self.moved or now - self.last_motion < 1.0
         return events, FAST if busy else SLOW
 

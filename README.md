@@ -41,7 +41,14 @@ language > Language & region > your language > Language options*.
 - **Far left, IDEAL ROLL:** the best roll for the weapon being rerolled, with the highest value each stat
   can reach on it (assuming 3 positives + 1 negative) and the negatives that roll accepts.
 - **Weapon upgrade screen, IDEAL RIVEN:** a compact panel below the arcane slot with the weapon's best
-  stats and their maximum values on a maxed riven.
+  stats and their maximum values on a maxed riven. The weapon's name is read from the screen's header,
+  which works with every Warframe UI theme, light or dark.
+
+The panels take on your UI theme's colours, read from the screen's header ("INVENTORY/MODS",
+"UPGRADES/…"): its text colour for the headings and outline, its accent for the better card, and its
+background for the panel. Stat names keep the riven's lavender, and every colour is adjusted where
+needed to stay readable on light themes. Until a header has been seen, the default orange theme is
+used.
 
 Panels only show while the screen is at rest: the riven screen with its card, or the cycle screen with
 the new or the old riven selected. While the cards move, or a dialog dims the screen, the card panels fade
@@ -188,6 +195,7 @@ disposition.
 | `session.py` | Live loop: when to read, card tracking, waiting for the screen to settle |
 | `tracker.py` | Follows cards between reads by image matching |
 | `panel_text.py` | What each panel says |
+| `theme.py` | Reads the UI theme off the screen; the panel colours for it |
 | `style.py` | Draws panels in the game's style |
 | `layout.py` | Where each panel goes |
 | `overlay_state.py` | Which panels are showing, and their fades |

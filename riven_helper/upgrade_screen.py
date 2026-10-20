@@ -3,8 +3,8 @@
 The screen itself is recognised by its CAPACITY and CONFIG A/B/C labels, which OCR reads reliably.
 The weapon's name is in the header, in a wide letter-spaced display font that OCR reads badly
 ("QIJPGRADES/", or just "[30]"). When the normal OCR text doesn't contain it, the header is read
-on its own: its text (in the UI theme's colour) is isolated, the extra letter spacing removed,
-and the result read a few ways; the weapon name found most often wins.
+on its own: its letters are picked out (whatever the UI theme's colours), the extra letter
+spacing removed, and the result read a few ways; the weapon name found most often wins.
 
 UpgradeScreen keeps the answer steady: once the weapon is known it's kept for as long as the
 screen is, and the header is only read again when its pixels change (another weapon selected).
@@ -58,27 +58,50 @@ def weapon_from_text(lines, gamedata):
 
 # -- reading the header image itself ---------------------------------------------------------
 def header_mask(img):
-    """The header's text as a boolean array, trimmed to the text rows.
+    """The header's letters as a boolean array, trimmed to the text rows.
 
-    The text's colour depends on the player's UI theme (orange by default, pale gold, ...) and the
-    weapon's name can differ from "UPGRADES/" (red-orange), so text is any bright pixel on the dark
-    header bar that's warm (red over blue, unlike the grey-blue background art) or the colour of the
-    header's brightest pixels (for other themes). The header is first scaled to its size at 1080p,
-    which the letter spacing and stroke sizes below are measured for.
+    Works for every UI theme: light or dark, one colour or two ("UPGRADES/" and the weapon's name
+    can differ). A pixel is text when it stands out from its local background (the median of the
+    area around it, which the thin letters barely change), in either direction. Of what stands out,
+    only letter-like shapes on one line are kept: not the underline, icons or background art.
+    The header is first scaled to its size at 1080p, which the sizes here are measured for.
     """
+    _, letters = header_pixels(img)
+    rows = np.where(letters.any(axis=1))[0]
+    return letters[rows.min():rows.max() + 1] if len(rows) else letters[:1]
+
+
+def header_pixels(img):
+    """(the header as an RGB array at 1080p size, its letters as a boolean array of the same size)."""
     W, H = img.size
     x0, y0, x1, y1 = HEADER_AREA
     crop = img.crop((int(W * x0), int(H * y0), int(W * x1), int(H * y1)))
     if abs(H - 1080) > 20:
         crop = crop.resize((round(crop.width * 1080 / H), round(crop.height * 1080 / H)), Image.LANCZOS)
-    crop = np.asarray(crop).astype(np.int16)
-    value = crop.max(axis=2)
-    top = np.percentile(value, 99.5)
-    text_colour = np.median(crop[value >= top * 0.9], axis=0)
-    warm = crop[..., 0] - crop[..., 2] > 40
-    mask = (value >= top * 0.55) & (warm | (np.abs(crop - text_colour).max(axis=2) < 70))
-    rows = np.where(mask.any(axis=1))[0]
-    return mask[rows.min():rows.max() + 1] if len(rows) else mask
+    rgb = np.asarray(crop.convert("RGB"))
+    background = cv2.medianBlur(rgb, 41)
+    contrast = np.abs(rgb.astype(np.int16) - background.astype(np.int16)).max(axis=2)
+    # Clearly different, and at least half as different as the strongest text: this leaves out the
+    # letters' soft edges, which would make them too bold for OCR.
+    mask = (contrast > 45) & (contrast > 0.5 * np.percentile(contrast, 99.5))
+    mask[mask.mean(axis=1) > 0.5] = False                 # the header's underline
+    return rgb, _letters(mask)
+
+
+def _letters(mask):
+    """Keep the connected shapes that are letter-sized and sit on the same line as the first words."""
+    count, labels, stats, _ = cv2.connectedComponentsWithStats(mask.astype(np.uint8), connectivity=8)
+    shapes = [(i, x, y, w, h) for i, (x, y, w, h, _) in enumerate(stats) if i and h >= 12]
+    first = [sh for sh in shapes if sh[1] < mask.shape[1] * 0.4]
+    if not first:
+        return np.zeros_like(mask)
+    letter_h = float(np.median([h for *_, h in first]))
+    top = float(np.median([y for _, _, y, _, h in first if abs(h - letter_h) <= 0.15 * letter_h] or [0]))
+    keep = [i for i, x, y, w, h in shapes
+            if x > 0                                      # not the "+" button's edge at the far left
+            and 0.75 * letter_h <= h <= 1.35 * letter_h and w <= 1.3 * letter_h
+            and abs(y - top) <= 0.2 * letter_h + 2]
+    return np.isin(labels, keep)
 
 
 def _glyphs(mask):

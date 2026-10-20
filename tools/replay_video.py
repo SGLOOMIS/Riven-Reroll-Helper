@@ -89,6 +89,9 @@ def main():
                 elif kind == "upgrade":
                     state.on_upgrade((W, H), payload)
                     print(f"{t:6.2f}s  upgrade screen: {payload or 'left'}", flush=True)
+                elif kind == "theme":
+                    state.on_theme(payload)
+                    print(f"{t:6.2f}s  UI theme: {payload.primary} / {payload.accent} on {payload.background}", flush=True)
                 elif kind == "track":
                     state.on_track(payload)
                 elif kind == "relayout":

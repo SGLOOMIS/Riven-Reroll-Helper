@@ -11,6 +11,8 @@ live overlay, F10 snapshots and video replays, so all three show exactly the sam
 
 from .panel_text import card_rows, ideal_rows, upgrade_rows
 from .style import render_panel
+from .theme import detect as detect_theme
+from .theme import palette
 
 GAP = 8                     # px kept between panels and anything they must not touch
 ABOVE_GAP = 10              # px between a card panel and the top of its card
@@ -115,28 +117,29 @@ def best_flags(results):
     return [s == max(scores) for s in scores]
 
 
-def plan_riven_screen(analyzer, results, W, H, cfg, geometries=None):
-    """Render the panels for the riven / cycle screen and place them.
+def plan_riven_screen(analyzer, results, W, H, cfg, geometries=None, theme=None):
+    """Render the panels for the riven / cycle screen (in theme's colours) and place them.
 
     Returns (cards, ideal): cards is [(image, (x, y))] in result order, ideal is (image, (x, y)) or
     None. geometries replaces the cards' read-time geometry (after they've moved on screen).
     """
+    colours = palette(theme)
     scale, base = text_scale(cfg, H), cfg["font_size"]
     ideal, avoid = None, []
     rows = ideal_rows(analyzer, results)
     if rows:
-        image = render_panel(rows, scale, base)
+        image = render_panel(rows, scale, base, palette=colours)
         at = (int(W * IDEAL_AT[0]), int(H * IDEAL_AT[1]))
         ideal = (image, at)
         avoid.append((*at, image.width, image.height))
-    images = [render_panel(card_rows(analyzer, r, best), scale, base, highlight=best)
+    images = [render_panel(card_rows(analyzer, r, best), scale, base, highlight=best, palette=colours)
               for r, best in zip(results, best_flags(results))]
     geometries = geometries or [r.card.geometry for r in results]
     spots = place_card_panels([(g, im.size) for g, im in zip(geometries, images)], W, H, avoid)
     return list(zip(images, spots)), ideal
 
 
-def plan_upgrade_screen(analyzer, weapon_name, W, H, cfg):
+def plan_upgrade_screen(analyzer, weapon_name, W, H, cfg, theme=None):
     """The IDEAL RIVEN panel for a weapon's upgrade screen, fitted into UPGRADE_AREA: the largest text
     that fits, with the negatives on one line or wrapped two or one per line. (image, (x, y)) or None."""
     if not upgrade_rows(analyzer, weapon_name):
@@ -149,19 +152,21 @@ def plan_upgrade_screen(analyzer, weapon_name, W, H, cfg):
     for shrink in (1.0, 0.92, 0.85, 0.78, 0.72, 0.66, 0.6):
         for per_line in (3, 2, 1):
             image = render_panel(upgrade_rows(analyzer, weapon_name, per_line), scale * shrink, cfg["font_size"],
-                                 min_width=aw * 0.9 - 14 * scale * shrink)
+                                 min_width=aw * 0.9 - 14 * scale * shrink, palette=palette(theme))
             if image.width <= aw + 2 and image.height <= ah + 2:
                 return image, (int(ax + aw - image.width), int(ay))
     return image, (int(ax + aw - image.width), int(ay))
 
 
-def render_to_image(img, analyzer, results, cfg, upgrade_weapon=None):
-    """A screenshot with the overlay's panels pasted on (F10 snapshots, --image --out)."""
+def render_to_image(img, analyzer, results, cfg, upgrade_weapon=None, theme=None):
+    """A screenshot with the overlay's panels pasted on (F10 snapshots, --image --out), in theme's
+    colours (by default the theme read off the screenshot itself)."""
+    theme = theme or detect_theme(img)
     out = img.convert("RGBA")
-    cards, ideal = plan_riven_screen(analyzer, results, img.width, img.height, cfg)
+    cards, ideal = plan_riven_screen(analyzer, results, img.width, img.height, cfg, theme=theme)
     panels = cards + ([ideal] if ideal else [])
     if upgrade_weapon and not results:
-        panels += [p for p in [plan_upgrade_screen(analyzer, upgrade_weapon, img.width, img.height, cfg)] if p]
+        panels += [p for p in [plan_upgrade_screen(analyzer, upgrade_weapon, img.width, img.height, cfg, theme)] if p]
     for panel, (x, y) in panels:
         out.alpha_composite(panel, (int(x), int(y)))
     return out.convert("RGB")

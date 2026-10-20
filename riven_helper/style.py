@@ -1,10 +1,11 @@
 """Panel rendering in the game's own look.
 
-Colours are sampled from the riven screens: the orange of the game's labels
-and button outlines, the dark navy of its buttons, and the lavender of riven
-stat text. Panels are drawn as RGBA images so they can be translucent like
-the game's own UI; the live overlay shows these images in layered windows,
-and F10 snapshots paste the very same images onto the screenshot.
+Colours come from the player's UI theme (theme.py): its label colour for the
+headings and outline, its accent for the better card, its background for the
+translucent fill; stat names keep the riven's lavender. Panels are drawn as
+RGBA images so they can be translucent like the game's own UI; the live
+overlay shows these images in layered windows, and F10 snapshots paste the
+very same images onto the screenshot.
 
 A panel is a list of rows:
     ("score", "87%", grade, is_best)      big rating with the RIVEN RATING label (and BETTER badge)
@@ -21,22 +22,18 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-ORANGE = (253, 132, 2)          # labels, outlines ("LOCK TRAIT", "FITS IN")
-ORANGE_DIM = (172, 95, 14)
-NAVY = (16, 24, 35)             # button fill
-NAVY_TOP = (26, 36, 54)
-LAVENDER = (172, 131, 213)      # riven stat text
-LAVENDER_HI = (205, 180, 250)
-TEXT = (222, 222, 232)          # light grey text ("Damage" on a wrapped line)
-GREY = (128, 130, 148)
-RED = (240, 88, 80)
-GREEN = (126, 226, 160)
+from .theme import palette as theme_palette
 
-GRADE = {"great": GREEN, "good": (196, 228, 112), "ok": (253, 190, 60), "bad": RED}
-TAG = {"good": LAVENDER_HI, "ok": LAVENDER, "unwanted": GREY, "harmless": (150, 196, 230), "neutral": GREY,
-       "bad": RED, "dealbreaker": RED}
-MARK = {"good": ORANGE, "ok": ORANGE_DIM, "unwanted": GREY, "harmless": (150, 196, 230), "neutral": GREY,
-        "bad": RED, "dealbreaker": RED}
+
+def _colours(p):
+    """(grade colours, stat-name colours by tag, mark colours by tag) for a Palette."""
+    grade = {"great": p.good, "good": p.fine, "ok": p.ok, "bad": p.bad}
+    tag = {"good": p.stat_hi, "ok": p.stat, "unwanted": p.grey, "harmless": p.harmless, "neutral": p.grey,
+           "bad": p.bad, "dealbreaker": p.bad}
+    mark = {"good": p.label, "ok": p.label_dim, "unwanted": p.grey, "harmless": p.harmless, "neutral": p.grey,
+            "bad": p.bad, "dealbreaker": p.bad}
+    return grade, tag, mark
+
 
 FONT_DIR = Path("C:/Windows/Fonts")
 FONTS = {
@@ -116,8 +113,11 @@ def _row_width(draw, row, m):
     return draw.textlength(row[1], font=m.small)
 
 
-def render_panel(rows, scale=1.0, base=11, highlight=False, min_width=0):
-    """Draw one panel; returns an RGBA image."""
+def render_panel(rows, scale=1.0, base=11, highlight=False, min_width=0, palette=None):
+    """Draw one panel (in palette's colours, theme.palette(); the default theme's when None); returns
+    an RGBA image."""
+    p = palette or theme_palette()
+    grade_colour, tag_colour, mark_colour = _colours(p)
     probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
     m = Metrics(scale, base)
     width = int(max([min_width, 200 * scale] + [_row_width(probe, r, m) for r in rows]) + 2 * m.pad)
@@ -133,19 +133,19 @@ def render_panel(rows, scale=1.0, base=11, highlight=False, min_width=0):
     # Translucent navy glass with a slightly lighter top, like the game's buttons.
     fill = Image.new("RGBA", img.size, (0, 0, 0, 0))
     fd = ImageDraw.Draw(fill)
-    fd.polygon(outline, fill=NAVY + (226,))
+    fd.polygon(outline, fill=p.fill + (226,))
     shade = Image.new("RGBA", img.size, (0, 0, 0, 0))
     sd = ImageDraw.Draw(shade)
     for i in range(int(height * 0.45)):
         a = int(70 * (1 - i / (height * 0.45)))
-        sd.line([(x0, y0 + i), (x1, y0 + i)], fill=NAVY_TOP + (a,))
+        sd.line([(x0, y0 + i), (x1, y0 + i)], fill=p.fill_top + (a,))
     mask = Image.new("L", img.size, 0)
     ImageDraw.Draw(mask).polygon(outline, fill=255)
     fill.alpha_composite(Image.composite(shade, Image.new("RGBA", img.size, (0, 0, 0, 0)), mask))
     img.alpha_composite(fill)
 
-    # Thin orange outline with diamond tips on the sides (brighter when this card is the better one).
-    edge = ORANGE + ((235,) if highlight else (150,))
+    # Thin outline with diamond tips on the sides (in the accent colour when this card is the better one).
+    edge = p.highlight + (235,) if highlight else p.label + (150,)
     d.line(outline + [outline[0]], fill=edge, width=2 if highlight else 1)
     mid = (y0 + y1) // 2
     for cx, direction in ((x0, -1), (x1, 1)):
@@ -160,45 +160,46 @@ def render_panel(rows, scale=1.0, base=11, highlight=False, min_width=0):
         h = _row_height(row, m)
         if kind == "score":
             _, text, grade, best = row
-            d.text((left, y - round(m.line * 0.15)), text, font=m.score, fill=GRADE.get(grade, TEXT))
+            d.text((left, y - round(m.line * 0.15)), text, font=m.score, fill=grade_colour.get(grade, p.text))
             lx = left + d.textlength(text, font=m.score) + m.pad
-            _spaced_text(d, (lx, y + round(m.line * 0.55)), "RIVEN RATING", m.label, ORANGE, m.spacing)
+            _spaced_text(d, (lx, y + round(m.line * 0.55)), "RIVEN RATING", m.label, p.label, m.spacing)
             if best:
                 bw = _spaced_width(d, "BETTER", m.label, m.spacing) + 2 * m.pad
                 bx, by, bh = right - bw, y + round(m.line * 0.3), round(m.line * 1.2)
                 cc = round(bh * 0.35)
                 d.polygon([(bx + cc, by), (bx + bw - cc, by), (bx + bw, by + bh / 2), (bx + bw - cc, by + bh),
-                           (bx + cc, by + bh), (bx, by + bh / 2)], fill=ORANGE + (240,))
-                _spaced_text(d, (bx + m.pad, by + round(bh * 0.12)), "BETTER", m.label, NAVY, m.spacing)
+                           (bx + cc, by + bh), (bx, by + bh / 2)], fill=p.highlight + (240,))
+                _spaced_text(d, (bx + m.pad, by + round(bh * 0.12)), "BETTER", m.label, p.fill, m.spacing)
         elif kind == "title":
-            _spaced_text(d, (left, y), row[1], m.title, ORANGE, m.spacing * 2)
+            _spaced_text(d, (left, y), row[1], m.title, p.label, m.spacing * 2)
         elif kind == "label":
-            d.text((left, y), row[1], font=m.small, fill=TEXT)
+            d.text((left, y), row[1], font=m.small, fill=p.text)
         elif kind == "stat":
             _, mark, name, value, tag = row
             mw = d.textlength(mark + "  ", font=m.body)
-            d.text((left, y), mark, font=m.body, fill=MARK.get(tag, GREY))
-            d.text((left + mw, y), name, font=m.body, fill=TAG.get(tag, TEXT))
+            d.text((left, y), mark, font=m.body, fill=mark_colour.get(tag, p.grey))
+            d.text((left + mw, y), name, font=m.body, fill=tag_colour.get(tag, p.text))
             if value:
-                vcol = RED if tag in ("bad", "dealbreaker") else (TEXT if tag not in ("unwanted", "neutral") else GREY)
+                vcol = p.bad if tag in ("bad", "dealbreaker") else (p.text if tag not in ("unwanted", "neutral") else p.grey)
                 d.text((right - d.textlength(value, font=m.body), y), value, font=m.body, fill=vcol)
         elif kind == "note":
-            d.text((left, y), row[1], font=m.small, fill=RED if row[2] == "bad" else ORANGE)
+            d.text((left, y), row[1], font=m.small, fill=p.bad if row[2] == "bad" else p.label)
         elif kind == "meta":
-            d.text((left, y), row[1], font=m.small, fill=GREY)
+            d.text((left, y), row[1], font=m.small, fill=p.grey)
         elif kind == "rule":
             ry = y + h // 2
-            d.line([(left, ry), (right, ry)], fill=ORANGE + (70,), width=1)
+            d.line([(left, ry), (right, ry)], fill=p.label + (70,), width=1)
         y += h
     return img
 
 
-def render_status(text, scale=1.0, base=11):
+def render_status(text, scale=1.0, base=11, palette=None):
     """The small hint line in the corner."""
+    p = palette or theme_palette()
     f = font("body", max(8, round(base * 1.2 * scale)))
     probe = ImageDraw.Draw(Image.new("RGBA", (1, 1)))
     w, h = int(probe.textlength(text, font=f)) + 16, int(f.size * 1.6)
-    img = Image.new("RGBA", (w, h), NAVY + (170,))
-    ImageDraw.Draw(img).text((8, int(f.size * 0.2)), text, font=f, fill=GREY)
+    img = Image.new("RGBA", (w, h), p.fill + (170,))
+    ImageDraw.Draw(img).text((8, int(f.size * 0.2)), text, font=f, fill=p.grey)
     return img
 
