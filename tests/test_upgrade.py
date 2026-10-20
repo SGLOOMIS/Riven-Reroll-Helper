@@ -58,6 +58,15 @@ class TestUpgradeScreen(unittest.TestCase):
         img, (x, y) = plan_upgrade_screen(an, "epitaph prime", 2560, 1440, fixture_config())
         self.assertTrue(2100 <= x and x + img.width <= 2500 and 630 <= y and y + img.height <= 810)
 
+    def test_condensed_header_any_resolution(self):
+        # Gold-theme melee screen "UPGRADES/SKIAJATI [30]": OCR reads only "[30]", and the condensed
+        # header font is only readable widened. It must read the same at 1080p, 1440p and 4K.
+        from PIL import Image
+        ocr = windows_ocr(self)
+        src = Image.open(FIXTURES / "img" / "upgrade_gold_theme_skiajati.jpg").convert("RGB")
+        for size in ((1920, 1080), (2560, 1440), (3840, 2160)):
+            self.assertEqual(weapon_from_header(src.resize(size, Image.LANCZOS), ocr, G), "skiajati", size)
+
     def test_melee_screens(self):
         # The melee header OCRs as "[30]" or "PRIME [30]" only; the header reader still gets the weapon,
         # and the panel goes below the arcane slot at the top right (melee has a different layout).

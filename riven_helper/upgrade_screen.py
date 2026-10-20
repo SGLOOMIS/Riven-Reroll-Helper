@@ -14,6 +14,7 @@ import difflib
 import re
 from collections import Counter
 
+import cv2
 import numpy as np
 from PIL import Image
 
@@ -62,11 +63,15 @@ def header_mask(img):
     The text's colour depends on the player's UI theme (orange by default, pale gold, ...) and the
     weapon's name can differ from "UPGRADES/" (red-orange), so text is any bright pixel on the dark
     header bar that's warm (red over blue, unlike the grey-blue background art) or the colour of the
-    header's brightest pixels (for other themes).
+    header's brightest pixels (for other themes). The header is first scaled to its size at 1080p,
+    which the letter spacing and stroke sizes below are measured for.
     """
     W, H = img.size
     x0, y0, x1, y1 = HEADER_AREA
-    crop = np.asarray(img.crop((int(W * x0), int(H * y0), int(W * x1), int(H * y1)))).astype(np.int16)
+    crop = img.crop((int(W * x0), int(H * y0), int(W * x1), int(H * y1)))
+    if abs(H - 1080) > 20:
+        crop = crop.resize((round(crop.width * 1080 / H), round(crop.height * 1080 / H)), Image.LANCZOS)
+    crop = np.asarray(crop).astype(np.int16)
     value = crop.max(axis=2)
     top = np.percentile(value, 99.5)
     text_colour = np.median(crop[value >= top * 0.9], axis=0)
@@ -87,8 +92,12 @@ def _glyphs(mask):
     return [r for r, h in zip(runs, heights) if h >= tall * 0.6]
 
 
-def _respaced(mask, runs, letter_gap=3, word_gap=14):
-    """The glyphs with normal letter spacing (keeping word gaps), black on white, or None."""
+def _respaced(mask, runs, letter_gap=3, word_gap=14, widen=False):
+    """The glyphs with normal letter spacing (keeping word gaps), black on white, or None.
+
+    widen: also make the letters wider and their strokes thicker. The header font is so condensed
+    (tall thin letters, "A" drawn as a bare "Λ") that OCR often can't read it as it is.
+    """
     if not runs:
         return None
     gaps = [b[0] - a[1] for a, b in zip(runs, runs[1:])]
@@ -98,17 +107,29 @@ def _respaced(mask, runs, letter_gap=3, word_gap=14):
         if i:
             pieces.append(np.zeros((mask.shape[0], word_gap if gaps[i - 1] > 1.8 * median else letter_gap), bool))
         pieces.append(mask[:, s:e])
-    out = np.pad(np.hstack(pieces), 12)
-    return Image.fromarray(np.where(out, 0, 255).astype(np.uint8)).convert("RGB")
+    out = np.pad(np.hstack(pieces), 12).astype(np.uint8) * 255
+    if widen:
+        h = mask.shape[0]
+        out = cv2.resize(out, (int(out.shape[1] * 1.75), out.shape[0]), interpolation=cv2.INTER_LINEAR)
+        stroke = max(2, round(h / 14))
+        out = cv2.dilate(out, np.ones((stroke, stroke), np.uint8))
+    return Image.fromarray(255 - out).convert("RGB")
+
+
+def _capitals(text):
+    """The header is all capitals, so lower-case letters OCR returns for it are misread capitals:
+    the font's bare "Λ" comes out as "h", and "I" as "l" (or "1" between letters)."""
+    text = re.sub(r"(?<=[A-Za-z])1|1(?=[A-Za-z])", "I", text)
+    return text.translate(str.maketrans({"h": "A", "l": "I"}))
 
 
 def weapon_from_header(img, ocr, gamedata):
     """Read the weapon name from the header image (normalized), or None.
 
     Readings: the whole header; the glyphs after "UPGRADES/" (always the first 9); those up to a
-    taller "[" (the rank); and those without the last word. Each at a few sizes. An exact name
-    scores 2 votes, a loose match 1; a reading of just the first word ("SPECTRA") also counts for
-    the full name ("SPECTRA VANDAL").
+    taller "[" (the rank); and those without the last word. Each as it is and widened, at a few
+    sizes. An exact name scores 2 votes, a loose match 1; a reading of just the first word
+    ("SPECTRA") also counts for the full name ("SPECTRA VANDAL").
     """
     mask = header_mask(img)
     runs = _glyphs(mask)
@@ -126,12 +147,12 @@ def weapon_from_header(img, ocr, gamedata):
         readings.append(name[:word_breaks[-1]])
 
     votes = Counter()
-    for runs_ in readings:
-        image = _respaced(mask, runs_)
-        for scale in (1.0, 1.25, 1.5, 2.0):
+    for runs_, widen in [(r, w) for r in readings for w in (False, True)]:
+        image = _respaced(mask, runs_, widen=widen)
+        for scale in ((1.0, 1.5) if widen else (1.0, 1.25, 1.5, 2.0)):
             text = " ".join(_texts(ocr.read(image, scale)))
             m = UPGRADE_RE.search(text)
-            text = m.group("name") if m else text
+            text = _capitals(m.group("name") if m else text)
             exact = gamedata.find_weapon_in_text(text)
             if exact:
                 votes[exact] += 2
