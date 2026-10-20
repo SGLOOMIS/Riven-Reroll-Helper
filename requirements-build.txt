@@ -1,0 +1,2 @@
+# For building the release (tools/make_release.py), on top of requirements.txt. Not needed to run it.
+pyinstaller==6.22.3

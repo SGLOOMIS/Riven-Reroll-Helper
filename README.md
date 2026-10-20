@@ -73,6 +73,8 @@ Changes apply straight away. Everything is saved in `config.json`.
   English in *Settings > Time & language > Language & region*.
 - **A stat or weapon is misread:** press F10 on that screen and share the files from `debug/` when you
   report it.
+- **Saved a roll file by mistake:** the version before your last save is next to it in `rolls/`, as
+  `<name>.json.bak`. Rename it back to `.json` to restore it.
 - **Windows or your antivirus blocks it:** see *Install* above. Unsigned programs packed this way are
   sometimes flagged by mistake; the full source code is on the project page.
 

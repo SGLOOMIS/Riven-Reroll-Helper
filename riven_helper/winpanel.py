@@ -107,7 +107,8 @@ class Panel:
         self._old = None
 
     def set_image(self, img, key=None):
-        """Show a new picture (skipped when `key` matches the picture already shown)."""
+        """Show a new picture (skipped when `key` matches the picture already shown). False when Windows
+        couldn't make it, and the old picture stays."""
         if key is not None and key == self.image_key:
             return
         self.image_key = key
@@ -116,7 +117,17 @@ class Panel:
         mem = gdi32.CreateCompatibleDC(screen)
         bmi = BITMAPINFOHEADER(ctypes.sizeof(BITMAPINFOHEADER), w, -h, 1, 32, 0, 0, 0, 0, 0, 0)
         bits = ctypes.c_void_p()
-        bitmap = gdi32.CreateDIBSection(mem, ctypes.byref(bmi), 0, ctypes.byref(bits), None, 0)
+        bitmap = gdi32.CreateDIBSection(mem, ctypes.byref(bmi), 0, ctypes.byref(bits), None, 0) if mem else None
+        if not bitmap or not bits.value:
+            # Windows couldn't make the bitmap (out of graphics resources): keep the old picture rather
+            # than copying into nothing, which would crash the whole program.
+            if bitmap:
+                gdi32.DeleteObject(bitmap)
+            if mem:
+                gdi32.DeleteDC(mem)
+            user32.ReleaseDC(None, screen)
+            self.image_key = None                                     # try again next time
+            return False
         data = img.convert("RGBa").tobytes("raw", "BGRa")          # premultiplied, as Windows wants
         ctypes.memmove(bits, data, len(data))
         old = gdi32.SelectObject(mem, bitmap)
@@ -125,6 +136,7 @@ class Panel:
         self.size = (w, h)
         self._update(screen)
         user32.ReleaseDC(None, screen)
+        return True
 
     def _update(self, screen=None):
         blend = BLENDFUNCTION(AC_SRC_OVER, 0, max(0, min(255, int(self.alpha))), AC_SRC_ALPHA)

@@ -6,7 +6,7 @@ beside the files players can see and change: config.json (the defaults, never yo
 rolls/ (the market default rolls; their own roll files go here too) and README.md. Not the tests,
 tools, snapshots or anyone's own roll files.
 
-    .venv\\Scripts\\python -m pip install pyinstaller      (once)
+    .venv\\Scripts\\python -m pip install -r requirements-build.txt      (once)
     .venv\\Scripts\\python tools\\make_release.py
 """
 

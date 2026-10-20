@@ -16,7 +16,7 @@ back by the OCR.
 
 ## Running it
 
-Players get `Riven Helper.exe` (see *Making a release*). From the source, `Riven Helper.bat` runs `setup.bat` (find or install Python 3.10+, create `.venv`, install
+Players get `Riven Helper.exe` (see *Making a release*). From the source, `Riven Helper.bat` runs `setup.bat` (find or install Python 3.12+, create `.venv`, install
 `requirements.txt` when it changes), then starts `pythonw -m riven_helper`: the roll editor, with the
 overlay running inside its event loop. Other ways to run it:
 
@@ -207,7 +207,7 @@ One file per topic in `tests/`, using OCR saved from real snapshots and screensh
 ## Making a release
 
 ```bash
-.venv\Scripts\python -m pip install pyinstaller
+.venv\Scripts\python -m pip install -r requirements-build.txt
 .venv\Scripts\python tools\make_release.py
 ```
 

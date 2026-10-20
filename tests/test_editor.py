@@ -99,6 +99,37 @@ class TestSettings(unittest.TestCase):
         self.assertEqual(cfg["hotkeys"]["snapshot"], "F10")      # everything else kept
 
 
+class TestSafeFiles(unittest.TestCase):
+    """Saves are never left half-written; a damaged config.json doesn't stop the program."""
+
+    def test_damaged_config_uses_defaults(self):
+        from riven_helper.config import DEFAULTS, load_config, save_settings
+        folder = Path(tempfile.mkdtemp())
+        config = folder / "config.json"
+        config.write_text('{"roll_files": ["rolls"], "font_size": 11,', encoding="utf-8")   # cut short
+        cfg = load_config(config)
+        self.assertIn("can't be read", cfg["_problem"])
+        self.assertEqual(cfg["font_size"], DEFAULTS["font_size"])
+        save_settings({"next_step": False}, config)                  # the editor saving its Settings tab
+        self.assertTrue((folder / "config.json.damaged").exists())   # the damaged file is kept
+        self.assertEqual(load_config(config)["next_step"], False)
+        self.assertNotIn("_problem", load_config(config))
+
+    def test_roll_file_save_keeps_a_backup(self):
+        from riven_helper.editor_model import RollFile
+        folder = Path(tempfile.mkdtemp())
+        path = folder / "mine.json"
+        doc = RollFile()
+        doc.entries = {"Soma": [{"label": "first", "positives": {"Critical Damage": 1.0}}]}
+        doc.save(path)
+        doc.entries = {}
+        doc.save(path)                                               # say, an accidental empty save
+        self.assertEqual(json.loads(path.read_text(encoding="utf-8"))["weapons"], {})
+        backup = json.loads((folder / "mine.json.bak").read_text(encoding="utf-8"))
+        self.assertIn("Soma", backup["weapons"])                     # the previous version is still there
+        self.assertEqual(sorted(p.name for p in folder.iterdir()), ["mine.json", "mine.json.bak"])   # no temp file
+
+
 class TestOverlaySwitches(unittest.TestCase):
     def test_switches(self):
         from riven_helper.layout import best_flags, plan_upgrade_screen

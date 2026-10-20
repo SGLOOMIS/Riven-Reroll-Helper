@@ -13,6 +13,7 @@ negatives), "required", "bad" and "dealbreakers".
 import glob
 import json
 import re
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -131,6 +132,9 @@ def roll_paths(sources, base_dir=".", warnings=None):
     return paths
 
 
+RECENT = 3.0           # s: a roll file that fails to parse this soon after it changed is read again (half-saved)
+
+
 class RollLibrary:
     """Every roll from every roll file, ready to look up by weapon."""
 
@@ -144,37 +148,45 @@ class RollLibrary:
         self.groups = {}                       # group name -> {member weapon or family names}
         self.files = {}                        # path -> modification time (to notice edits)
         self.warnings = []
+        # What lookups use: (rolls, groups, weapon name -> its tiers), swapped in whole by reload(), so a
+        # lookup on another thread sees the old rolls or the new ones, never a half-loaded set.
+        self._state = ({}, {}, {})
         self.reload()
-
-    def _paths(self):
-        return roll_paths(self.sources, self.base_dir, self.warnings)
 
     def changed(self):
         """True when a roll file was added, removed or edited since the last load."""
-        return {str(p): p.stat().st_mtime for p in self._paths()} != self.files
+        return {str(p): p.stat().st_mtime for p in roll_paths(self.sources, self.base_dir)} != self.files
 
     def reload(self):
-        self.warnings = []
-        self.rolls, self.groups, self.files = {}, {}, {}
-        self._tier_cache = {}                  # weapon name -> its tiers (see _tiers), until the next reload
-        for path in self._paths():
-            self.files[str(path)] = path.stat().st_mtime
+        rolls, groups, files, warnings = {}, {}, {}, []
+        for path in roll_paths(self.sources, self.base_dir, warnings):
             try:
-                data = json.loads(path.read_text(encoding="utf-8-sig"))
+                mtime = path.stat().st_mtime
+                text = path.read_text(encoding="utf-8-sig")
+            except OSError as e:
+                warnings.append(f"{path.name}: can't be read ({e.strerror})")
+                continue
+            try:
+                data = json.loads(text)
             except json.JSONDecodeError as e:
-                self.warnings.append(f"{path.name}: invalid JSON at line {e.lineno} col {e.colno}: {e.msg}")
+                warnings.append(f"{path.name}: invalid JSON at line {e.lineno} col {e.colno}: {e.msg}")
+                # Changed a moment ago: maybe caught while it was being saved, so look again (changed()).
+                files[str(path)] = None if time.time() - mtime < RECENT else mtime
                 continue
+            files[str(path)] = mtime
             if not isinstance(data, dict) or not isinstance(data.get("weapons"), dict):
-                self.warnings.append(f'{path.name}: not a roll file (needs a "weapons" object), skipped')
+                warnings.append(f'{path.name}: not a roll file (needs a "weapons" object), skipped')
                 continue
-            self._load_file(path.name, data)
-        for key in self.rolls:
-            if key.startswith("@") and key[1:] not in self.groups:
-                self.warnings.append(f'rolls for "@{key[1:]}" but no file defines a group "{key[1:]}"')
-        return self.warnings
+            self._load_file(path.name, data, rolls, groups, warnings)
+        for key in rolls:
+            if key.startswith("@") and key[1:] not in groups:
+                warnings.append(f'rolls for "@{key[1:]}" but no file defines a group "{key[1:]}"')
+        self._state = (rolls, groups, {})
+        self.rolls, self.groups, self.files, self.warnings = rolls, groups, files, warnings
+        return warnings
 
-    def _load_file(self, name, data):
-        w, gd = self.warnings, self.gamedata
+    def _load_file(self, name, data, rolls, groups, w):
+        gd = self.gamedata
         for group, members in (data.get("groups") or {}).items():
             if not isinstance(members, list):
                 w.append(f'{name}: group "{group}" should be a list of weapon names')
@@ -182,7 +194,7 @@ class RollLibrary:
             for m in members:
                 if not (gd.family_members(str(m)) or gd.weapon_by_name(str(m))):
                     w.append(f'{name}: group "{group}": unknown weapon "{m}"')
-            self.groups.setdefault(norm(group), set()).update(norm(str(m)) for m in members)
+            groups.setdefault(norm(group), set()).update(norm(str(m)) for m in members)
         file_bad = parse_rules(self.global_bad, gd, w, "config.json bad") + \
             parse_rules(data.get("bad"), gd, w, f"{name} bad")
         file_deal = parse_rules(self.global_dealbreakers, gd, w, "config.json dealbreakers") + \
@@ -209,12 +221,12 @@ class RollLibrary:
                             bad=file_bad + parse_rules(entry.get("bad"), gd, w, where),
                             dealbreakers=file_deal + parse_rules(entry.get("dealbreakers"), gd, w, where),
                             source=name, fallback=bool(data.get("fallback", False)))
-                self.rolls.setdefault(_key(weapon_key), []).append(roll)
+                rolls.setdefault(_key(weapon_key), []).append(roll)
 
-    def groups_of(self, weapon):
+    def groups_of(self, weapon, groups=None):
         """The groups a weapon is in (a member can name the weapon or its whole riven family)."""
         names = {norm(weapon.name), norm(weapon.base_name), norm(weapon.family)}
-        return sorted(g for g, members in self.groups.items() if members & names)
+        return sorted(g for g, members in (self.groups if groups is None else groups).items() if members & names)
 
     def rolls_for(self, weapon):
         """The rolls a riven for this weapon is rated against (see _tiers for the order)."""
@@ -227,11 +239,12 @@ class RollLibrary:
         return next((r for tier in self._tiers(weapon) for r in tier if wanted and norm(r.label) == wanted), None)
 
     def _tiers(self, weapon):
-        if weapon.name not in self._tier_cache:
-            self._tier_cache[weapon.name] = self._find_tiers(weapon)
-        return self._tier_cache[weapon.name]
+        rolls, groups, cache = self._state          # one consistent snapshot, whatever reload() does meanwhile
+        if weapon.name not in cache:
+            cache[weapon.name] = self._find_tiers(weapon, rolls, groups)
+        return cache[weapon.name]
 
-    def _find_tiers(self, weapon):
+    def _find_tiers(self, weapon, rolls, groups):
         """Every roll that applies to this weapon, as four tiers in priority order; a riven is rated
         against the first tier that has any:
 
@@ -242,17 +255,17 @@ class RollLibrary:
         """
         names = {norm(weapon.name), norm(weapon.base_name), norm(weapon.family)}
         specific = []
-        for key, rolls in self.rolls.items():
+        for key, entries in rolls.items():
             if key[:1] == "@":
                 continue
             variant = None if key[:1] == "*" else self.gamedata.weapon_by_name(key)
             same_family = variant is not None and norm(variant.family) == norm(weapon.family) \
                 and variant.cls == weapon.cls          # "Rubico Prime" rolls also apply to a Rubico riven
             if key in names or same_family:
-                specific += [r for r in rolls if r not in specific]
-        for group in self.groups_of(weapon):
-            specific += [r for r in self.rolls.get("@" + group, []) if r not in specific]
-        fallbacks = self.rolls.get("*" + weapon.cls, []) + self.rolls.get("*", [])
+                specific += [r for r in entries if r not in specific]
+        for group in self.groups_of(weapon, groups):
+            specific += [r for r in rolls.get("@" + group, []) if r not in specific]
+        fallbacks = rolls.get("*" + weapon.cls, []) + rolls.get("*", [])
         return [[r for r in specific if not r.fallback], [r for r in fallbacks if not r.fallback],
                 [r for r in specific if r.fallback], [r for r in fallbacks if r.fallback]]
 

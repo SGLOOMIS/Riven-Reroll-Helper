@@ -153,6 +153,25 @@ class TestTheme(unittest.TestCase):
         self.assertGreater(min(fill[:3]), 150)              # now light, like the theme
 
 
+class TestPanelWindow(unittest.TestCase):
+    def test_refused_bitmap_doesnt_crash(self):
+        # Out of graphics resources, Windows returns no bitmap: the panel keeps its old picture instead of
+        # copying the new one into nothing (which would end the program).
+        from unittest import mock
+
+        from PIL import Image
+
+        import riven_helper.winpanel as winpanel
+        panel = winpanel.Panel()
+        try:
+            self.assertTrue(panel.set_image(Image.new("RGBA", (300, 120), (16, 24, 35, 220)), key=1))
+            with mock.patch.object(winpanel.gdi32, "CreateDIBSection", return_value=None):
+                self.assertFalse(panel.set_image(Image.new("RGBA", (300, 120)), key=2))
+            self.assertEqual(panel.size, (300, 120))
+        finally:
+            panel.destroy()
+
+
 class TestTracker(unittest.TestCase):
     """Cards are followed between reads by template matching on screenshots."""
 

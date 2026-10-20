@@ -92,6 +92,36 @@ class TestLoading(unittest.TestCase):
             self.assertGreaterEqual(len(lib.files), 1, source)
 
 
+class TestReloading(unittest.TestCase):
+    """The overlay reloads roll files on its worker thread while the window thread looks rolls up."""
+
+    def test_lookups_during_a_reload_see_old_or_new_rolls(self):
+        import threading
+        lib = RollLibrary(G, [str(ROOT / "rolls" / "warframe_market.json")])
+        weapon, empty, stuck = G.weapon_by_name("Rubico"), 0, 0
+        for _ in range(5):
+            t = threading.Thread(target=lib.reload)
+            t.start()
+            while t.is_alive():
+                empty += not lib.rolls_for(weapon)     # a panel drawn meanwhile
+            t.join()
+            stuck += not lib.rolls_for(weapon)         # and no empty answer kept afterwards
+        self.assertEqual((empty, stuck), (0, 0))
+
+    def test_half_saved_file_is_read_again(self):
+        folder = Path(tempfile.mkdtemp())
+        f = folder / "mine.json"
+        f.write_text('{"weapons": {"Soma": {"positives": ["CD"', encoding="utf-8")    # caught mid-save
+        lib = RollLibrary(G, [str(folder), str(folder / "missing")])
+        self.assertTrue(lib.changed())                 # so the overlay looks again
+        f.write_text('{"weapons": {"Soma": {"positives": ["CD"]}}}', encoding="utf-8")
+        lib.reload()
+        self.assertEqual(list(lib.rolls), ["soma"])
+        for _ in range(5):
+            lib.changed()
+        self.assertEqual(len(lib.warnings), 1)         # "missing" reported once, not once per check
+
+
 class TestRating(unittest.TestCase):
     def test_type_is_90_percent_quality_10(self):
         rolls = roll_library({"weapons": {"Soma": {"positives": ["CD", "MS", "CC"]}}}).rolls_for(G.weapon_by_name("Soma"))

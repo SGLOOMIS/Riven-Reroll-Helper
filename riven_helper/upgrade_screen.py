@@ -97,16 +97,34 @@ def header_mask(img):
     only letter-like shapes on one line are kept: not the underline, icons or background art.
     The header is first scaled to its size at 1080p, which the sizes here are measured for.
     """
-    _, letters = header_pixels(img)
-    rows = np.where(letters.any(axis=1))[0]
-    return letters[rows.min():rows.max() + 1] if len(rows) else letters[:1]
+    return _trim(header_pixels(img)[1])
+
+
+def has_header(frame):
+    """Is a menu screen's header ("INVENTORY/MODS", "UPGRADES/...") on this frame (BGR or BGRA numpy
+    array)? Every screen the overlay works on has one and a mission doesn't, so this cheap check
+    (about 10 ms) saves running OCR (about 200 ms) on frames that can't hold a riven."""
+    h, w = frame.shape[:2]
+    x0, y0, x1, y1 = HEADER_AREA
+    crop = np.ascontiguousarray(frame[int(h * y0):int(h * y1), int(w * x0):int(w * x1), 2::-1])   # BGR -> RGB
+    _, letters = _header_pixels(Image.fromarray(crop), h)
+    return len(_glyphs(_trim(letters))) >= 8
 
 
 def header_pixels(img):
     """(the header as an RGB array at 1080p size, its letters as a boolean array of the same size)."""
     W, H = img.size
     x0, y0, x1, y1 = HEADER_AREA
-    crop = img.crop((int(W * x0), int(H * y0), int(W * x1), int(H * y1)))
+    return _header_pixels(img.crop((int(W * x0), int(H * y0), int(W * x1), int(H * y1))), H)
+
+
+def _trim(letters):
+    rows = np.where(letters.any(axis=1))[0]
+    return letters[rows.min():rows.max() + 1] if len(rows) else letters[:1]
+
+
+def _header_pixels(crop, H):
+    """header_pixels for the header area already cut out of a frame H pixels high."""
     if abs(H - 1080) > 20:
         crop = crop.resize((round(crop.width * 1080 / H), round(crop.height * 1080 / H)), Image.LANCZOS)
     rgb = np.asarray(crop.convert("RGB"))

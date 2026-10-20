@@ -53,6 +53,9 @@ class App:
         self.upgrade_weapon = None     # for F10 snapshots on the upgrade screen
         self.reads = 0
         self.message, self.message_until = self._library_summary(), time.time() + 6
+        if cfg.get("_problem"):
+            self.report(cfg["_problem"])
+            self.message = cfg["_problem"]
         self.keys = {name: KEY_CODES.get(str(key).upper()) for name, key in cfg["hotkeys"].items()}
         self.config_path = Path(cfg.get("_path", ROOT / "config.json"))
         self.config_time = self._config_time()
@@ -150,7 +153,7 @@ class App:
         elif kind == "status":
             self.report(payload)
         elif kind == "settings":
-            self.report("Settings changed (config.json): applied")
+            self.report(self.cfg.get("_problem") or "Settings changed (config.json): applied")
             self.flash("Settings applied: " + self._library_summary(), 6)
         elif kind == "reloaded":
             self.flash(self._library_summary(), 6)

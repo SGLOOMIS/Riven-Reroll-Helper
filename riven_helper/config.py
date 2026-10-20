@@ -1,6 +1,8 @@
 """Settings from config.json (anything missing falls back to these defaults)."""
 
 import json
+import os
+import shutil
 import sys
 from pathlib import Path
 
@@ -32,10 +34,15 @@ DEFAULTS = {
 
 
 def load_config(path=None):
-    """The settings, with config.json's values over the defaults. Unknown keys are ignored."""
+    """The settings, with config.json's values over the defaults. Unknown keys are ignored.
+
+    A config.json that can't be read (damaged, or not settings at all) doesn't stop the program: the
+    defaults are used, and cfg["_problem"] says what happened."""
     path = Path(path or ROOT / "config.json")
     cfg = json.loads(json.dumps(DEFAULTS))
-    user = json.loads(path.read_text(encoding="utf-8-sig")) if path.exists() else {}
+    user, problem = _read_settings(path)
+    if problem:
+        cfg["_problem"] = f"config.json can't be read ({problem}); using the default settings"
     for key, value in user.items():
         if key not in cfg:
             continue
@@ -48,9 +55,34 @@ def load_config(path=None):
     return cfg
 
 
+def _read_settings(path):
+    """(config.json's settings, or {}; what was wrong with it, or None)."""
+    if not path.exists():
+        return {}, None
+    try:
+        user = json.loads(path.read_text(encoding="utf-8-sig"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as e:
+        return {}, getattr(e, "msg", None) or e.__class__.__name__
+    return (user, None) if isinstance(user, dict) else ({}, "not a settings object")
+
+
 def save_settings(changes, path=None):
-    """Write these settings into config.json, keeping everything else in it as it is."""
+    """Write these settings into config.json, keeping everything else in it as it is. A config.json
+    that can't be read is kept as config.json.damaged, not silently replaced."""
     path = Path(path or ROOT / "config.json")
-    user = json.loads(path.read_text(encoding="utf-8-sig")) if path.exists() else {}
+    user, problem = _read_settings(path)
+    if problem:
+        shutil.copy2(path, path.with_name(path.name + ".damaged"))
     user.update(changes)
-    path.write_text(json.dumps(user, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    write_atomic(path, json.dumps(user, indent=2, ensure_ascii=False) + "\n")
+
+
+def write_atomic(path, text, backup=False):
+    """Write a text file so it's never left half-written: into a temporary file next to it, then
+    swapped in at once. backup: keep the previous version as <name>.bak first."""
+    path = Path(path)
+    if backup and path.exists():
+        shutil.copy2(path, path.with_name(path.name + ".bak"))
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    os.replace(tmp, path)

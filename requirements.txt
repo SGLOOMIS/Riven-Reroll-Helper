@@ -1,11 +1,14 @@
-mss>=9
-pillow>=10
-winrt-runtime>=2.0
-winrt-Windows.Foundation
-winrt-Windows.Foundation.Collections
-winrt-Windows.Globalization
-winrt-Windows.Graphics.Imaging
-winrt-Windows.Media.Ocr
-winrt-Windows.Storage.Streams
-numpy>=1.26
-opencv-python-headless>=4.8
+# Exact versions, tested together (a later release of any of these can't change what players get).
+# To update: raise a version here, run the tests, and make a release. Needs Python 3.12 or newer.
+mss==10.2.0
+pillow==13.0.0
+numpy==2.5.4
+opencv-python-headless==5.0.0.93
+winrt-runtime==3.2.1
+winrt-Windows.Foundation==3.2.1
+winrt-Windows.Foundation.Collections==3.2.1
+winrt-Windows.Globalization==3.2.1
+winrt-Windows.Graphics.Imaging==3.2.1
+winrt-Windows.Media.Ocr==3.2.1
+winrt-Windows.Storage.Streams==3.2.1
+typing_extensions==4.16.0

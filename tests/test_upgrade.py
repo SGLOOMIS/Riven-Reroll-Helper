@@ -173,6 +173,21 @@ class TestConfigTab(unittest.TestCase):
         self.assertFalse([e for e in events if e[0] in ("upgrade", "config")])
 
 
+class TestNoMenuNoOcr(unittest.TestCase):
+    def test_no_reads_without_a_menu_header(self):
+        # A frame with no menu header (a mission) is never read with OCR; menu screens still are.
+        import cv2
+
+        from riven_helper.session import Session
+        session = Session(analyzer(), windows_ocr(self))
+        mission = cv2.GaussianBlur(cv2.imread(str(FIXTURES / "img" / "cycle_full_a.jpg")), (0, 0), 25)
+        for i in range(10):
+            session.step(mission, now=i * 1.1)
+        self.assertEqual(session.reads, 0)
+        session.step(cv2.imread(str(FIXTURES / "img" / "upgrade_spectra_vandal.jpg")), now=20.0)
+        self.assertEqual(session.reads, 1)
+
+
 class TestWindowsOcr(unittest.TestCase):
     """Riven screens end to end through Windows OCR."""
 

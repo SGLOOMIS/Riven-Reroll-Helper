@@ -41,8 +41,8 @@ class Analyzer:
 
     def apply_settings(self, cfg):
         """New settings (config.json was saved): take them over in place, so everyone holding this
-        Analyzer's cfg sees them, and load the roll files they list."""
-        self.cfg.clear()
+        Analyzer's cfg sees them, and load the roll files they list. Updated, never emptied first, so the
+        other thread never finds a setting missing."""
         self.cfg.update(cfg)
         self._load_rolls()
 

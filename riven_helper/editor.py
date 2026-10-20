@@ -160,6 +160,8 @@ class Editor:
         self.status = ttk.Label(self.root, text="", style="Dim.TLabel")
         self.status.pack(fill="x", padx=12, pady=(0, 8))
         self.open(path) if path else self.new()
+        if self.settings.get("_problem"):
+            self._say(self.settings["_problem"])
 
     # -- look ----------------------------------------------------------------------------
     def _style(self):

@@ -12,7 +12,8 @@ Kept apart from the live loop (app.py) so the same logic can be replayed on a sc
   ("theme", Theme)                    the player's UI theme, when first seen or changed (theme.py)
 
 Rules:
-  * No cards known: read (OCR) once a second, which also notices the upgrade screen.
+  * No cards known: read (OCR) once a second, which also notices the upgrade screen; but only when
+    the frame has a menu header (upgrade_screen.has_header), so no OCR runs during missions.
   * Cards known: find each card again in every frame (tracker.py) and
       - a card stays unmatched (rerolled, confirmed, the screen closed) -> wait for the cards'
         area to settle, then read again;
@@ -34,7 +35,7 @@ from PIL import Image
 from .tracker import CardTracker, to_gray_small
 from .theme import button_colour
 from .theme import detect as detect_theme
-from .upgrade_screen import HEADER_AREA, UpgradeScreen
+from .upgrade_screen import HEADER_AREA, UpgradeScreen, has_header
 
 SCAN_EVERY = 1.0             # s between reads while no cards are known
 FAST, SLOW = 1 / 30, 1 / 8   # s between frames while cards move / while they're still
@@ -179,6 +180,9 @@ class Session:
                 return [("upgrade", None)], UPGRADE_WATCH
             if now - self.last_read < SCAN_EVERY:
                 return [], UPGRADE_WATCH if self.upgrade.weapon else 0.25
+            if not has_header(frame):              # not a menu screen (a mission): nothing to read
+                self.last_read = now
+                return [], 0.25
             return [self._read(frame, now)] + self._upgrade_event() + self._theme_event(), 0.25
         return self._watch(frame, now)
 

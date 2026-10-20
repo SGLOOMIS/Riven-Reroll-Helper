@@ -16,6 +16,7 @@ import json
 import tempfile
 from pathlib import Path
 
+from .config import write_atomic
 from .gamedata import norm
 from .rolls import RULE_RE, RollLibrary
 
@@ -127,7 +128,8 @@ class RollFile:
         if not self.path:
             raise ValueError("no file name")
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.path.write_text(json.dumps(self.to_json(), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        # Never half-written, and the previous version kept as <name>.json.bak (one undo for a bad save).
+        write_atomic(self.path, json.dumps(self.to_json(), indent=2, ensure_ascii=False) + "\n", backup=True)
         self.dirty = False
 
     # -- checking ------------------------------------------------------------------

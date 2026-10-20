@@ -1,6 +1,6 @@
 @echo off
 rem First-run setup for Riven Reroll Helper, used by "Riven Helper.bat".
-rem Finds Python 3.10+ (offering to install it if there is none), creates the Python environment in
+rem Finds Python 3.12+ (offering to install it if there is none), creates the Python environment in
 rem .venv and installs everything in requirements.txt. After a successful install it keeps a copy of
 rem requirements.txt in .venv, so later runs start straight away, and it installs again if
 rem requirements.txt changes or an install didn't finish.
@@ -36,19 +36,19 @@ echo Setup complete.
 exit /b 0
 
 
-rem --- Python 3.10+: the "py" launcher, "python", or a per-user install not on PATH yet ----------
+rem --- Python 3.12+: the "py" launcher, "python", or a per-user install not on PATH yet ----------
 :find_python
 set "PY="
-py -3 -c "import sys; sys.exit(sys.version_info < (3, 10))" >nul 2>&1 && (set "PY=py -3" & exit /b 0)
-python -c "import sys; sys.exit(sys.version_info < (3, 10))" >nul 2>&1 && (set "PY=python" & exit /b 0)
+py -3 -c "import sys; sys.exit(sys.version_info < (3, 12))" >nul 2>&1 && (set "PY=py -3" & exit /b 0)
+python -c "import sys; sys.exit(sys.version_info < (3, 12))" >nul 2>&1 && (set "PY=python" & exit /b 0)
 for /d %%D in ("%LOCALAPPDATA%\Programs\Python\Python3*") do (
-    if exist "%%D\python.exe" "%%D\python.exe" -c "import sys; sys.exit(sys.version_info < (3, 10))" >nul 2>&1 && set PY="%%D\python.exe"
+    if exist "%%D\python.exe" "%%D\python.exe" -c "import sys; sys.exit(sys.version_info < (3, 12))" >nul 2>&1 && set PY="%%D\python.exe"
 )
 exit /b 0
 
 rem --- no Python: offer to install it with winget (built into Windows 10 and 11) -----------------
 :install_python
-echo Riven Helper needs Python 3.10 or newer, which isn't installed.
+echo Riven Helper needs Python 3.12 or newer, which isn't installed.
 where winget >nul 2>&1 || goto :install_by_hand
 echo.
 echo It can install Python 3.12 for you now: free, from python.org, just for your Windows user
