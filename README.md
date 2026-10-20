@@ -28,6 +28,7 @@ it while you play, close it when you're done. The editor's top bar shows what th
 
 | Key | Action |
 |-----|--------|
+| F7  | switch the roll the riven on screen is rated against: best match, then each of the weapon's rolls |
 | F8  | hide / show the overlay |
 | F9  | reload your roll files (saving one in the editor does this too) |
 | F10 | save a snapshot to `debug/` (handy for reporting a misread) |
@@ -52,11 +53,16 @@ The panels take on your Warframe UI theme's colours.
 Out of the box every weapon uses defaults built from what sells on warframe.market. To rate rivens
 for your own builds, use the editor:
 
-- **Rolls:** add a weapon (or a group, or `*rifle` for every rifle), then the stats you want. A
-  weight of 1 means ideal and 0.5 nice to have. You can also list harmless negatives, stats a riven
-  must have, bad stats, and dealbreakers like "-Damage > 100" that make a riven worthless.
+- **Rolls:** add a weapon (or a group, or `*rifle` for every rifle), then the stats you want, each as
+  **Required** (the riven must have it), **Wanted** or **Acceptable** (nice to have). You can also
+  list **unwanted stats** (each one on the riven halves its rating) and dealbreakers like
+  "-Damage > 100" that make a riven worthless. A stat unwanted **as a positive** makes a good
+  negative: having it there raises the rating, since a negative makes the other stats 25% stronger.
+- **Several rolls for one weapon:** the riven is rated against the one it matches best. Press **F7** to
+  target a particular one instead; the IDEAL ROLL panel says which is targeted.
 - **Groups:** name a set of weapons once ("Crit snipers") and write rolls for the whole group.
-- **File rules:** bad stats and dealbreakers for every roll in the file.
+- **File rules:** unwanted stats and dealbreakers for every roll in the file. Each roll shows them greyed;
+  remove or change one there to make an exception for just that roll.
 - **Save** puts the file in `rolls/` and checks it. Your rolls always win over the market defaults.
 
 ## Settings

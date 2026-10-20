@@ -4,9 +4,9 @@
 
 Tabs:
   Rolls   - the weapons (and @groups, *class fallbacks) in the file, their rolls, and each roll's
-            wanted stats, harmless negatives, bad stats and dealbreakers.
+            wanted stats, unwanted stats and dealbreakers.
   Groups  - named groups of weapons; rolls written for "@group" apply to every weapon in it.
-  File rules - bad stats and dealbreakers for every roll in this file.
+  File rules - unwanted stats and dealbreakers for every roll in this file.
   Settings - the editor's colours (a Warframe UI theme), the overlay's optional features, and the
             roll files and folders it loads (saved to config.json; a running overlay applies them).
 Save checks the file the same way the overlay will and lists anything it can't use.
@@ -17,8 +17,8 @@ from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
 from .config import ROOT, load_config, save_settings
-from .editor_model import (CLASSES, OPERATORS, SIGNS, RollFile, describe_rule, new_roll, rule_text, stat_choices,
-                           weapon_choices)
+from .editor_model import (CLASSES, OPERATORS, SIGNS, TIERS, RollFile, describe_rule, is_bad_as_positive, new_roll,
+                           rule_parts, rule_text, same_rule, set_tier, stat_choices, tier_of, weapon_choices)
 from .gamedata import GameData
 from .rolls import roll_paths
 from .theme import DEFAULT_NAME, luminance, mix, named_themes, palette
@@ -67,17 +67,27 @@ class AutoCombo(ttk.Combobox):
 
 
 class RuleList(ttk.Frame):
-    """A list of "bad" / "dealbreaker" rules with a builder: sign, stat, comparison, value."""
+    """A list of "bad" / "dealbreaker" rules with a builder: sign, stat, comparison, value.
 
-    def __init__(self, master, title, hint, stats, on_change):
+    On a roll it also shows the rules the roll inherits (from the file's rules and config.json), greyed.
+    Remove on one switches it off for this roll only (Remove again switches it back on); selecting
+    one, changing it and pressing Add replaces it for this roll. Those exceptions go into the roll's
+    "ignore_bad" / "ignore_dealbreakers".
+    """
+
+    def __init__(self, master, title, hint, stats, on_change, dealbreakers=False):
         super().__init__(master, style="Panel.TFrame")
-        self.rules, self.on_change = [], on_change
+        self.rules, self.on_change, self.dealbreakers = [], on_change, dealbreakers
+        self.inherited, self.ignored = [], None       # [(rule, where it's from)], and the roll's ignore list
+        self.rows = []                                # what each line of the list is: ("own", rule) / ("inherited", rule)
+        self.editing = None                           # the inherited rule last selected (Add then replaces it)
         ttk.Label(self, text=title, style="Head.TLabel").grid(row=0, column=0, columnspan=6, sticky="w")
         ttk.Label(self, text=hint, style="Dim.TLabel", wraplength=520, justify="left").grid(
             row=1, column=0, columnspan=6, sticky="w")
         self.box = tk.Listbox(self, height=4, **listbox_style())
         self.box.grid(row=2, column=0, columnspan=6, sticky="ew", pady=(2, 4))
-        self.sign = ttk.Combobox(self, values=list(SIGNS), width=16, state="readonly")
+        self.box.bind("<<ListboxSelect>>", lambda e: self._pick())
+        self.sign = ttk.Combobox(self, values=list(SIGNS), width=17, state="readonly")
         self.sign.current(0)
         self.stat = AutoCombo(self, stats, width=20)
         self.op = ttk.Combobox(self, values=OPERATORS, width=10, state="readonly")
@@ -89,11 +99,38 @@ class RuleList(ttk.Frame):
         ttk.Button(self, text="Remove", command=self._remove).grid(row=3, column=5)
         self.columnconfigure(5, weight=1)
 
-    def load(self, rules):
-        self.rules = rules                    # edits go straight into this list
+    def load(self, rules, inherited=(), ignored=None):
+        """rules: the roll's (or file's) own list, edited in place. inherited: [(rule, where from)] it also
+        gets; ignored: its list of inherited rules switched off (edited in place)."""
+        self.rules, self.inherited, self.ignored = rules, list(inherited), ignored
+        self.editing = None
         self.box.delete(0, "end")
+        self.rows = []
         for r in rules:
-            self.box.insert("end", f"{r}      ({describe_rule(r)})")
+            self.box.insert("end", f"{r}      ({describe_rule(r, self.dealbreakers)})")
+            self.rows.append(("own", r))
+        for r, source in self.inherited:
+            off = self._is_off(r)
+            self.box.insert("end", f"{r}      ({'off for this roll; ' if off else ''}from {source})")
+            self.box.itemconfigure("end", foreground=C.dim)
+            self.rows.append(("inherited", r))
+
+    def _is_off(self, rule):
+        return self.ignored is not None and any(same_rule(rule, i) for i in self.ignored)
+
+    def _pick(self):
+        """Fill the builder with the selected rule, to change it."""
+        picked = self.box.curselection()
+        if not picked:
+            return
+        kind, rule = self.rows[picked[0]]
+        sign, stat, op, value = rule_parts(rule)
+        self.sign.set(next(name for name, s in SIGNS.items() if s == sign))
+        self.stat.set(stat)
+        self.op.set(op or OPERATORS[0])
+        self.value.delete(0, "end")
+        self.value.insert(0, value or "")
+        self.editing = (kind, rule)
 
     def _add(self):
         stat = self.stat.get().strip()
@@ -104,15 +141,37 @@ class RuleList(ttk.Frame):
         if op != OPERATORS[0] and not _is_number(value):
             messagebox.showwarning("Rule", "Enter a number for the comparison (e.g. 100 for 100%).")
             return
-        self.rules.append(rule_text(SIGNS[self.sign.get()], stat, op, value or None))
-        self.load(self.rules)
+        new = rule_text(SIGNS[self.sign.get()], stat, op, value or None)
+        kind, old = self.editing or (None, None)
+        changed = old is not None and rule_parts(old)[1].lower() == stat.lower()   # the selected rule, edited
+        if changed and same_rule(old, new):
+            return                                    # nothing changed
+        if changed and kind == "own":
+            self.rules.remove(old)                    # replaced
+        elif changed and self.ignored is not None and not self._is_off(old):
+            self.ignored.append(old)                  # an inherited rule, replaced for this roll only
+        self.rules.append(new)
+        self.load(self.rules, self.inherited, self.ignored)
         self.on_change()
 
     def _remove(self):
         for i in reversed(self.box.curselection()):
-            del self.rules[i]
-        self.load(self.rules)
+            kind, rule = self.rows[i]
+            if kind == "own":
+                self.rules.remove(rule)
+            elif self._is_off(rule):                  # switched off: switch it back on
+                self.ignored[:] = [r for r in self.ignored if not same_rule(r, rule)]
+            elif self.ignored is not None:            # inherited: off for this roll only
+                self.ignored.append(rule)
+        self.load(self.rules, self.inherited, self.ignored)
         self.on_change()
+
+
+# What the "Unwanted stats" menu does, for players. (A "+Stat" rule is also a harmless negative.)
+UNWANTED_HINT = ("Stats you don't want on the riven. Each one it has halves the rating.\n"
+                 "  as a positive (+):  unwanted as a positive, but a good negative (raises the rating)\n"
+                 "  as the negative (-):  unwanted as the negative, e.g. a stat your build relies on\n"
+                 "  either way:  unwanted anywhere on the riven")
 
 
 def _is_number(text):
@@ -160,6 +219,8 @@ class Editor:
         self.status = ttk.Label(self.root, text="", style="Dim.TLabel")
         self.status.pack(fill="x", padx=12, pady=(0, 8))
         self.open(path) if path else self.new()
+        # Rules edited on File rules show up on the roll (as inherited) when you go back to it.
+        tabs.bind("<<NotebookTabChanged>>", lambda e: self._show_roll())
         if self.settings.get("_problem"):
             self._say(self.settings["_problem"])
 
@@ -275,50 +336,30 @@ class Editor:
         self.label.bind("<KeyRelease>", lambda e: self._set_label())
 
         ttk.Label(right, text="Wanted stats", style="Head.TLabel").grid(row=1, column=0, sticky="w", pady=(10, 0))
-        ttk.Label(right, text="Weight 1 = ideal, 0.5 = nice to have. Required: the riven must have it.",
-                  style="Dim.TLabel").grid(row=2, column=0, sticky="w")
-        self.pos = ttk.Treeview(right, columns=("weight", "required"), height=6, selectmode="browse")
+        ttk.Label(right, text="Required: the riven must have it.   Wanted: a stat you want.   "
+                              "Acceptable: nice to have.", style="Dim.TLabel").grid(row=2, column=0, sticky="w")
+        self.pos = ttk.Treeview(right, columns=("tier",), height=6, selectmode="browse")
         self.pos.heading("#0", text="Stat")
-        self.pos.heading("weight", text="Weight")
-        self.pos.heading("required", text="Required")
+        self.pos.heading("tier", text="Tier")
         self.pos.column("#0", width=260)
-        self.pos.column("weight", width=80, anchor="center")
-        self.pos.column("required", width=80, anchor="center")
+        self.pos.column("tier", width=110, anchor="center")
         self.pos.grid(row=3, column=0, sticky="ew", pady=(2, 4))
         self.pos.bind("<<TreeviewSelect>>", lambda e: self._pick_positive())
         prow = ttk.Frame(right, style="Panel.TFrame")
         prow.grid(row=4, column=0, sticky="w")
         self.pos_stat = AutoCombo(prow, self.stats, width=24)
         self.pos_stat.pack(side="left")
-        ttk.Label(prow, text=" weight").pack(side="left")
-        self.pos_weight = ttk.Spinbox(prow, from_=0.05, to=1.0, increment=0.05, width=6)
-        self.pos_weight.set("1")
-        self.pos_weight.pack(side="left", padx=4)
-        self.pos_req = tk.BooleanVar()
-        ttk.Checkbutton(prow, text="required", variable=self.pos_req).pack(side="left", padx=6)
+        self.pos_tier = ttk.Combobox(prow, values=list(TIERS), state="readonly", width=11)
+        self.pos_tier.set("Wanted")
+        self.pos_tier.pack(side="left", padx=6)
         ttk.Button(prow, text="Add / update", command=self._set_positive).pack(side="left", padx=3)
         ttk.Button(prow, text="Remove", command=self._remove_positive).pack(side="left")
 
-        ttk.Label(right, text="Harmless negatives", style="Head.TLabel").grid(row=5, column=0, sticky="w",
-                                                                               pady=(10, 0))
-        ttk.Label(right, text="Negatives are neutral anyway; these are shown as harmless and on IDEAL ROLL.",
-                  style="Dim.TLabel").grid(row=6, column=0, sticky="w")
-        nrow = ttk.Frame(right, style="Panel.TFrame")
-        nrow.grid(row=7, column=0, sticky="ew")
-        self.neg_box = tk.Listbox(nrow, height=3, width=40, **listbox_style())
-        self.neg_box.pack(side="left", fill="x", expand=True)
-        nctl = ttk.Frame(nrow, style="Panel.TFrame")
-        nctl.pack(side="left", padx=6)
-        self.neg_stat = AutoCombo(nctl, self.stats, width=24)
-        self.neg_stat.pack()
-        ttk.Button(nctl, text="Add", command=self._add_negative).pack(fill="x", pady=2)
-        ttk.Button(nctl, text="Remove", command=self._remove_negative).pack(fill="x")
-
-        self.roll_bad = RuleList(right, "Bad stats", "Each bad stat halves the score. A negative that the roll "
-                                 "wants as a positive is always bad.", self.stats, self.doc_changed)
-        self.roll_bad.grid(row=8, column=0, sticky="ew", pady=(10, 0))
+        self.roll_bad = RuleList(right, "Unwanted stats", UNWANTED_HINT, self.stats, self.doc_changed)
+        self.roll_bad.grid(row=5, column=0, sticky="ew", pady=(10, 0))
         self.roll_deal = RuleList(right, "Dealbreakers", "Any match scores the riven 0 for this roll, "
-                                  "e.g. negative Damage > 100.", self.stats, self.doc_changed)
+                                  "e.g. -Damage > 100 (more than 100% negative Damage).", self.stats, self.doc_changed,
+                                  dealbreakers=True)
         self.roll_deal.grid(row=9, column=0, sticky="ew", pady=(10, 0))
 
     def _scrollable(self, parent, row, column):
@@ -385,11 +426,13 @@ class Editor:
         tab = ttk.Frame(tabs, style="Panel.TFrame", padding=10)
         tabs.add(tab, text="File rules")
         tab.columnconfigure(0, weight=1)
-        self.file_bad = RuleList(tab, "Bad stats for every roll in this file", "Added to each roll's own bad stats.",
-                                 self.stats, self.doc_changed)
+        self.file_bad = RuleList(tab, "Unwanted stats for every roll in this file",
+                                 UNWANTED_HINT + "\nEvery roll gets these as well as its own.", self.stats,
+                                 self.doc_changed)
         self.file_bad.grid(row=0, column=0, sticky="ew")
         self.file_deal = RuleList(tab, "Dealbreakers for every roll in this file",
-                                  "Added to each roll's own dealbreakers.", self.stats, self.doc_changed)
+                                  "Any match scores the riven 0. Every roll gets these as well as its own.", self.stats,
+                                  self.doc_changed, dealbreakers=True)
         self.file_deal.grid(row=1, column=0, sticky="ew", pady=(16, 0))
 
     # -- Settings tab ---------------------------------------------------------------------------
@@ -566,6 +609,11 @@ class Editor:
             self.root.destroy()
 
     # -- showing the document --------------------------------------------------------------------
+    def _inherited(self, kind):
+        """[(rule, where from)] of the unwanted stats or dealbreakers ("bad" / "dealbreakers") every roll gets."""
+        return ([(r, "all rolls in this file") for r in getattr(self.doc, kind)]
+                + [(r, "every roll file (config.json)") for r in self.settings.get(kind, [])])
+
     def doc_changed(self):
         self.doc.touch()
         self._show_title()
@@ -640,15 +688,21 @@ class Editor:
             self.label.insert(0, r.get("label", ""))
         self.label.configure(state=state)
         self.pos.delete(*self.pos.get_children())
-        self.neg_box.delete(0, "end")
         if r:
-            for stat, w in r["positives"].items():
-                self.pos.insert("", "end", iid=stat, text=stat,
-                                values=(f"{float(w):g}", "yes" if stat in r["required"] else ""))
-            for stat in r["negatives"]:
-                self.neg_box.insert("end", stat)
-        self.roll_bad.load(r["bad"] if r else [])
-        self.roll_deal.load(r["dealbreakers"] if r else [])
+            # Most important first: by weight, required before others of the same weight, then by name.
+            order = sorted(r["positives"], key=lambda s: (-float(r["positives"][s]), s not in r["required"], s))
+            for stat in order:
+                self.pos.insert("", "end", iid=stat, text=stat, values=(tier_of(r, stat),))
+        if r:
+            # An inherited "+Stat" doesn't apply to a roll that wants that stat (see rolls.py).
+            wanted = {s.lower() for s in r["positives"]}
+            self.roll_bad.load(r["bad"], [(rule, where) for rule, where in self._inherited("bad")
+                                          if not (is_bad_as_positive(rule) and rule_parts(rule)[1].lower() in wanted)],
+                               r["ignore_bad"])
+            self.roll_deal.load(r["dealbreakers"], self._inherited("dealbreakers"), r["ignore_dealbreakers"])
+        else:
+            self.roll_bad.load([])
+            self.roll_deal.load([])
 
     # -- entry / roll actions ----------------------------------------------------------------------
     def _add_entry(self):
@@ -736,8 +790,7 @@ class Editor:
         if sel and self.roll:
             stat = sel[0]
             self.pos_stat.set(stat)
-            self.pos_weight.set(f"{float(self.roll['positives'][stat]):g}")
-            self.pos_req.set(stat in self.roll["required"])
+            self.pos_tier.set(tier_of(self.roll, stat))
 
     def _set_positive(self):
         if self.roll is None:
@@ -745,16 +798,7 @@ class Editor:
         stat = self._canonical_stat(self.pos_stat.get().strip())
         if not stat:
             return
-        try:
-            weight = float(self.pos_weight.get())
-        except ValueError:
-            messagebox.showwarning("Weight", "The weight should be a number, e.g. 1 or 0.5.")
-            return
-        self.roll["positives"][stat] = max(0.0, weight)
-        if self.pos_req.get() and stat not in self.roll["required"]:
-            self.roll["required"].append(stat)
-        elif not self.pos_req.get() and stat in self.roll["required"]:
-            self.roll["required"].remove(stat)
+        set_tier(self.roll, stat, self.pos_tier.get())
         self._show_roll()
         self.doc_changed()
 
@@ -766,21 +810,6 @@ class Editor:
                 self.roll["required"].remove(sel[0])
             self._show_roll()
             self.doc_changed()
-
-    def _add_negative(self):
-        stat = self._canonical_stat(self.neg_stat.get().strip())
-        if stat and self.roll is not None and stat not in self.roll["negatives"]:
-            self.roll["negatives"].append(stat)
-            self._show_roll()
-            self.doc_changed()
-
-    def _remove_negative(self):
-        if self.roll is None:
-            return
-        for i in reversed(self.neg_box.curselection()):
-            del self.roll["negatives"][i]
-        self._show_roll()
-        self.doc_changed()
 
     # -- group actions ----------------------------------------------------------------------------
     def _fill_groups(self, select=None):

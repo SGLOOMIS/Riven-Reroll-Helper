@@ -171,6 +171,12 @@ def _ingredients(ev, weights, cls):
     return found
 
 
+def _percent(quality):
+    """A roll to the whole percent, so OCR reading the same stat a hair differently (119.6% / 119.67%)
+    doesn't outweigh the rating."""
+    return round(quality * 100)
+
+
 def progress(result, analyzer):
     """(how far the riven is towards the ideal roll, why it's further than its rating) for picking between
     the two cards on the cycle screen; the larger first value is the better card.
@@ -197,14 +203,14 @@ def progress(result, analyzer):
     if spliced:
         best = max(spliced, key=lambda s: s.quality)
         stage = 3 if weights.get(best.name, 0) >= top else 0
-        return (stage, best.quality if stage else 0.0, rating.score), None
+        return (stage, _percent(best.quality) if stage else 0.0, rating.score), None
 
     ready = [(max(names[a].quality, names[b].quality), a, b, into) for a, b, into, classes in splices()
              if cls in classes and a in names and b in names and into not in names and weights.get(into, 0) >= top
              and max(names[a].quality, names[b].quality) >= SPLICE_MIN]
     if ready:
         keeps, a, b, into = max(ready)
-        return (2, keeps, rating.score), f"{a} + {b} can splice into {into} now ({keeps * 100:.0f}%)"
+        return (2, _percent(keeps), rating.score), f"{a} + {b} can splice into {into} now ({keeps * 100:.0f}%)"
 
     ingredient = _ingredients(ev, weights, cls)
     waiting = [(s, ingredient[s.name][1]) for s in ev.positives if s.name in ingredient
@@ -213,5 +219,5 @@ def progress(result, analyzer):
         s, into = max(waiting, key=lambda w: w[0].quality)
         projected = analyzer.rate(replace(ev, stats=[replace(x, name=into) if x is s else x for x in ev.stats],
                                           notes=[]))
-        return (1, s.quality, max(projected.score, rating.score)), f"{s.quality * 100:.0f}% {s.name} splices into {into}"
+        return (1, _percent(s.quality), max(projected.score, rating.score)),             f"{s.quality * 100:.0f}% {s.name} splices into {into}"
     return (0, 0.0, rating.score), None

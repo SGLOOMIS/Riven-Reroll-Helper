@@ -105,7 +105,7 @@ def ideal_rows(analyzer, results):
         return None
     ref = max(evaluated, key=lambda r: (analyzer.confidence(r), r.rating.score))
     weapon, rank = ref.ev.weapon, ref.ev.rank
-    rolls = analyzer.library.rolls_for(weapon)
+    rolls = analyzer.rolls_for(weapon)
     roll = ref.rating.roll or (rolls[0] if rolls else None)
     if roll is None:
         return [("title", "IDEAL ROLL"), ("meta", f"no rolls listed for {weapon.family}")]
@@ -125,9 +125,20 @@ def ideal_rows(analyzer, results):
     else:
         rows.append(("stat", " ", "no negative", "", "neutral"))
     rows.append(("meta", f"max values for 3 positives{' + 1 negative' if roll.negatives else ''}"))
-    if len(rolls) > 1:
-        rows.append(("meta", f"{len(rolls) - 1} other roll(s) listed for {weapon.family}"))
+    rows += target_rows(analyzer, weapon)
     return rows
+
+
+def target_rows(analyzer, weapon):
+    """Which of the weapon's rolls is targeted, and the key that switches, when it has several."""
+    number, n = analyzer.target(weapon)
+    if n < 2:
+        return []
+    key = analyzer.cfg.get("hotkeys", {}).get("cycle_roll")
+    switch = f"; {key} to switch" if key else ""
+    if number is None:
+        return [("meta", f"best match of {n} rolls{switch}")]
+    return [("meta", f"targeting roll {number} of {n}{switch}")]
 
 
 def upgrade_rows(analyzer, weapon_name, per_line=3, config=None):
@@ -140,7 +151,7 @@ def upgrade_rows(analyzer, weapon_name, per_line=3, config=None):
     if weapon is None:
         return None
     named = analyzer.library.roll_named(weapon, config) if config else None
-    rolls = [named] if named else analyzer.library.rolls_for(weapon)
+    rolls = [named] if named else analyzer.rolls_for(weapon)
     if not rolls:
         return [("title", "IDEAL RIVEN"), ("meta", f"no rolls listed for {weapon.family}")]
     roll, rank = rolls[0], 8

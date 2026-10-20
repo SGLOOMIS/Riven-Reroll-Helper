@@ -34,12 +34,12 @@ def chance_of_better(result, analyzer, samples=SAMPLES):
     ev, rating = result.ev, result.rating
     if ev is None or rating is None or not ev.consistent:
         return None
-    rolls = analyzer.library.rolls_for(ev.weapon)
+    rolls = analyzer.rolls_for(ev.weapon)
     if not rolls:
         return None
     riven = (ev.weapon.name, ev.rank, rating.score,
              tuple((s.name, round(s.magnitude, 4), s.is_negative, s.locked) for s in ev.stats))
-    key = (id(analyzer.library), riven)
+    key = (id(analyzer.library), tuple(map(id, rolls)), riven)
     if key not in _cache:
         if len(_cache) > 64:
             _cache.clear()

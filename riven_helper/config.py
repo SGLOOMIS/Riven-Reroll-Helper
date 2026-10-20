@@ -15,7 +15,7 @@ DEFAULTS = {
     "roll_files": ["rolls"],
     # Scoring: share of a wanted stat's credit for being the right type (the rest is roll quality),
     # and the score multipliers for each bad stat and each missing required stat.
-    "rating": {"type_weight": 0.9, "bad_stat_score": 0.5, "missing_required_score": 0.25},
+    "rating": {"type_weight": 0.9, "bad_stat_score": 0.5, "missing_required_score": 0.5},
     # Rules for every roll in every file, e.g. ["-Damage > 100"].
     "bad": [],
     "dealbreakers": [],
@@ -23,7 +23,8 @@ DEFAULTS = {
     "window_title": "Warframe",
     # Panel text size at 1080p; it scales with the game window.
     "font_size": 11,
-    "hotkeys": {"toggle": "F8", "reload": "F9", "snapshot": "F10"},
+    # cycle_roll: rate the riven on screen against the weapon's next roll (best match -> each roll).
+    "hotkeys": {"toggle": "F8", "reload": "F9", "snapshot": "F10", "cycle_roll": "F7"},
     # Overlay features (the roll editor's Settings tab changes these).
     "next_step": True,          # NEXT on card panels, and BETTER for the card closest to the ideal roll
                                 # (off: no NEXT, and BETTER simply for the higher rating)

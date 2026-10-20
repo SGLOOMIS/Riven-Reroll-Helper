@@ -115,7 +115,8 @@ The worker thread (`app.py`, `worker`) and the window thread (`tick`) only hand 
 - A stat in a `"+Stat"` bad rule (bad as a positive) counted only as a *neutral* negative. It's now a
   harmless negative for the roll: having it as the negative spends the riven's curse on something you
   don't want. That applies wherever the rule is written (a roll, a file, or `config.json`), unless the
-  roll wants that stat as a positive.
+  roll wants that stat as a positive. Later the two were merged the other way round too: a harmless
+  negative is bad as a positive, and the editor shows them as one list of bad stats.
 
 ### Open
 

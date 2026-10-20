@@ -26,14 +26,14 @@ class TestEditor(unittest.TestCase):
             self.assertEqual(ed.entry, "@Crit snipers")
             ed.label.insert(0, "crit")
             ed._set_label()
-            for stat, weight, required in (("crit damage", "1", True), ("MS", "1", False),
-                                           ("Critical Chance", "0.8", False)):
+            for stat, tier in (("crit damage", "Required"), ("MS", "Wanted"), ("Critical Chance", "Acceptable")):
                 ed.pos_stat.set(stat)
-                ed.pos_weight.set(weight)
-                ed.pos_req.set(required)
+                ed.pos_tier.set(tier)
                 ed._set_positive()
-            ed.neg_stat.set("Zoom")
-            ed._add_negative()
+            for stat in ("Zoom", "Impact"):                    # "+Zoom", any value: a harmless negative too
+                ed.roll_bad.sign.set("as a positive (+)")
+                ed.roll_bad.stat.set(stat)
+                ed.roll_bad._add()
             ed.roll_deal.sign.set("as the negative (-)")
             ed.roll_deal.stat.set("Multishot")
             ed.roll_deal._add()
@@ -51,13 +51,89 @@ class TestEditor(unittest.TestCase):
         self.assertEqual(data["groups"], {"Crit snipers": ["Rubico", "Vectis"]})
         roll = data["weapons"]["@Crit snipers"]
         self.assertEqual(roll["label"], "crit")
-        self.assertEqual(roll["positives"], {"Critical Damage": 1.0, "Multishot": 1.0, "Critical Chance": 0.8})
-        self.assertEqual((roll["required"], roll["negatives"], roll["dealbreakers"]),
-                         (["Critical Damage"], ["Zoom"], ["-Multishot"]))
+        self.assertEqual(roll["positives"], {"Critical Damage": 1.0, "Multishot": 0.75, "Critical Chance": 0.5})
+        self.assertEqual((roll["required"], roll["bad"], roll["dealbreakers"]),
+                         (["Critical Damage"], ["+Zoom", "+Impact"], ["-Multishot"]))
+        self.assertNotIn("negatives", roll)
         self.assertEqual(data["bad"], ["-Damage > 100"])
         self.assertEqual(RollFile(path).check(G), [])
         lib = RollLibrary(G, [str(path)])
         self.assertEqual([r.label for r in lib.rolls_for(G.weapon_by_name("Vectis Prime"))], ["crit"])
+
+
+class TestInheritedRules(unittest.TestCase):
+    """A roll shows the unwanted stats and dealbreakers it inherits; changing one there is an exception for that
+    roll."""
+
+    def test_exceptions_for_one_roll(self):
+        from riven_helper.editor import C, Editor
+        path = Path(tempfile.mkdtemp()) / "wishlist.json"
+        path.write_text(json.dumps({
+            "negatives": ["Slash"], "bad": ["+Zoom"], "dealbreakers": ["-Damage >= 100"],
+            "weapons": {"Torid": [{"label": "crit", "positives": {"Critical Chance": 0.75, "Blast": 1.0,
+                                                                   "Damage": 0.5, "Critical Damage": 1.0},
+                                   "required": ["Blast"]},
+                                  {"label": "other", "positives": ["Multishot"]}]}}), encoding="utf-8")
+        ed = Editor(str(path))
+        ed.root.withdraw()
+        try:
+            ed.entry_box.selection_set(0)
+            ed._pick_entry()
+            ed.roll_box.selection_set(0)
+            ed._pick_roll()
+            # Sorted by weight: required first among equals.
+            self.assertEqual(list(ed.pos.get_children()), ["Blast", "Critical Damage", "Critical Chance", "Damage"])
+            # The file's rules show on the roll, as inherited. Its harmless negatives ("negatives") are the
+            # same as "+Stat" rules, so they're in the one list.
+            self.assertEqual(ed.doc.bad, ["+Zoom", "+Slash"])
+            self.assertEqual([ed.roll_bad.box.get(i) for i in range(ed.roll_bad.box.size())],
+                             ["+Zoom      (from all rolls in this file)", "+Slash      (from all rolls in this file)"])
+            ed.roll_bad.box.selection_set(0)
+            ed.roll_bad._remove()                            # off for this roll
+            self.assertIn("off for this roll", ed.roll_bad.box.get(0))
+            ed.roll_deal.box.selection_set(0)
+            ed.roll_deal._pick()                             # the builder now holds "-Damage >= 100"
+            ed.roll_deal.value.delete(0, "end")
+            ed.roll_deal.value.insert(0, "150")
+            ed.roll_deal._add()                              # replaced for this roll
+            ed.save()
+        finally:
+            ed.root.destroy()
+            C.set_theme("Vitruvian")
+        saved = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual((saved["bad"], saved.get("negatives")), (["+Zoom", "+Slash"], None))
+        crit, other = saved["weapons"]["Torid"]
+        self.assertEqual((crit["ignore_bad"], crit["ignore_dealbreakers"], crit["dealbreakers"]),
+                         (["+Zoom"], ["-Damage >= 100"], ["-Damage >= 150"]))
+        self.assertNotIn("ignore_bad", other)                # the other roll still follows the file
+        lib = RollLibrary(G, [str(path)])
+        self.assertEqual(lib.warnings, [])
+        crit_roll, other_roll = lib.rolls_for(G.weapon_by_name("Torid"))
+        self.assertEqual(([r.text for r in crit_roll.bad], [r.text for r in crit_roll.dealbreakers]),
+                         (["+Slash"], ["-Damage >= 150"]))
+        self.assertEqual(([r.text for r in other_roll.bad], [r.text for r in other_roll.dealbreakers]),
+                         (["+Zoom", "+Slash"], ["-Damage >= 100"]))
+        self.assertEqual((crit_roll.negatives, other_roll.negatives), (["Slash"], ["Zoom", "Slash"]))
+
+
+class TestTiers(unittest.TestCase):
+    def test_tiers_from_weights(self):
+        from riven_helper.editor_model import RollFile, set_tier, tier_of
+        roll = {"positives": {"Blast": 1.0, "Critical Damage": 1.0, "Critical Chance": 0.75, "Damage": 0.5,
+                              "Multishot": 0.85}, "required": ["Blast", "Critical Damage"]}
+        self.assertEqual([tier_of(roll, s) for s in roll["positives"]],
+                         ["Required", "Required", "Wanted", "Acceptable", "Wanted"])   # 0.85: any weight works
+        set_tier(roll, "Damage", "Required")
+        set_tier(roll, "Blast", "Acceptable")
+        self.assertEqual((roll["positives"]["Damage"], roll["positives"]["Blast"]), (1.0, 0.5))
+        self.assertEqual(roll["required"], ["Critical Damage", "Damage"])
+        # Opening and saving a file never rounds the weights of stats you didn't change.
+        path = Path(tempfile.mkdtemp()) / "market.json"
+        path.write_text(json.dumps({"weapons": {"Soma": {"positives": {"CD": 1, "MS": 0.85}}}}), encoding="utf-8")
+        doc = RollFile(path)
+        doc.save()
+        self.assertEqual(json.loads(path.read_text(encoding="utf-8"))["weapons"]["Soma"]["positives"],
+                         {"CD": 1.0, "MS": 0.85})
 
 
 class TestSettings(unittest.TestCase):

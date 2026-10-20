@@ -9,7 +9,8 @@ It normally runs inside the roll editor's window (Riven Helper.bat): App(root=th
 uses that window's event loop, and report() puts the overlay's status in the editor. Alone
 (python -m riven_helper --overlay) it has a hidden window of its own and prints to the console.
 
-Hotkeys (config.json): toggle the overlay, reload roll files, save a snapshot to debug/.
+Hotkeys (config.json): toggle the overlay, reload roll files, save a snapshot to debug/, switch the
+roll the riven on screen is rated against.
 """
 
 import ctypes
@@ -184,7 +185,7 @@ class App:
         text = self.message if time.time() < self.message_until else None
         if text is None and ((self.last_read and self.last_read[2]) or self.upgrade_weapon):
             k = self.cfg["hotkeys"]
-            text = f"Riven Helper   {k['toggle']} hide   {k['reload']} reload rolls   {k['snapshot']} snapshot"
+            text = f"Riven Helper   {k['toggle']} hide   {k['reload']} reload rolls   {k['snapshot']} snapshot"                 + (f"   {k['cycle_roll']} switch roll" if k.get("cycle_roll") else "")
         if not text or not self.state.visible or not self.area:
             if self.status_window:
                 self.status_window.hide()
@@ -215,6 +216,8 @@ class App:
             self.rescan.set()
         if self._pressed("snapshot") and self.last_read:
             self.flash(f"Saved {self.snapshot()}", 4)
+        if self._pressed("cycle_roll"):
+            self.cycle_roll()
         try:
             while True:
                 self._handle(*self.events.get_nowait())
@@ -222,6 +225,35 @@ class App:
             pass
         self._draw()
         self.root.after(TICK_MS, self.tick)
+
+    def _weapon_on_screen(self):
+        """The weapon of the riven on screen (the most reliably read card), or the upgrade screen's."""
+        if self.last_read and self.state.cards:
+            read = [r for r in self.last_read[2] if r.ev]
+            if read:
+                return max(read, key=self.analyzer.confidence).ev.weapon
+        if self.upgrade_weapon:
+            return self.analyzer.gamedata.weapon_by_base_name(self.upgrade_weapon)
+        return None
+
+    def cycle_roll(self):
+        """Rate the riven on screen against its weapon's next roll, and read it again."""
+        weapon = self._weapon_on_screen()
+        if weapon is None:
+            return
+        rolls = self.analyzer.library.rolls_for(weapon)
+        if len(rolls) < 2:
+            self.flash(f"Only one roll listed for {weapon.family}" if rolls else f"No rolls for {weapon.family}", 3)
+            return
+        roll = self.analyzer.cycle_target(weapon)
+        if roll is None:
+            self.flash(f"{weapon.family}: best match of {len(rolls)} rolls", 4)
+        else:
+            number = self.analyzer.target(weapon)[0]
+            self.flash(f"{weapon.family}: roll {number} of {len(rolls)}, {roll.label or roll.source}", 4)
+        self.rescan.set()
+        if self.upgrade_weapon and not (self.last_read and self.state.cards):
+            self.state.on_config(self.state.upgrade_config)    # redraws IDEAL RIVEN
 
     def snapshot(self):
         """Save the last frame read, its OCR text and the overlay drawn on it, to debug/."""

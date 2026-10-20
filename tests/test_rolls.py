@@ -1,5 +1,6 @@
 """Roll files (loading, groups, priority) and rating a riven against them."""
 
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -92,6 +93,28 @@ class TestLoading(unittest.TestCase):
             self.assertGreaterEqual(len(lib.files), 1, source)
 
 
+class TestTargeting(unittest.TestCase):
+    def test_cycle_through_a_weapons_rolls(self):
+        from riven_helper.analyze import Analyzer
+        from tests.helpers import fixture_config
+        folder = Path(tempfile.mkdtemp())
+        (folder / "r.json").write_text(json.dumps({"weapons": {"Rubico": [
+            {"label": "crit", "positives": ["CD", "MS", "CC"]},
+            {"label": "status", "positives": ["Damage", "Status Chance"]}]}}), encoding="utf-8")
+        an = Analyzer(fixture_config(folder))
+        rubico, crit = G.weapon_by_name("Rubico"), riven("Rubico", CRIT)
+        self.assertEqual(an.target(rubico), (None, 2))
+        self.assertEqual(an.rate(crit).roll.label, "crit")                  # best match
+        self.assertEqual(an.cycle_target(rubico).label, "crit")
+        self.assertEqual(an.target(rubico), (1, 2))
+        self.assertEqual(an.cycle_target(rubico).label, "status")
+        status = an.rate(crit)
+        self.assertEqual(status.roll.label, "status")                       # rated against the targeted roll
+        self.assertLess(status.score, 50)
+        self.assertIsNone(an.cycle_target(rubico))                          # back to the best match
+        self.assertEqual(an.rate(crit).roll.label, "crit")
+
+
 class TestReloading(unittest.TestCase):
     """The overlay reloads roll files on its worker thread while the window thread looks rolls up."""
 
@@ -138,23 +161,29 @@ class TestRating(unittest.TestCase):
         rolls = roll_library({"weapons": {"*rifle": {"positives": ["CD", "MS", "CC"], "negatives": ["Zoom"]}}}) \
             .rolls_for(G.weapon_by_name("Soma"))
         two = ["Critical Damage", "Multishot"]
+        # The roll accepts a negative (Zoom), so a harmless one counts like a third wanted stat: 2 of 3 without.
         neutral = rate(riven("Soma", two, "Impact"), rolls, G)
-        self.assertEqual((neutral.score, neutral.tags["Impact"]), (100.0, "neutral"))
+        self.assertEqual((neutral.score, neutral.tags["Impact"]), (66.7, "neutral"))
         harmless = rate(riven("Soma", two, "Zoom"), rolls, G)
         self.assertEqual((harmless.score, harmless.tags["Zoom"]), (100.0, "harmless"))
         conflict = rate(riven("Soma", two, "Critical Chance"), rolls, G)            # a wanted stat, negative
-        self.assertEqual((conflict.score, conflict.tags["Critical Chance"]), (50.0, "bad"))
+        self.assertEqual((conflict.score, conflict.tags["Critical Chance"]), (33.3, "bad"))
+        # A roll that accepts no negatives: having none, or a neutral one, loses nothing.
+        strict = roll_library({"weapons": {"Soma": {"positives": ["CD", "MS", "CC"]}}}).rolls_for(G.weapon_by_name("Soma"))
+        self.assertEqual(rate(riven("Soma", two, "Impact"), strict, G).score, 100.0)
+        self.assertEqual(rate(riven("Soma", two), strict, G).score, 100.0)
 
     def test_bad_rules(self):
         lib = roll_library({"bad": ["-Impact"],
                             "weapons": {"Soma": {"positives": ["CD", "MS", "CC"], "bad": ["+Zoom"]}}})
         self.assertEqual(lib.warnings, [])
         rolls = lib.rolls_for(G.weapon_by_name("Soma"))
+        # ("+Zoom" makes Zoom a harmless negative, so the roll accepts one: a bad negative earns no third share.)
         r = rate(riven("Soma", ["Critical Damage", "Multishot"], "Impact"), rolls, G)
-        self.assertEqual((r.score, r.tags["Impact"]), (50.0, "bad"))           # file-wide rule
+        self.assertEqual((r.score, r.tags["Impact"]), (33.3, "bad"))           # file-wide rule: 2 of 3, x 0.5
         r = rate(riven("Soma", ["Critical Damage", "Zoom"], "Impact"), rolls, G)
         self.assertEqual(r.tags["Zoom"], "bad")                                 # roll rule, positive side
-        self.assertAlmostEqual(r.score, 50.0 * 0.5 * 0.5)                       # 1 of 2 wanted, 2 bad stats
+        self.assertAlmostEqual(r.score, 8.3)                                    # 1 of 3, two bad stats: x 0.25
 
     def test_bad_as_positive_is_a_good_negative(self):
         # "+Zoom" is bad (you don't want it as a positive), so Zoom as the negative is a good place for the
@@ -170,6 +199,24 @@ class TestRating(unittest.TestCase):
         # A stat the roll wants is never a good negative, even with a "+" bad rule somewhere.
         wants = roll_library({"bad": ["+Multishot"], "weapons": {"Soma": {"positives": ["CD", "MS"]}}})
         self.assertEqual(wants.rolls_for(G.weapon_by_name("Soma"))[0].negatives, [])
+        self.assertEqual(wants.rolls_for(G.weapon_by_name("Soma"))[0].bad, [])         # nor bad as a positive
+
+    def test_harmless_negative_is_a_bad_positive(self):
+        # The same list the other way round: a harmless negative halves the score as a positive. From the
+        # roll or the whole file ("negatives"), and a roll can switch the file's off ("ignore_negatives").
+        lib = roll_library({"negatives": ["Impact"],
+                            "weapons": {"Soma": [{"label": "a", "positives": ["CD", "MS", "CC"], "negatives": ["Zoom"]},
+                                                 {"label": "b", "positives": ["CD", "MS", "CC"],
+                                                  "ignore_negatives": ["Impact"]}]}})
+        a, b = lib.rolls_for(G.weapon_by_name("Soma"))
+        self.assertEqual((a.negatives, b.negatives), (["Zoom", "Impact"], []))
+        for stat in ("Zoom", "Impact"):
+            r = rate(riven("Soma", ["Critical Damage", "Multishot", stat]), [a], G)
+            self.assertEqual(r.tags[stat], "bad")
+            self.assertAlmostEqual(r.score, 66.7 * 0.5 * 0.75, places=0)  # 2 of 3, no negative: x0.75, then halved
+        self.assertEqual(rate(riven("Soma", ["Critical Damage", "Multishot", "Impact"]), [b], G).tags["Impact"],
+                         "unwanted")
+        self.assertEqual(len([r for r in a.bad if r.stat == "Zoom"]), 1)     # listed twice, counted once
 
     def test_dealbreakers(self):
         lib = roll_library({"dealbreakers": ["-Damage > 100"],

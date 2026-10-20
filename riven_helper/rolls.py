@@ -22,7 +22,7 @@ from .gamedata import norm
 DEFAULT_RATING = {
     "type_weight": 0.9,              # share of a wanted stat's credit for being the right type (rest: roll quality)
     "bad_stat_score": 0.5,           # score multiplier for each bad stat
-    "missing_required_score": 0.25,  # score multiplier for each missing required stat
+    "missing_required_score": 0.5,   # score multiplier for each missing required stat
 }
 
 # A rule like "-Damage > 100", "+Zoom" or "Impact": optional sign, stat, optional comparison.
@@ -95,6 +95,26 @@ def parse_rules(items, gamedata, warnings, where):
         value = float(m.group("value")) if m.group("value") else None
         rules.append(StatRule(stat, sign, m.group("op"), value, str(item).strip()))
     return rules
+
+
+def rule_key(rule):
+    """What a rule means, however it's written: "-Damage >= 100" and "-damage>=100" are the same rule."""
+    return rule.stat, rule.sign, rule.op, rule.value
+
+
+def bad_as_positive(rule):
+    """Is this rule a plain "+Stat" (bad as a positive, any value)? That's the same as a harmless negative."""
+    return rule.sign == "+" and rule.op is None
+
+
+def _without(inherited, ignored, gamedata, warnings, where):
+    """The inherited rules, minus those a roll switches off."""
+    if not ignored:
+        return inherited
+    off = {rule_key(r) for r in parse_rules(ignored, gamedata, warnings, f"{where} ignore")}
+    for key in off - {rule_key(r) for r in inherited}:
+        warnings.append(f"{where}: ignores a rule it doesn't inherit ({key[1] or ''}{key[0]})")
+    return [r for r in inherited if rule_key(r) not in off]
 
 
 def _stats(names, gamedata, warnings, where):
@@ -199,6 +219,7 @@ class RollLibrary:
             parse_rules(data.get("bad"), gd, w, f"{name} bad")
         file_deal = parse_rules(self.global_dealbreakers, gd, w, "config.json dealbreakers") + \
             parse_rules(data.get("dealbreakers"), gd, w, f"{name} dealbreakers")
+        file_negatives = _stats(data.get("negatives"), gd, w, f"{name} negatives")
 
         for weapon_key, entries in data["weapons"].items():
             for i, entry in enumerate([entries] if isinstance(entries, dict) else entries):
@@ -215,17 +236,30 @@ class RollLibrary:
                 if not positives:
                     w.append(f"{where}: no valid positives, skipped")
                     continue
-                bad = file_bad + parse_rules(entry.get("bad"), gd, w, where)
-                # A stat that's bad as a positive ("+Zoom") is a good negative: having it there uses up the
-                # riven's curse on something you don't want anyway. Unless the roll wants it as a positive.
-                negatives = _stats(entry.get("negatives"), gd, w, where)
-                negatives = list(dict.fromkeys(negatives + [r.stat for r in bad
-                                                            if r.sign == "+" and r.stat not in positives]))
+                # Rules from the file and config.json apply to every roll, except those the roll switches off
+                # ("ignore_bad" / "ignore_dealbreakers", e.g. to replace one with its own version).
+                # An inherited "+Stat" doesn't apply to a roll that wants that stat as a positive.
+                bad = ([r for r in _without(file_bad, entry.get("ignore_bad"), gd, w, where)
+                        if not (bad_as_positive(r) and r.stat in positives)]
+                       + parse_rules(entry.get("bad"), gd, w, where))
+                # Harmless negatives and stats bad as a positive ("+Zoom") are one list: a stat you don't
+                # want is a good negative (it uses up the riven's curse) and a bad positive (it takes a slot).
+                # From the roll, the file ("negatives") and plain "+Stat" rules, minus those the roll switches
+                # off ("ignore_negatives"), and never a stat the roll wants as a positive.
+                off = set(_stats(entry.get("ignore_negatives"), gd, w, f"{where} ignore"))
+                negatives = list(dict.fromkeys(
+                    s for s in _stats(entry.get("negatives"), gd, w, where)
+                    + [s for s in file_negatives if s not in off]
+                    + [r.stat for r in bad if bad_as_positive(r) and r.stat not in off]
+                    if s not in positives))
+                bad = [r for r in bad if not (bad_as_positive(r) and (r.stat in negatives or r.stat in off))] \
+                    + [StatRule(s, "+", text=f"+{s}") for s in negatives]
                 roll = Roll(label=entry.get("label", ""), positives=positives,
                             negatives=negatives,
                             required=_stats(entry.get("required"), gd, w, where),
                             bad=bad,
-                            dealbreakers=file_deal + parse_rules(entry.get("dealbreakers"), gd, w, where),
+                            dealbreakers=_without(file_deal, entry.get("ignore_dealbreakers"), gd, w, where)
+                            + parse_rules(entry.get("dealbreakers"), gd, w, where),
                             source=name, fallback=bool(data.get("fallback", False)))
                 rolls.setdefault(_key(weapon_key), []).append(roll)
 
@@ -283,8 +317,12 @@ def rate(ev, rolls, gamedata, rating=None):
     well it rolled (its value as a fraction of the maximum, 0.82 .. 1). That's divided by the best
     this roll allows for this many positives, so the right stats score about 98% at the worst rolls
     and 100% at the best; unwanted stats earn nothing.
-    Negatives are neutral unless the roll wants that stat as a positive, or it matches a "bad" rule;
-    each bad stat (and each missing required stat) multiplies the score down. A dealbreaker makes it 0.
+    A harmless negative counts like one more wanted stat (the average weight of those best stats):
+    a negative makes every other stat 25% stronger, so when the roll accepts negatives (it lists
+    harmless ones), the best riven has one, and a riven without one (or with a neutral one) misses
+    that share. Negatives are neutral unless the roll wants that stat as a positive, or it matches a
+    "bad" rule; each bad stat (and each missing required stat) multiplies the score down. A
+    dealbreaker makes it 0.
     """
     if ev is None:
         return Rating(0.0, detail="could not read riven")
@@ -302,7 +340,6 @@ def rate(ev, rolls, gamedata, rating=None):
             w = roll.positives.get(st.name, 0.0)
             earned += w * (type_w + (1 - type_w) * st.quality)
             tags[st.name] = "good" if w >= 1 else "ok" if w > 0 else "unwanted"
-        score = min(earned / (sum(top) or 1.0), 1.0)
 
         neg = ev.negative
         if neg is not None:
@@ -316,6 +353,11 @@ def rate(ev, rolls, gamedata, rating=None):
             if rule and tags.get(st.name) != "bad":
                 tags[st.name] = "bad"
                 bad.append(f"{'-' if st.is_negative else '+'}{st.name}: listed as bad ({rule.text})")
+        # The negative's slot: worth an average wanted stat when the roll accepts negatives.
+        negative_slot = sum(top) / len(top) if roll.negatives and top else 0.0
+        if neg is not None and tags.get(neg.name) == "harmless":
+            earned += negative_slot
+        score = min(earned / ((sum(top) + negative_slot) or 1.0), 1.0)
         score *= settings["bad_stat_score"] ** len(bad)
 
         have = {st.name for st in ev.positives}

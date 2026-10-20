@@ -72,7 +72,7 @@ of them except `warframe_market.json`, so players' own rolls stay local.
 ```json
 {
   "groups": { "Crit snipers": ["Rubico", "Vectis", "Lanka"] },
-  "bad": ["-Status Chance"],
+  "bad": ["+Zoom", "-Status Chance"],
   "dealbreakers": ["-Damage > 100"],
   "weapons": {
     "@Crit snipers": { "positives": ["Critical Damage", "Multishot", "Critical Chance"] },
@@ -81,8 +81,7 @@ of them except `warframe_market.json`, so players' own rolls stay local.
         "label": "Crit sniper",
         "positives": { "Critical Damage": 1, "Multishot": 1, "Critical Chance": 0.8, "Damage": 0.7 },
         "required": ["Critical Damage"],
-        "negatives": ["Zoom", "Impact", "Puncture"],
-        "bad": ["+Zoom"],
+        "bad": ["+Impact", "+Puncture", "-Damage"],
         "dealbreakers": ["-Multishot"]
       }
     ],
@@ -93,15 +92,23 @@ of them except `warframe_market.json`, so players' own rolls stay local.
 
 - **Weapon keys:** a weapon name (covering its whole riven family: `Rubico` also covers Rubico Prime),
   `@group`, or a class fallback `*rifle`, `*shotgun`, `*pistol`, `*melee`, `*archgun`, or `*`.
-- A key holds **one roll or a list**; the best-scoring roll is shown. `label` names it (also matched
-  against the upgrade screen's config tab).
-- **positives:** a list, or `{stat: weight}` (1 = ideal, 0.5 = nice to have). **negatives:** ones known
-  to be harmless. **required:** stats the riven must have. **bad** / **dealbreakers:** rules, on a roll,
-  at the top of a file (every roll in it), or in `config.json` (every file).
+- A key holds **one roll or a list**; the best-scoring roll is shown, unless the cycle-roll hotkey (F7)
+  targets one. `label` names it (also matched against the upgrade screen's config tab).
+- **ignore_bad** / **ignore_dealbreakers** *(optional)*: rules from the file or `config.json` that this
+  roll doesn't follow (written as the inherited rule's text; how it's spelled doesn't matter). The editor
+  shows inherited rules greyed on each roll: removing one there adds it here, and editing one replaces it
+  for that roll.
+- **positives:** a list, or `{stat: weight}` (1 = ideal, 0.5 = nice to have). The editor shows these as
+  tiers: Required (weight 1, and in `required`), Wanted (0.75; any weight from 0.75 shows as Wanted) and
+  Acceptable (0.5). **required:** stats the riven must have. **bad** (the editor's *Unwanted stats*) / **dealbreakers:** rules, on a roll, at the top of
+  a file (every roll in it), or in `config.json` (every file).
 - Stat names match loosely (`Critical Damage`, `crit damage`, `CD`).
 
-A `"+Stat"` bad rule also makes that stat a harmless negative for the roll (having it as the negative
-spends the riven's curse on something you don't want), unless the roll wants it as a positive.
+**Harmless negatives are bad positives.** A plain `"+Stat"` bad rule (bad as a positive, any value) also
+makes the stat a harmless negative: having it as the negative spends the riven's curse on something you
+don't want. Older files may list harmless negatives in `negatives` (on a roll or at the top of the file)
+and `ignore_negatives`; those mean the same, load the same, and the editor turns them into `"+Stat"`
+rules. An inherited `"+Stat"` doesn't apply to a roll that wants that stat as a positive.
 
 Rules are strings: `"-Multishot"` (as the negative), `"+Zoom"` (as a positive), `"Impact"` (either way),
 `"-Damage > 100"` (`>`, `>=`, `<`, `<=`). The number is what the card shows: 100 means 100%, 25 means
@@ -120,16 +127,21 @@ Refresh it (downloads are cached in `tools/.market_cache`):
 ## The rating
 
 ```
-rating = Σ weight × (0.9 + 0.1 × quality)  ÷  (sum of the N highest weights in the roll)
+rating = (Σ weight × (0.9 + 0.1 × quality)  +  negative)  ÷  (sum of the N highest weights  +  slot)
          × 0.5  for each bad stat
-         × 0.25 for each required stat that's missing
+         × 0.5  for each required stat that's missing
          = 0    if a dealbreaker matches                 N = number of positives on the riven
+
+slot     = the average of those N weights, when the roll accepts negatives (lists harmless ones); else 0
+negative = slot when the riven's negative is harmless; else 0
 ```
 
 90% for the right stat types, 10% for how well they rolled. **Quality** is the stat's value divided by
-the highest it could have. Negatives are neutral unless the roll wants that stat as a positive or a
-`bad` rule matches it. The three numbers are `type_weight`, `bad_stat_score` and `missing_required_score`
-in `config.json`.
+the highest it could have. A **harmless negative** counts like one more wanted stat: a negative makes
+every other stat 25% stronger, so on a roll that accepts negatives the best riven has one, and a riven
+without one, or with a neutral one, rates about 75% at most. Negatives are neutral unless the roll wants
+that stat as a positive or a `bad` rule matches it. The multipliers are `type_weight`, `bad_stat_score`
+and `missing_required_score` in `config.json`.
 
 ## Riven math
 
@@ -154,11 +166,11 @@ value = b × 10 × (rank + 1) × disposition × L × W        W from 0.9 to 1.1
 | Key | Meaning |
 |-----|---------|
 | `roll_files` | Roll files, folders or globs (default `["rolls"]`) |
-| `rating` | `type_weight` 0.9, `bad_stat_score` 0.5, `missing_required_score` 0.25 |
+| `rating` | `type_weight` 0.9, `bad_stat_score` 0.5, `missing_required_score` 0.5 |
 | `bad` / `dealbreakers` | Rules for every roll in every file, e.g. `["-Damage > 100"]` |
 | `window_title` | The game window to watch; `null` captures the primary monitor |
 | `font_size` | Panel text size at 1080p (it scales with the game window) |
-| `hotkeys` | `toggle`, `reload`, `snapshot` (F1–F12, Insert, Home, End, Pause, ScrollLock) |
+| `hotkeys` | `toggle`, `reload`, `snapshot`, `cycle_roll` (F1–F12, Insert, Home, End, Pause, ScrollLock) |
 | `next_step` | NEXT advice, and BETTER by progress towards the ideal roll (false: BETTER by rating) |
 | `upgrade_overlay` | IDEAL RIVEN on weapon upgrade screens |
 | `config_rolls` | On the upgrade screen, the roll labelled like the selected config tab |
@@ -189,7 +201,7 @@ The editor's Settings tab writes these; a running overlay notices the file chang
 | `layout.py` | Where each panel goes |
 | `overlay_state.py` | Which panels are showing, and their fades |
 | `winpanel.py` | Click-through, capture-hidden windows that show the panels |
-| `app.py` | The overlay: worker thread, hotkeys, snapshots, settings reload |
+| `app.py` | The overlay: worker thread, hotkeys, snapshots, settings reload, the targeted roll |
 | `editor.py`, `editor_model.py` | The roll editor (window, and the file model behind it) |
 | `config.py`, `__main__.py` | Settings, and the command line |
 

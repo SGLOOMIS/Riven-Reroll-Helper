@@ -32,6 +32,7 @@ class Analyzer:
         self.cfg = cfg
         self.gamedata = GameData()
         self._fits_in_memory = {}                  # riven family -> weapon last shown under FITS IN
+        self.targets = {}                          # weapon name -> index of the roll it's rated against
         self._load_rolls()
 
     def _load_rolls(self):
@@ -66,8 +67,33 @@ class Analyzer:
         self._share_weapon_and_rank(results)
         return results
 
+    def rolls_for(self, weapon):
+        """The rolls a riven for this weapon is rated against: the targeted one (cycle_target), or all
+        of them, the best match counting."""
+        rolls = self.library.rolls_for(weapon)
+        i = self.targets.get(weapon.name)
+        return [rolls[i]] if i is not None and i < len(rolls) else rolls
+
+    def target(self, weapon):
+        """(the targeted roll's number, from 1, or None for the best match; how many rolls there are)."""
+        n = len(self.library.rolls_for(weapon))
+        i = self.targets.get(weapon.name)
+        return (i + 1 if i is not None and i < n else None), n
+
+    def cycle_target(self, weapon):
+        """Target the weapon's next roll: best match -> roll 1 -> roll 2 ... -> best match.
+        Returns the targeted roll, or None for the best match."""
+        rolls = self.library.rolls_for(weapon)
+        i = self.target(weapon)[0]                 # the next roll's index is the current one's number
+        i = 0 if i is None else i
+        if i >= len(rolls) or len(rolls) < 2:
+            self.targets.pop(weapon.name, None)
+            return None
+        self.targets[weapon.name] = i
+        return rolls[i]
+
     def rate(self, ev):
-        return rate(ev, self.library.rolls_for(ev.weapon), self.gamedata, self.cfg["rating"])
+        return rate(ev, self.rolls_for(ev.weapon), self.gamedata, self.cfg["rating"])
 
     def _evaluate(self, card):
         title = card.title_name

@@ -4,10 +4,15 @@ Kept free of any UI so it can be tested on its own. A roll file is held in
 an easy-to-edit form:
 
     entries:  {weapon key: [roll, ...]}   keys are weapon names, "@group" or "*rifle"-style fallbacks
-    roll:     {"label", "positives": {stat: weight}, "negatives": [stats], "required": [stats],
-               "bad": [rule text], "dealbreakers": [rule text]}
+    roll:     {"label", "positives": {stat: weight}, "required": [stats],
+               "bad": [rule text], "dealbreakers": [rule text],
+               "ignore_bad" / "ignore_dealbreakers": the file's ones it switches off}
     groups:   {group name: [weapon names]}
     bad / dealbreakers: rules for every roll in the file
+
+Harmless negatives and stats bad as a positive are the same thing, so the editor keeps them in one
+list: a plain "+Stat" bad rule (bad as a positive, any value) is also a harmless negative. A file's
+"negatives" lists are turned into those rules on loading ("ignore_negatives" into "ignore_bad").
 
 Anything else in the file is kept as it was.
 """
@@ -21,12 +26,35 @@ from .gamedata import norm
 from .rolls import RULE_RE, RollLibrary
 
 CLASSES = ["rifle", "shotgun", "pistol", "melee", "archgun"]
+ROLL_KEYS = ("label", "positives", "negatives", "required", "bad", "dealbreakers", "ignore_negatives",
+             "ignore_bad", "ignore_dealbreakers")       # "negatives" only keeps what can't become a rule
+FILE_KEYS = ("name", "weapons", "groups", "negatives", "bad", "dealbreakers")
+# How much each wanted stat matters. Stored as the stat's weight, and Required also in "required".
+TIERS = {"Required": 1.0, "Wanted": 0.75, "Acceptable": 0.5}
 SIGNS = {"as the negative (-)": "-", "as a positive (+)": "+", "either way": ""}
 OPERATORS = ["(any value)", ">", ">=", "<", "<="]
 
 
 def new_roll(label=""):
-    return {"label": label, "positives": {}, "negatives": [], "required": [], "bad": [], "dealbreakers": []}
+    return {"label": label, "positives": {}, "negatives": [], "required": [], "bad": [], "dealbreakers": [],
+            "ignore_bad": [], "ignore_dealbreakers": []}
+
+
+def tier_of(roll, stat):
+    """A wanted stat's tier, from its weight and the required list (any weight works, not only the
+    tiers' own: 0.75 and up is Wanted, below that Acceptable)."""
+    if stat in roll["required"]:
+        return "Required"
+    return "Wanted" if float(roll["positives"][stat]) >= TIERS["Wanted"] else "Acceptable"
+
+
+def set_tier(roll, stat, tier):
+    """Want a stat at this tier: its weight, and whether the riven must have it."""
+    roll["positives"][stat] = TIERS[tier]
+    if tier == "Required" and stat not in roll["required"]:
+        roll["required"].append(stat)
+    elif tier != "Required" and stat in roll["required"]:
+        roll["required"].remove(stat)
 
 
 def rule_text(sign, stat, op=None, value=None):
@@ -37,16 +65,55 @@ def rule_text(sign, stat, op=None, value=None):
     return text
 
 
-def describe_rule(text):
-    """Plain-English reading of a rule, for the editor's list."""
+def rule_parts(text):
+    """(sign "+" / "-" / "", stat, operator or None, value or None) of a rule's text."""
+    m = RULE_RE.match(text)
+    if not m:
+        return "", text.strip(), None, None
+    sign = {"−": "-"}.get(m.group("sign") or "", m.group("sign") or "")
+    return sign, m.group("stat"), m.group("op"), m.group("value")
+
+
+def same_rule(a, b):
+    """Do two rule texts mean the same ("-Damage >= 100" and "-damage>=100")?"""
+    pa, pb = rule_parts(a), rule_parts(b)
+    number = lambda v: float(v) if v else None
+    return (pa[0], pa[1].lower(), pa[2], number(pa[3])) == (pb[0], pb[1].lower(), pb[2], number(pb[3]))
+
+
+def is_bad_as_positive(text):
+    """Is this rule a plain "+Stat" (bad as a positive, any value), which is a harmless negative?"""
+    sign, _, op, _ = rule_parts(text)
+    return sign == "+" and op is None
+
+
+def negatives_to_rules(negatives, rules, keep=()):
+    """Turn harmless negatives into "+Stat" rules (the same thing, in one list), added to rules in place.
+    Returns the ones that stay negatives: stats in keep (wanted as positives, where a "+" rule would mean
+    something else; the overlay ignores those negatives anyway)."""
+    kept, left = {k.lower() for k in keep}, []
+    for stat in negatives:
+        if stat.lower() in kept:
+            left.append(stat)
+        elif not any(same_rule(f"+{stat}", r) for r in rules):
+            rules.append(f"+{stat}")
+    return left
+
+
+def describe_rule(text, dealbreaker=False):
+    """Plain-English reading of an unwanted-stat rule (or a dealbreaker), for the editor's list."""
     m = RULE_RE.match(text)
     if not m:
         return text
-    sign = {"-": "negative ", "−": "negative ", "+": "positive "}.get(m.group("sign") or "", "")
-    out = f"{sign}{m.group('stat')}"
-    if m.group("op"):
-        out += f" {m.group('op')} {m.group('value')}"
-    return out
+    sign = {"−": "-"}.get(m.group("sign") or "", m.group("sign") or "")
+    amount = f" {m.group('op')} {m.group('value')}" if m.group("op") else ""
+    if dealbreaker:
+        where = {"-": "it's the negative", "+": "it's a positive"}.get(sign, "it's on the riven")
+        return f"rated 0 if {where}" + (f", {amount.strip()}" if amount else "")
+    if is_bad_as_positive(text):
+        return "unwanted as a positive, a good negative"
+    where = {"-": "as the negative", "+": "as a positive"}.get(sign, "anywhere")
+    return f"unwanted {where}" + (f" when{amount}" if amount else "")
 
 
 class RollFile:
@@ -69,10 +136,11 @@ class RollFile:
         if not isinstance(data, dict):
             raise ValueError("not a roll file: the top level must be an object")
         self.extra = {k: v for k, v in data.items()
-                      if k not in ("name", "weapons", "groups", "bad", "dealbreakers")}
+                      if k not in FILE_KEYS}
         self.name = data.get("name", "")
         self.groups = {g: list(m) for g, m in (data.get("groups") or {}).items()}
         self.bad = list(data.get("bad") or [])
+        negatives_to_rules(data.get("negatives") or [], self.bad)
         self.dealbreakers = list(data.get("dealbreakers") or [])
         self.entries = {}
         for key, rolls in (data.get("weapons") or {}).items():
@@ -83,14 +151,18 @@ class RollFile:
     @staticmethod
     def _roll_in(r):
         pos = r.get("positives") or {}
-        return {"label": r.get("label", ""),
+        roll = {"label": r.get("label", ""),
                 "positives": dict(pos) if isinstance(pos, dict) else {s: 1.0 for s in pos},
                 "negatives": list(r.get("negatives") or []),
                 "required": list(r.get("required") or []),
                 "bad": list(r.get("bad") or []),
                 "dealbreakers": list(r.get("dealbreakers") or []),
-                "_extra": {k: v for k, v in r.items() if k not in
-                           ("label", "positives", "negatives", "required", "bad", "dealbreakers")}}
+                "ignore_bad": list(r.get("ignore_bad") or []),
+                "ignore_dealbreakers": list(r.get("ignore_dealbreakers") or []),
+                "_extra": {k: v for k, v in r.items() if k not in ROLL_KEYS}}
+        roll["negatives"] = negatives_to_rules(roll["negatives"], roll["bad"], keep=roll["positives"])
+        negatives_to_rules(r.get("ignore_negatives") or [], roll["ignore_bad"])
+        return roll
 
     @staticmethod
     def _roll_out(r):
@@ -101,7 +173,7 @@ class RollFile:
         # A plain list when every weight is 1, like you'd write by hand.
         out["positives"] = list(pos) if all(float(w) == 1.0 for w in pos.values()) else \
             {s: float(w) for s, w in pos.items()}
-        for key in ("required", "negatives", "bad", "dealbreakers"):
+        for key in ("required", "negatives", "bad", "dealbreakers", "ignore_bad", "ignore_dealbreakers"):
             if r.get(key):
                 out[key] = list(r[key])
         out.update(r.get("_extra") or {})
