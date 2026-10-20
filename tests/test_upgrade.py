@@ -44,6 +44,20 @@ class TestUpgradeScreen(unittest.TestCase):
         events, _ = session.step(np.zeros_like(frame), now=4.5)    # ...two clear it
         self.assertIn(("upgrade", None), events)
 
+    def test_other_ui_theme_at_1440p(self):
+        # From a 2560x1440 system with a pale gold UI theme instead of orange: OCR read only
+        # "PRIME [30]" of "UPGRADES/EPITAPH PRIME [30]", and the header reader must find the gold text.
+        import cv2
+
+        from riven_helper.session import Session
+        an = analyzer()
+        session = Session(an, windows_ocr(self))
+        frame = cv2.imread(str(FIXTURES / "img" / "upgrade_gold_theme_epitaph_prime.jpg"))
+        events, _ = session.step(frame, now=0.0)
+        self.assertIn(("upgrade", "epitaph prime"), events)
+        img, (x, y) = plan_upgrade_screen(an, "epitaph prime", 2560, 1440, fixture_config())
+        self.assertTrue(2100 <= x and x + img.width <= 2500 and 630 <= y and y + img.height <= 810)
+
     def test_melee_screens(self):
         # The melee header OCRs as "[30]" or "PRIME [30]" only; the header reader still gets the weapon,
         # and the panel goes below the arcane slot at the top right (melee has a different layout).

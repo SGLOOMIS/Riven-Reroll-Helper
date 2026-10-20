@@ -3,8 +3,8 @@
 The screen itself is recognised by its CAPACITY and CONFIG A/B/C labels, which OCR reads reliably.
 The weapon's name is in the header, in a wide letter-spaced display font that OCR reads badly
 ("QIJPGRADES/", or just "[30]"). When the normal OCR text doesn't contain it, the header is read
-on its own: its orange text is isolated, the extra letter spacing removed, and the result read a
-few ways; the weapon name found most often wins.
+on its own: its text (in the UI theme's colour) is isolated, the extra letter spacing removed,
+and the result read a few ways; the weapon name found most often wins.
 
 UpgradeScreen keeps the answer steady: once the weapon is known it's kept for as long as the
 screen is, and the header is only read again when its pixels change (another weapon selected).
@@ -57,12 +57,21 @@ def weapon_from_text(lines, gamedata):
 
 # -- reading the header image itself ---------------------------------------------------------
 def header_mask(img):
-    """The header's orange text as a boolean array, trimmed to the text rows."""
+    """The header's text as a boolean array, trimmed to the text rows.
+
+    The text's colour depends on the player's UI theme (orange by default, pale gold, ...) and the
+    weapon's name can differ from "UPGRADES/" (red-orange), so text is any bright pixel on the dark
+    header bar that's warm (red over blue, unlike the grey-blue background art) or the colour of the
+    header's brightest pixels (for other themes).
+    """
     W, H = img.size
     x0, y0, x1, y1 = HEADER_AREA
     crop = np.asarray(img.crop((int(W * x0), int(H * y0), int(W * x1), int(H * y1)))).astype(np.int16)
-    r, g, b = crop[..., 0], crop[..., 1], crop[..., 2]
-    mask = (r > 140) & (r - b > 90) & (g < r)
+    value = crop.max(axis=2)
+    top = np.percentile(value, 99.5)
+    text_colour = np.median(crop[value >= top * 0.9], axis=0)
+    warm = crop[..., 0] - crop[..., 2] > 40
+    mask = (value >= top * 0.55) & (warm | (np.abs(crop - text_colour).max(axis=2) < 70))
     rows = np.where(mask.any(axis=1))[0]
     return mask[rows.min():rows.max() + 1] if len(rows) else mask
 
