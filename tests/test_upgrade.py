@@ -133,6 +133,16 @@ class TestConfigTab(unittest.TestCase):
         self.assertIn(("config", "Main"), events)
         self.assertIn(("upgrade", "epitaph prime"), events)
 
+    def test_upgrade_overlay_switched_off(self):
+        import cv2
+
+        from riven_helper.session import Session
+        an = analyzer()
+        an.cfg["upgrade_overlay"] = False
+        session = Session(an, windows_ocr(self))
+        events, _ = session.step(cv2.imread(str(FIXTURES / "img" / "upgrade_gold_theme_epitaph_prime.jpg")), now=0.0)
+        self.assertFalse([e for e in events if e[0] in ("upgrade", "config")])
+
 
 class TestWindowsOcr(unittest.TestCase):
     """Riven screens end to end through Windows OCR."""

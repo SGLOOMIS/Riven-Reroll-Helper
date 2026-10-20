@@ -14,8 +14,9 @@ import queue
 import threading
 import time
 from datetime import datetime
+from pathlib import Path
 
-from .config import ROOT
+from .config import ROOT, load_config
 from .layout import render_to_image, text_scale
 from .overlay_state import OverlayState
 from .style import render_status
@@ -44,6 +45,8 @@ class App:
         self.reads = 0
         self.message, self.message_until = self._library_summary(), time.time() + 6
         self.keys = {name: KEY_CODES.get(str(key).upper()) for name, key in cfg["hotkeys"].items()}
+        self.config_path = Path(cfg.get("_path", ROOT / "config.json"))
+        self.config_time = self._config_time()
         self.keys_down = {}
 
     def _library_summary(self):
@@ -52,6 +55,12 @@ class App:
             print("WARNING:", w)
         text = f"Riven Helper: {len(lib.files)} roll file(s), {sum(map(len, lib.rolls.values()))} rolls"
         return text + (f"  |  {len(lib.warnings)} warning(s): {lib.warnings[0]}" if lib.warnings else "")
+
+    def _config_time(self):
+        try:
+            return self.config_path.stat().st_mtime
+        except OSError:
+            return None
 
     def flash(self, text, seconds=4):
         self.message, self.message_until = text, time.time() + seconds
@@ -70,6 +79,11 @@ class App:
         while self.running:
             started, wait = time.time(), 1.0
             try:
+                if self._config_time() != self.config_time:   # saved (e.g. by the editor's Settings tab)
+                    self.config_time = self._config_time()
+                    self.analyzer.apply_settings(load_config(self.config_path))
+                    self.events.put(("settings", None, None))
+                    self.rescan.set()
                 if self.rescan.is_set() or self.analyzer.library.changed():
                     if self.analyzer.library.changed():
                         self.analyzer.library.reload()
@@ -121,6 +135,9 @@ class App:
             self.state.on_theme(payload)
         elif kind == "hide":
             self.state.on_hide()
+        elif kind == "settings":
+            print("Settings changed (config.json): applied", flush=True)
+            self.flash("Settings applied: " + self._library_summary(), 6)
         elif kind == "reloaded":
             self.flash(self._library_summary(), 6)
         elif kind == "error":

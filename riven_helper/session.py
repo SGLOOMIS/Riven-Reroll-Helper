@@ -146,7 +146,7 @@ class Session:
         """("upgrade", weapon or None) when the upgrade screen's weapon changes, and ("config", name) when
         another config tab is selected on it; else nothing."""
         before, config_before = self.upgrade.weapon, self.upgrade.config
-        if self.results:
+        if self.results or not self.analyzer.cfg.get("upgrade_overlay", True):
             self.upgrade.clear()
         else:
             self.upgrade.update(self.img, self.lines, self.ocr, self.analyzer.gamedata)

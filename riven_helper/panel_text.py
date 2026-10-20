@@ -42,7 +42,8 @@ def card_rows(analyzer, result, best=False):
         return [("score", "?", "bad", False), ("label", r.detail)]
     label = roll_label(analyzer, r.roll) if r.roll else r.detail
     rows = [("score", f"{r.score:.0f}%", grade(r.score), best)] + ([("label", label)] if label else [])
-    if best:
+    advise = analyzer.cfg.get("next_step", True)
+    if best and advise:
         why = progress(result, analyzer)[1]
         if why:                                   # better than its rating says: it's closer to the ideal roll
             rows += [("note", line, "warn") for line in textwrap.wrap(f"closer to the ideal: {why}", 44)]
@@ -67,7 +68,7 @@ def card_rows(analyzer, result, best=False):
     if r.missing:
         rows.append(("note", "missing " + ", ".join(r.missing), "warn"))
     rows += [("note", n, "warn") for n in ev.notes + result.card.problems]
-    step = next_step(result, analyzer.gamedata)
+    step = next_step(result, analyzer.gamedata) if advise else None
     if step:
         action, why = step
         rows += [("rule",)] + [("note", line, "next") for line in textwrap.wrap(f"NEXT: {action}", 34)]

@@ -1,0 +1,345 @@
+{
+ "_source": "Read off the 'CUSTOMIZE UI THEME/THEME' header in screenshots of each theme (tests/fixtures/themes/theme_01..20, in this order) with theme.detect: the header text's colour, its accent word's colour, and the header bar behind them.",
+ "themes": {
+  "Zephyr Harrier": {
+   "text": [
+    249,
+    133,
+    8
+   ],
+   "accent": [
+    248,
+    54,
+    5
+   ],
+   "background": [
+    15,
+    21,
+    30
+   ]
+  },
+  "Vitruvian": {
+   "text": [
+    188,
+    170,
+    106
+   ],
+   "accent": [
+    243,
+    227,
+    176
+   ],
+   "background": [
+    18,
+    15,
+    21
+   ]
+  },
+  "Legacy": {
+   "text": [
+    255,
+    255,
+    255
+   ],
+   "accent": [
+    231,
+    216,
+    102
+   ],
+   "background": [
+    37,
+    62,
+    72
+   ]
+  },
+  "High Contrast": {
+   "text": [
+    102,
+    175,
+    253
+   ],
+   "accent": [
+    252,
+    253,
+    13
+   ],
+   "background": [
+    13,
+    22,
+    46
+   ]
+  },
+  "Equinox": {
+   "text": [
+    160,
+    159,
+    167
+   ],
+   "accent": [
+    145,
+    142,
+    145
+   ],
+   "background": [
+    14,
+    6,
+    15
+   ]
+  },
+  "Conquera": {
+   "text": [
+    255,
+    252,
+    255
+   ],
+   "accent": [
+    244,
+    222,
+    191
+   ],
+   "background": [
+    171,
+    53,
+    175
+   ]
+  },
+  "Baruuk": {
+   "text": [
+    237,
+    194,
+    109
+   ],
+   "accent": [
+    234,
+    211,
+    164
+   ],
+   "background": [
+    49,
+    46,
+    39
+   ]
+  },
+  "Corpus": {
+   "text": [
+    38,
+    200,
+    241
+   ],
+   "accent": [
+    112,
+    224,
+    246
+   ],
+   "background": [
+    10,
+    32,
+    56
+   ]
+  },
+  "Dark Lotus": {
+   "text": [
+    140,
+    118,
+    150
+   ],
+   "accent": [
+    200,
+    170,
+    241
+   ],
+   "background": [
+    35,
+    5,
+    81
+   ]
+  },
+  "Deadlock": {
+   "text": [
+    254,
+    255,
+    255
+   ],
+   "accent": [
+    226,
+    212,
+    119
+   ],
+   "background": [
+    18,
+    29,
+    51
+   ]
+  },
+  "Drippy": {
+   "text": [
+    230,
+    94,
+    97
+   ],
+   "accent": [
+    237,
+    150,
+    151
+   ],
+   "background": [
+    14,
+    28,
+    54
+   ]
+  },
+  "Fortuna": {
+   "text": [
+    58,
+    104,
+    187
+   ],
+   "accent": [
+    244,
+    121,
+    225
+   ],
+   "background": [
+    3,
+    4,
+    24
+   ]
+  },
+  "Grineer": {
+   "text": [
+    252,
+    191,
+    107
+   ],
+   "accent": [
+    251,
+    226,
+    158
+   ],
+   "background": [
+    3,
+    19,
+    11
+   ]
+  },
+  "Lotus": {
+   "text": [
+    39,
+    184,
+    237
+   ],
+   "accent": [
+    252,
+    242,
+    204
+   ],
+   "background": [
+    40,
+    44,
+    86
+   ]
+  },
+  "Lunar Renewal": {
+   "text": [
+    255,
+    254,
+    252
+   ],
+   "accent": [
+    201,
+    174,
+    117
+   ],
+   "background": [
+    92,
+    16,
+    16
+   ]
+  },
+  "Nidus": {
+   "text": [
+    132,
+    38,
+    85
+   ],
+   "accent": [
+    234,
+    75,
+    92
+   ],
+   "background": [
+    224,
+    223,
+    201
+   ]
+  },
+  "Orokin": {
+   "text": [
+    21,
+    40,
+    31
+   ],
+   "accent": [
+    174,
+    126,
+    12
+   ],
+   "background": [
+    216,
+    222,
+    220
+   ]
+  },
+  "Pom-2": {
+   "text": [
+    133,
+    223,
+    154
+   ],
+   "accent": [
+    8,
+    196,
+    50
+   ],
+   "background": [
+    3,
+    37,
+    23
+   ]
+  },
+  "Stalker": {
+   "text": [
+    152,
+    35,
+    38
+   ],
+   "accent": [
+    231,
+    69,
+    61
+   ],
+   "background": [
+    11,
+    3,
+    2
+   ]
+  },
+  "Tenno": {
+   "text": [
+    11,
+    78,
+    104
+   ],
+   "accent": [
+    18,
+    110,
+    83
+   ],
+   "background": [
+    194,
+    213,
+    212
+   ]
+  }
+ }
+}

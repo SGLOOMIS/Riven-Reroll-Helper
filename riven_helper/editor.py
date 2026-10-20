@@ -7,6 +7,8 @@ Tabs:
             wanted stats, harmless negatives, bad stats and dealbreakers.
   Groups  - named groups of weapons; rolls written for "@group" apply to every weapon in it.
   File rules - bad stats and dealbreakers for every roll in this file.
+  Settings - the editor's colours (a Warframe UI theme), the overlay's optional features, and the
+            roll files and folders it loads (saved to config.json; a running overlay applies them).
 Save checks the file the same way the overlay will and lists anything it can't use.
 """
 
@@ -14,14 +16,39 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
-from .config import ROOT
+from .config import ROOT, load_config, save_settings
 from .editor_model import (CLASSES, OPERATORS, SIGNS, RollFile, describe_rule, new_roll, rule_text, stat_choices,
                            weapon_choices)
 from .gamedata import GameData
+from .rolls import roll_paths
+from .theme import luminance, mix, named_themes, palette
 
 ROLLS_DIR = ROOT / "rolls"
-BG, PANEL, FIELD = "#101823", "#16202e", "#1d2a3b"
-TEXT, DIM, ORANGE, LAVENDER = "#dedee8", "#8a8fa3", "#fd8402", "#c9b4f6"
+
+
+class Colours:
+    """The editor's colours: its own dark navy and orange, or a Warframe UI theme's (set_theme)."""
+
+    def __init__(self):
+        self.set_theme("Default")
+
+    def set_theme(self, name):
+        theme = named_themes().get(name)
+        if theme is None:                           # "Default" (or a name not in data/themes.json)
+            self.bg, self.panel, self.field = "#101823", "#16202e", "#1d2a3b"
+            self.text, self.dim, self.orange, self.lavender = "#dedee8", "#8a8fa3", "#fd8402", "#c9b4f6"
+            self.border, self.active = "#2b3a50", "#26364c"
+            return
+        p = palette(theme)
+        bg = theme.background
+        toward = (255, 255, 255) if luminance(bg) < 0.5 else (0, 0, 0)
+        hexed = lambda c: "#%02x%02x%02x" % tuple(c)
+        self.bg, self.panel, self.field = hexed(bg), hexed(mix(bg, toward, 0.04)), hexed(mix(bg, toward, 0.09))
+        self.border, self.active = hexed(mix(bg, toward, 0.22)), hexed(mix(bg, toward, 0.16))
+        self.text, self.dim, self.orange, self.lavender = hexed(p.text), hexed(p.grey), hexed(p.label), hexed(p.stat)
+
+
+C = Colours()
 
 
 class AutoCombo(ttk.Combobox):
@@ -101,12 +128,12 @@ def _is_number(text):
 
 
 def listbox_style():
-    return dict(bg=FIELD, fg=TEXT, selectbackground=ORANGE, selectforeground=BG, highlightthickness=0,
+    return dict(bg=C.field, fg=C.text, selectbackground=C.orange, selectforeground=C.bg, highlightthickness=0,
                 borderwidth=0, activestyle="none", exportselection=False, font=("Segoe UI", 10))
 
 
 class Editor:
-    def __init__(self, path=None):
+    def __init__(self, path=None, config_path=None):
         self.gamedata = GameData()
         self.stats = stat_choices(self.gamedata)
         self.weapons = weapon_choices(self.gamedata)
@@ -115,11 +142,15 @@ class Editor:
         self.roll = None                      # selected roll dict
         self.group = None                     # selected group name
 
+        self.settings = load_config(config_path)
+        C.set_theme(self.settings["editor_theme"])
+        self.files = {}                       # File list entry -> path
+
         self.root = tk.Tk()
         self.root.title("Riven Roll Editor")
         self.root.geometry("1280x860")
         self.root.minsize(1100, 600)
-        self.root.configure(bg=BG)
+        self.root.configure(bg=C.bg)
         self.root.protocol("WM_DELETE_WINDOW", self.close)
         self._style()
         self._toolbar()
@@ -129,6 +160,7 @@ class Editor:
         self._rolls_tab(tabs)
         self._groups_tab(tabs)
         self._file_tab(tabs)
+        self._settings_tab(tabs)
         self.status = ttk.Label(self.root, text="", style="Dim.TLabel")
         self.status.pack(fill="x", padx=12, pady=(0, 8))
         self.open(path) if path else self.new()
@@ -137,34 +169,34 @@ class Editor:
     def _style(self):
         s = ttk.Style(self.root)
         s.theme_use("clam")
-        s.configure(".", background=BG, foreground=TEXT, fieldbackground=FIELD, font=("Segoe UI", 10),
-                    bordercolor="#2b3a50", lightcolor=PANEL, darkcolor=PANEL)
-        s.configure("Panel.TFrame", background=PANEL)
-        s.configure("TFrame", background=BG)
-        s.configure("TLabel", background=PANEL, foreground=TEXT)
-        s.configure("Bar.TLabel", background=BG, foreground=TEXT)
-        s.configure("Head.TLabel", background=PANEL, foreground=ORANGE, font=("Segoe UI Semibold", 11))
-        s.configure("Title.TLabel", background=BG, foreground=ORANGE, font=("Segoe UI Semibold", 14))
-        s.configure("Dim.TLabel", background=PANEL, foreground=DIM, font=("Segoe UI", 9))
-        s.configure("TButton", background=FIELD, foreground=ORANGE, borderwidth=1, focusthickness=0, padding=(10, 3))
-        s.map("TButton", background=[("active", "#26364c")])
-        s.configure("TCheckbutton", background=PANEL, foreground=TEXT)
-        s.configure("TNotebook", background=BG, borderwidth=0)
-        s.configure("TNotebook.Tab", background=PANEL, foreground=DIM, padding=(14, 5))
-        s.map("TNotebook.Tab", background=[("selected", FIELD)], foreground=[("selected", ORANGE)])
-        s.configure("Treeview", background=FIELD, fieldbackground=FIELD, foreground=LAVENDER, rowheight=22,
+        s.configure(".", background=C.bg, foreground=C.text, fieldbackground=C.field, font=("Segoe UI", 10),
+                    bordercolor=C.border, lightcolor=C.panel, darkcolor=C.panel)
+        s.configure("Panel.TFrame", background=C.panel)
+        s.configure("TFrame", background=C.bg)
+        s.configure("TLabel", background=C.panel, foreground=C.text)
+        s.configure("Bar.TLabel", background=C.bg, foreground=C.text)
+        s.configure("Head.TLabel", background=C.panel, foreground=C.orange, font=("Segoe UI Semibold", 11))
+        s.configure("Title.TLabel", background=C.bg, foreground=C.orange, font=("Segoe UI Semibold", 14))
+        s.configure("Dim.TLabel", background=C.panel, foreground=C.dim, font=("Segoe UI", 9))
+        s.configure("TButton", background=C.field, foreground=C.orange, borderwidth=1, focusthickness=0, padding=(10, 3))
+        s.map("TButton", background=[("active", C.active)])
+        s.configure("TCheckbutton", background=C.panel, foreground=C.text)
+        s.configure("TNotebook", background=C.bg, borderwidth=0)
+        s.configure("TNotebook.Tab", background=C.panel, foreground=C.dim, padding=(14, 5))
+        s.map("TNotebook.Tab", background=[("selected", C.field)], foreground=[("selected", C.orange)])
+        s.configure("Treeview", background=C.field, fieldbackground=C.field, foreground=C.lavender, rowheight=22,
                     borderwidth=0)
-        s.configure("Treeview.Heading", background=PANEL, foreground=ORANGE)
-        s.map("Treeview", background=[("selected", ORANGE)], foreground=[("selected", BG)])
-        s.configure("TCombobox", fieldbackground=FIELD, foreground=TEXT, arrowcolor=ORANGE, background=FIELD)
-        s.map("TCombobox", fieldbackground=[("readonly", FIELD)], foreground=[("readonly", TEXT)],
-              selectbackground=[("readonly", FIELD)], selectforeground=[("readonly", TEXT)])
-        s.configure("Vertical.TScrollbar", background=FIELD, troughcolor=PANEL, arrowcolor=ORANGE)
-        s.configure("TEntry", fieldbackground=FIELD, foreground=TEXT)
-        s.configure("TSpinbox", fieldbackground=FIELD, foreground=TEXT, arrowcolor=ORANGE)
-        self.root.option_add("*TCombobox*Listbox.background", FIELD)
-        self.root.option_add("*TCombobox*Listbox.foreground", TEXT)
-        self.root.option_add("*TCombobox*Listbox.selectBackground", ORANGE)
+        s.configure("Treeview.Heading", background=C.panel, foreground=C.orange)
+        s.map("Treeview", background=[("selected", C.orange)], foreground=[("selected", C.bg)])
+        s.configure("TCombobox", fieldbackground=C.field, foreground=C.text, arrowcolor=C.orange, background=C.field)
+        s.map("TCombobox", fieldbackground=[("readonly", C.field)], foreground=[("readonly", C.text)],
+              selectbackground=[("readonly", C.field)], selectforeground=[("readonly", C.text)])
+        s.configure("Vertical.TScrollbar", background=C.field, troughcolor=C.panel, arrowcolor=C.orange)
+        s.configure("TEntry", fieldbackground=C.field, foreground=C.text)
+        s.configure("TSpinbox", fieldbackground=C.field, foreground=C.text, arrowcolor=C.orange)
+        self.root.option_add("*TCombobox*Listbox.background", C.field)
+        self.root.option_add("*TCombobox*Listbox.foreground", C.text)
+        self.root.option_add("*TCombobox*Listbox.selectBackground", C.orange)
 
     def _toolbar(self):
         bar = ttk.Frame(self.root)
@@ -173,14 +205,19 @@ class Editor:
         ttk.Label(bar, text="File:", style="Bar.TLabel").pack(side="left")
         self.file_pick = ttk.Combobox(bar, width=34, state="readonly")
         self.file_pick.pack(side="left", padx=4)
-        self.file_pick.bind("<<ComboboxSelected>>", lambda e: self.open(ROLLS_DIR / self.file_pick.get()))
+        self.file_pick.bind("<<ComboboxSelected>>", lambda e: self.open(self.files[self.file_pick.get()]))
         for text, cmd in (("New", self.new), ("Open…", self.open_dialog), ("Save", self.save),
                           ("Save as…", self.save_as), ("Check", self.check)):
             ttk.Button(bar, text=text, command=cmd).pack(side="left", padx=3)
         self._refresh_files()
 
     def _refresh_files(self):
-        self.file_pick.configure(values=sorted(p.name for p in ROLLS_DIR.glob("*.json")))
+        """The File list: every roll file the overlay loads (rolls/, and files or folders added in Settings)."""
+        self.files = {}
+        for path in roll_paths(self.settings["roll_files"], self.settings["_dir"]):
+            inside = path.resolve().parent == ROLLS_DIR.resolve()
+            self.files[path.name if inside else f"{path.name}  ({path.parent})"] = path
+        self.file_pick.configure(values=sorted(self.files, key=str.lower))
 
     # -- Rolls tab ---------------------------------------------------------------------------
     def _rolls_tab(self, tabs):
@@ -290,7 +327,7 @@ class Editor:
         holder.grid(row=row, column=column, sticky="nsew")
         holder.rowconfigure(0, weight=1)
         holder.columnconfigure(0, weight=1)
-        canvas = tk.Canvas(holder, bg=PANEL, highlightthickness=0, borderwidth=0)
+        canvas = tk.Canvas(holder, bg=C.panel, highlightthickness=0, borderwidth=0)
         bar = ttk.Scrollbar(holder, orient="vertical", command=canvas.yview)
         inner = ttk.Frame(canvas, style="Panel.TFrame")
         window = canvas.create_window((0, 0), window=inner, anchor="nw")
@@ -355,6 +392,113 @@ class Editor:
                                   "Added to each roll's own dealbreakers.", self.stats, self.doc_changed)
         self.file_deal.grid(row=1, column=0, sticky="ew", pady=(16, 0))
 
+    # -- Settings tab ---------------------------------------------------------------------------
+    OPTIONS = [
+        ("next_step", "Next-step advice",
+         "NEXT on each card panel, and BETTER for the card closest to the ideal roll. Off: no NEXT, and BETTER "
+         "simply goes to the card with the higher rating."),
+        ("upgrade_overlay", "Upgrade screen overlay", "IDEAL RIVEN on a weapon's upgrade screen."),
+        ("config_rolls", "Config-specific rolls",
+         "On the upgrade screen, show the roll labelled like the selected config tab (\"Main\", \"CONFIG B\"). "
+         "Off: always the weapon's first roll."),
+    ]
+
+    def _settings_tab(self, tabs):
+        tab = ttk.Frame(tabs, style="Panel.TFrame", padding=10)
+        tabs.add(tab, text="Settings")
+        tab.columnconfigure(1, weight=1)
+        ttk.Label(tab, text="Editor look", style="Head.TLabel").grid(row=0, column=0, columnspan=2, sticky="w")
+        ttk.Label(tab, text="Theme").grid(row=1, column=0, sticky="w", pady=4)
+        self.theme_pick = ttk.Combobox(tab, values=["Default"] + sorted(named_themes()), state="readonly", width=24)
+        self.theme_pick.set(self.settings["editor_theme"])
+        self.theme_pick.grid(row=1, column=1, sticky="w", pady=4)
+        self.theme_pick.bind("<<ComboboxSelected>>", lambda e: self._apply_theme(self.theme_pick.get()))
+
+        ttk.Label(tab, text="Overlay", style="Head.TLabel").grid(row=2, column=0, columnspan=2, sticky="w",
+                                                                pady=(18, 0))
+        self.options = {}
+        for row, (key, text, hint) in enumerate(self.OPTIONS, start=3):
+            self.options[key] = tk.BooleanVar(value=bool(self.settings[key]))
+            ttk.Checkbutton(tab, text=text, variable=self.options[key]).grid(row=row, column=0, sticky="nw",
+                                                                            pady=3, padx=(0, 16))
+            ttk.Label(tab, text=hint, style="Dim.TLabel", wraplength=760, justify="left").grid(
+                row=row, column=1, sticky="w", pady=3)
+
+        ttk.Label(tab, text="Roll lists", style="Head.TLabel").grid(row=6, column=0, columnspan=2, sticky="w",
+                                                                   pady=(18, 0))
+        ttk.Label(tab, text="Every roll file in these files and folders is used. Added files stay where they are, "
+                            "so you can keep editing them there (they also appear in the File list above).",
+                  style="Dim.TLabel", wraplength=900, justify="left").grid(row=7, column=0, columnspan=2, sticky="w")
+        self.source_box = tk.Listbox(tab, height=6, **listbox_style())
+        self.source_box.grid(row=8, column=0, columnspan=2, sticky="ew", pady=4)
+        buttons = ttk.Frame(tab, style="Panel.TFrame")
+        buttons.grid(row=9, column=0, columnspan=2, sticky="w")
+        ttk.Button(buttons, text="Add files…", command=self._add_roll_files).pack(side="left")
+        ttk.Button(buttons, text="Add folder…", command=self._add_roll_folder).pack(side="left", padx=4)
+        ttk.Button(buttons, text="Remove", command=self._remove_roll_source).pack(side="left")
+        self.sources = list(self.settings["roll_files"])
+        self._fill_sources()
+
+        ttk.Button(tab, text="Save settings", command=self._save_settings).grid(row=10, column=0, sticky="w",
+                                                                              pady=(20, 0))
+        ttk.Label(tab, text="Saved to config.json; a running overlay applies them within a second.",
+                  style="Dim.TLabel").grid(row=10, column=1, sticky="w", pady=(20, 0))
+
+    def _apply_theme(self, name):
+        """Recolour the editor (a preview until Save settings)."""
+        C.set_theme(name)
+        self._style()
+        self.root.configure(bg=C.bg)
+        todo = [self.root]
+        while todo:
+            widget = todo.pop()
+            todo += widget.winfo_children()
+            if isinstance(widget, tk.Listbox):
+                widget.configure(**listbox_style())
+            elif isinstance(widget, tk.Canvas):
+                widget.configure(bg=C.panel)
+
+    def _fill_sources(self):
+        self.source_box.delete(0, "end")
+        for src in self.sources:
+            path = Path(src) if Path(src).is_absolute() else Path(self.settings["_dir"]) / src
+            kind = "folder" if path.is_dir() else "file" if path.exists() else "not found"
+            self.source_box.insert("end", f"{src}    ({kind})")
+
+    def _add_source(self, path):
+        path = Path(path)
+        try:                                        # inside the config's folder: keep it relative
+            src = path.resolve().relative_to(Path(self.settings["_dir"]).resolve()).as_posix()
+        except ValueError:
+            src = path.resolve().as_posix()
+        if src not in self.sources:
+            self.sources.append(src)
+
+    def _add_roll_files(self):
+        for path in filedialog.askopenfilenames(title="Add roll files", filetypes=[("Roll files", "*.json")]):
+            self._add_source(path)
+        self._fill_sources()
+
+    def _add_roll_folder(self):
+        path = filedialog.askdirectory(title="Add a folder of roll files")
+        if path:
+            self._add_source(path)
+            self._fill_sources()
+
+    def _remove_roll_source(self):
+        picked = self.source_box.curselection()
+        if picked:
+            del self.sources[picked[0]]
+            self._fill_sources()
+
+    def _save_settings(self):
+        changes = {key: var.get() for key, var in self.options.items()}
+        changes.update(editor_theme=self.theme_pick.get(), roll_files=list(self.sources))
+        save_settings(changes, self.settings.get("_path"))
+        self.settings = load_config(self.settings.get("_path"))
+        self._refresh_files()
+        self._say("Settings saved to config.json")
+
     # -- file actions ---------------------------------------------------------------------------
     def _ask_save(self):
         if not self.doc.dirty:
@@ -414,7 +558,7 @@ class Editor:
             messagebox.showinfo("Check", "No problems found.")
 
     def _other_files(self):
-        return [p for p in ROLLS_DIR.glob("*.json") if not self.doc.path or p.resolve() != self.doc.path.resolve()]
+        return [p for p in self.files.values() if not self.doc.path or p.resolve() != self.doc.path.resolve()]
 
     def close(self):
         if self._ask_save():

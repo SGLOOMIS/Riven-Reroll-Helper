@@ -114,6 +114,23 @@ def _key(weapon_key):
     return k[0] + norm(k[1:]) if k[:1] in "*@" else norm(k)
 
 
+def roll_paths(sources, base_dir=".", warnings=None):
+    """The roll files that config.json's roll_files lists: files, every .json in a folder, or globs
+    (relative to base_dir). Sources that don't exist are reported in warnings."""
+    paths = []
+    for src in sources:
+        p = Path(src) if Path(src).is_absolute() else Path(base_dir) / src
+        if p.is_dir():
+            paths += sorted(p.glob("*.json"))
+        elif any(c in str(p) for c in "*?["):
+            paths += [Path(x) for x in sorted(glob.glob(str(p)))]
+        elif p.exists():
+            paths.append(p)
+        elif warnings is not None:
+            warnings.append(f"roll source not found: {src}")
+    return paths
+
+
 class RollLibrary:
     """Every roll from every roll file, ready to look up by weapon."""
 
@@ -130,18 +147,7 @@ class RollLibrary:
         self.reload()
 
     def _paths(self):
-        paths = []
-        for src in self.sources:
-            p = Path(src) if Path(src).is_absolute() else self.base_dir / src
-            if p.is_dir():
-                paths += sorted(p.glob("*.json"))
-            elif any(c in str(p) for c in "*?["):
-                paths += [Path(x) for x in sorted(glob.glob(str(p)))]
-            elif p.exists():
-                paths.append(p)
-            else:
-                self.warnings.append(f"roll source not found: {src}")
-        return paths
+        return roll_paths(self.sources, self.base_dir, self.warnings)
 
     def changed(self):
         """True when a roll file was added, removed or edited since the last load."""

@@ -7,5 +7,10 @@
 
   "window_title": "Warframe",
   "font_size": 11,
-  "hotkeys": { "toggle": "F8", "reload": "F9", "snapshot": "F10" }
+  "hotkeys": { "toggle": "F8", "reload": "F9", "snapshot": "F10" },
+
+  "next_step": true,
+  "upgrade_overlay": true,
+  "config_rolls": true,
+  "editor_theme": "Default"
 }

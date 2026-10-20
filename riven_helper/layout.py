@@ -111,9 +111,12 @@ def place_card_panels(items, W, H, avoid=()):
 
 
 def best_flags(results, analyzer):
-    """Which card gets the BETTER badge: the one further towards the ideal roll (advice.progress),
-    only when one is strictly further."""
-    scores = [progress(r, analyzer)[0] if r.ev else (-1,) for r in results]
+    """Which card gets the BETTER badge: the one further towards the ideal roll (advice.progress), or
+    with next-step advice off the higher rating; only when one is strictly ahead."""
+    if analyzer.cfg.get("next_step", True):
+        scores = [progress(r, analyzer)[0] if r.ev else (-1,) for r in results]
+    else:                                         # next-step advice off: simply the higher rating
+        scores = [(0, 0.0, r.rating.score) if r.ev else (-1,) for r in results]
     if len(scores) < 2 or max(scores) <= (0, 0.0, 0.0) or scores.count(max(scores)) > 1:
         return [False] * len(scores)
     return [s == max(scores) for s in scores]
@@ -144,6 +147,8 @@ def plan_riven_screen(analyzer, results, W, H, cfg, geometries=None, theme=None)
 def plan_upgrade_screen(analyzer, weapon_name, W, H, cfg, theme=None, config=None):
     """The IDEAL RIVEN panel for a weapon's upgrade screen, fitted into UPGRADE_AREA: the largest text
     that fits, with the negatives on one line or wrapped two or one per line. (image, (x, y)) or None."""
+    if not cfg.get("config_rolls", True):
+        config = None                             # config-specific rolls off: always the first roll
     if not upgrade_rows(analyzer, weapon_name, config=config):
         return None
     weapon = analyzer.gamedata.weapon_by_base_name(weapon_name)

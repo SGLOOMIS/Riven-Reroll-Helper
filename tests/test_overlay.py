@@ -131,12 +131,12 @@ class TestTheme(unittest.TestCase):
         self.assertEqual(detect(img, [], button=(1, 2, 3)).background, (1, 2, 3))   # one seen before
 
     def test_palette_stays_readable(self):
-        from riven_helper.theme import _luminance, detect, palette
+        from riven_helper.theme import luminance, detect, palette
         from tests.theme_headers import theme_frames
         for name, frame in theme_frames():
             p = palette(detect(frame))
             for colour in (p.label, p.text, p.stat, p.good, p.bad):
-                self.assertGreaterEqual(abs(_luminance(colour) - _luminance(p.fill)), 0.3, (name, colour, p.fill))
+                self.assertGreaterEqual(abs(luminance(colour) - luminance(p.fill)), 0.3, (name, colour, p.fill))
 
     def test_overlay_redraws_in_new_theme(self):
         from riven_helper.overlay_state import OverlayState

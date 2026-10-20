@@ -60,5 +60,75 @@ class TestEditor(unittest.TestCase):
         self.assertEqual([r.label for r in lib.rolls_for(G.weapon_by_name("Vectis Prime"))], ["crit"])
 
 
+class TestSettings(unittest.TestCase):
+    """The editor's Settings tab, writing a copy of config.json (never the real one)."""
+
+    def setUp(self):
+        import shutil
+
+        from tests.helpers import ROOT
+        self.folder = Path(tempfile.mkdtemp())
+        self.config = self.folder / "config.json"
+        shutil.copy(ROOT / "config.json", self.config)
+        (self.folder / "rolls").mkdir()
+
+    def test_save_settings(self):
+        from riven_helper.config import load_config
+        from riven_helper.editor import C, Editor
+        elsewhere = Path(tempfile.mkdtemp()) / "friend.json"
+        elsewhere.write_text(json.dumps({"weapons": {"Soma": {"positives": ["CD"]}}}), encoding="utf-8")
+        ed = Editor(config_path=self.config)
+        ed.root.withdraw()
+        try:
+            ed.theme_pick.set("Orokin")
+            ed._apply_theme("Orokin")
+            self.assertEqual(C.bg, "#d8dedc")                    # recoloured right away (a light theme)
+            ed.options["next_step"].set(False)
+            ed.options["config_rolls"].set(False)
+            ed._add_source(elsewhere)                            # "Add files..." for a file outside the folder
+            ed._add_source(self.folder / "rolls" / "mine.json")
+            ed._save_settings()
+            self.assertIn("friend.json", " ".join(ed.files))     # now in the File list too
+        finally:
+            ed.root.destroy()
+            C.set_theme("Default")
+        cfg = load_config(self.config)
+        self.assertEqual((cfg["editor_theme"], cfg["next_step"], cfg["config_rolls"], cfg["upgrade_overlay"]),
+                         ("Orokin", False, False, True))
+        self.assertEqual(cfg["roll_files"], ["rolls", elsewhere.resolve().as_posix(), "rolls/mine.json"])
+        self.assertEqual(cfg["hotkeys"]["snapshot"], "F10")      # everything else kept
+
+
+class TestOverlaySwitches(unittest.TestCase):
+    def test_switches(self):
+        from riven_helper.layout import best_flags, plan_upgrade_screen
+        from riven_helper.panel_text import card_rows, rows_text
+        from tests.helpers import analyzer, roll_library, saved_ocr
+        an = analyzer()
+        results = an.analyze_lines(saved_ocr("ocr_ekhein.json"), 1920)
+        self.assertIn("NEXT:", rows_text(card_rows(an, results[0])))
+        an.cfg["next_step"] = False                              # advice off: no NEXT, BETTER by rating
+        self.assertNotIn("NEXT:", rows_text(card_rows(an, results[0])))
+        self.assertEqual(best_flags(results, an), [False])
+        an.cfg["config_rolls"] = False                           # config rolls off: the named roll is ignored
+        an.library = roll_library({"weapons": {"Praedos": [{"label": "first", "positives": ["CD"]},
+                                                           {"label": "Main", "positives": ["Range"]}]}})
+        image, _ = plan_upgrade_screen(an, "praedos", 1920, 1080, an.cfg, config="Main")
+        an.cfg["config_rolls"] = True
+        image_main, _ = plan_upgrade_screen(an, "praedos", 1920, 1080, an.cfg, config="Main")
+        self.assertNotEqual(image.tobytes(), image_main.tobytes())
+
+    def test_settings_applied_in_place(self):
+        from riven_helper.config import load_config
+        from tests.helpers import analyzer
+        an = analyzer()
+        held = an.cfg                                            # the overlay and session hold this same dict
+        new = load_config()
+        new["upgrade_overlay"] = False
+        an.apply_settings(new)
+        self.assertIs(an.cfg, held)
+        self.assertFalse(held["upgrade_overlay"])
+
+
 if __name__ == "__main__":
     unittest.main()

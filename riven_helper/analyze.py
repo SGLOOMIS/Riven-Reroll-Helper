@@ -31,9 +31,20 @@ class Analyzer:
     def __init__(self, cfg):
         self.cfg = cfg
         self.gamedata = GameData()
+        self._fits_in_memory = {}                  # riven family -> weapon last shown under FITS IN
+        self._load_rolls()
+
+    def _load_rolls(self):
+        cfg = self.cfg
         self.library = RollLibrary(self.gamedata, cfg["roll_files"], cfg["_dir"], cfg["rating"],
                                    bad=cfg["bad"], dealbreakers=cfg["dealbreakers"])
-        self._fits_in_memory = {}                  # riven family -> weapon last shown under FITS IN
+
+    def apply_settings(self, cfg):
+        """New settings (config.json was saved): take them over in place, so everyone holding this
+        Analyzer's cfg sees them, and load the roll files they list."""
+        self.cfg.clear()
+        self.cfg.update(cfg)
+        self._load_rolls()
 
     def analyze_image(self, img, ocr):
         """OCR a frame (PIL image) and rate its riven cards. Returns (results, OCR lines)."""

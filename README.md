@@ -185,6 +185,19 @@ used. If FITS IN can't be read, the base weapon is tried first, then the variant
 0.9–1.1 range. If none fits, the panel says so. That usually means an OCR misread or an out-of-date
 disposition.
 
+## Settings
+
+The roll editor (`edit.bat`) has a **Settings** tab:
+
+- **Editor look:** colour the editor like one of Warframe's 20 UI themes (or keep its default).
+- **Overlay:** switch off the next-step advice (no NEXT lines; BETTER then simply goes to the higher
+  rating), the upgrade screen's IDEAL RIVEN, or its config-specific rolls (then it always shows the
+  weapon's first roll).
+- **Roll lists:** add roll files or whole folders from anywhere on the computer. They're used where they
+  are, so you can keep editing them there, and they show up in the editor's File list.
+
+*Save settings* writes them to `config.json`, and a running overlay applies them within a second.
+
 ## config.json
 
 | Key | Meaning |
@@ -195,6 +208,10 @@ disposition.
 | `window_title` | The game window to watch; `null` captures the primary monitor |
 | `font_size` | Panel text size at 1080p (it scales with the game window) |
 | `hotkeys` | `toggle`, `reload`, `snapshot` (F1–F12, Insert, Home, End, Pause, ScrollLock) |
+| `next_step` | NEXT advice, and BETTER for the card closest to the ideal roll (false: BETTER by rating) |
+| `upgrade_overlay` | IDEAL RIVEN on weapon upgrade screens |
+| `config_rolls` | On the upgrade screen, the roll labelled like the selected config tab |
+| `editor_theme` | The roll editor's colours: `"Default"` or a UI theme's name (`riven_helper/data/themes.json`) |
 
 ## The code
 

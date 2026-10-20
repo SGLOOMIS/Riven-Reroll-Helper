@@ -19,6 +19,12 @@ DEFAULTS = {
     # Panel text size at 1080p; it scales with the game window.
     "font_size": 11,
     "hotkeys": {"toggle": "F8", "reload": "F9", "snapshot": "F10"},
+    # Overlay features (the roll editor's Settings tab changes these).
+    "next_step": True,          # NEXT on card panels, and BETTER for the card closest to the ideal roll
+                                # (off: no NEXT, and BETTER simply for the higher rating)
+    "upgrade_overlay": True,    # IDEAL RIVEN on weapon upgrade screens
+    "config_rolls": True,       # there, the roll labelled like the selected config tab ("Main", "CONFIG A")
+    "editor_theme": "Default",  # the roll editor's colours: "Default" or a Warframe UI theme's name
 }
 
 
@@ -35,4 +41,13 @@ def load_config(path=None):
         else:
             cfg[key] = value
     cfg["_dir"] = str(path.parent)                     # roll_files are relative to this
+    cfg["_path"] = str(path)
     return cfg
+
+
+def save_settings(changes, path=None):
+    """Write these settings into config.json, keeping everything else in it as it is."""
+    path = Path(path or ROOT / "config.json")
+    user = json.loads(path.read_text(encoding="utf-8-sig")) if path.exists() else {}
+    user.update(changes)
+    path.write_text(json.dumps(user, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

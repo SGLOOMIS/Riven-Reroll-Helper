@@ -9,12 +9,15 @@ the panels (style.py). Without a readable header (in a mission, or a screen with
 detected and the last theme seen is kept.
 """
 
+import json
 import re
 from dataclasses import dataclass, replace
+from functools import lru_cache
 
 import cv2
 import numpy as np
 
+from .gamedata import DATA_DIR
 from .upgrade_screen import header_pixels
 
 
@@ -32,6 +35,13 @@ class Theme:
 
 
 DEFAULT = Theme(primary=(253, 132, 2), accent=(253, 132, 2), background=(16, 24, 35))
+
+
+@lru_cache(maxsize=1)
+def named_themes():
+    """{name: Theme} for Warframe's UI themes (data/themes.json), e.g. for the roll editor's colours."""
+    data = json.loads((DATA_DIR / "themes.json").read_text(encoding="utf-8"))["themes"]
+    return {name: Theme(tuple(t["text"]), tuple(t["accent"]), tuple(t["background"])) for name, t in data.items()}
 
 
 def detect(img, lines=(), button=None):
@@ -64,10 +74,10 @@ def _from_header(img):
     around = ~cv2.dilate(letters.astype(np.uint8), np.ones((5, 5), np.uint8)).astype(bool)
     background = np.median(band[around[rows.min():rows.max() + 1, x0:x1]], axis=0)
     primary, accent, background = (tuple(int(round(c)) for c in col) for col in (primary, accent, background))
-    if abs(_luminance(primary) - _luminance(background)) < 0.2:
+    if abs(luminance(primary) - luminance(background)) < 0.2:
         # No header bar behind the text, only bright art (the cycle animation): every theme's text
         # stands out from its background, so this isn't the theme's. Use a plain one for the text.
-        background = DEFAULT.background if _luminance(primary) > 0.45 else (225, 225, 228)
+        background = DEFAULT.background if luminance(primary) > 0.45 else (225, 225, 228)
     return Theme(primary, accent, background)
 
 
@@ -103,25 +113,25 @@ def _distance(pixels, colour):
 
 
 # -- the panel palette ----------------------------------------------------------------------------
-def _mix(a, b, t):
+def mix(a, b, t):
     """a moved a share t of the way towards b."""
     return tuple(int(round(x + (y - x) * t)) for x, y in zip(a, b))
 
 
-def _luminance(c):
+def luminance(c):
     r, g, b = c
     return (0.299 * r + 0.587 * g + 0.114 * b) / 255
 
 
 def _readable(colour, background, minimum=0.38):
     """colour, pushed darker or lighter until it stands out from background."""
-    dark_bg = _luminance(background) < 0.5
+    dark_bg = luminance(background) < 0.5
     target = (255, 255, 255) if dark_bg else (0, 0, 0)
     for t in (0, 0.2, 0.4, 0.6):
-        c = _mix(colour, target, t)
-        if abs(_luminance(c) - _luminance(background)) >= minimum:
+        c = mix(colour, target, t)
+        if abs(luminance(c) - luminance(background)) >= minimum:
             return c
-    return _mix(colour, target, 0.7)
+    return mix(colour, target, 0.7)
 
 
 @dataclass(frozen=True)
@@ -147,12 +157,12 @@ def palette(theme=None):
     the green / yellow / red grades kept, adjusted so they stay readable on the theme's background."""
     theme = theme or DEFAULT
     fill = theme.background
-    dark = _luminance(fill) < 0.5
+    dark = luminance(fill) < 0.5
     on = lambda c: _readable(c, fill)
     label = on(theme.primary)
     return Palette(
-        label=label, label_dim=_mix(label, fill, 0.35), highlight=on(theme.accent),
-        fill=fill, fill_top=_mix(fill, (255, 255, 255) if dark else (0, 0, 0), 0.06),
+        label=label, label_dim=mix(label, fill, 0.35), highlight=on(theme.accent),
+        fill=fill, fill_top=mix(fill, (255, 255, 255) if dark else (0, 0, 0), 0.06),
         text=(222, 222, 232) if dark else (28, 28, 36), grey=_readable((128, 130, 148), fill, 0.22),
         stat=on((172, 131, 213)), stat_hi=on((205, 180, 250)) if dark else on((120, 70, 180)),
         good=on((126, 226, 160)), fine=on((196, 228, 112)), ok=on((253, 190, 60)), bad=on((240, 88, 80)),
