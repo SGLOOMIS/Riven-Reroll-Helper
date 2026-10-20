@@ -724,7 +724,16 @@ class Editor:
 
 
 def main(path=None):
-    Editor(path).run()
+    try:
+        Editor(path).run()
+    except Exception:
+        # edit.bat runs without a console, so show what went wrong instead of just closing.
+        import traceback
+        root = tk.Tk()
+        root.withdraw()
+        messagebox.showerror("Riven Roll Editor", "The editor couldn't start:\n\n" + traceback.format_exc())
+        root.destroy()
+        raise
 
 
 if __name__ == "__main__":

@@ -69,7 +69,8 @@ def main(argv=None):
     p.add_argument("--check", action="store_true", help="list the rolls that loaded and any problems")
     p.add_argument("--edit", nargs="?", const="", metavar="FILE", help="open the roll-file editor")
     args = p.parse_args(argv)
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if sys.stdout is not None:            # None under pythonw (edit.bat), which has no console
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
     if args.edit is not None:
         from .editor import main as edit
