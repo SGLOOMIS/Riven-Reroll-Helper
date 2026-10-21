@@ -31,7 +31,12 @@ DEFAULTS = {
     "upgrade_overlay": True,    # IDEAL RIVEN on weapon upgrade screens
     "config_rolls": True,       # there, the roll labelled like the selected config tab ("Main", "CONFIG A")
     "editor_theme": "Vitruvian",  # the roll editor's colours: a Warframe UI theme's name
+    "kuva_target": 90,          # on the riven screen, the Kuva expected to reach this rating (0: don't show)
+    "splice_min": 50,           # X: a trait of a spliced stat counts once its roll is this far up its range (%)
 }
+
+
+PERCENTAGES = ("kuva_target", "splice_min")
 
 
 def load_config(path=None):
@@ -51,6 +56,14 @@ def load_config(path=None):
             cfg[key].update(value)
         else:
             cfg[key] = value
+    # A percentage that isn't one (hand-edited: "90", -5, 300) would break the overlay each frame and the
+    # editor's Settings tab: the default instead, and a note.
+    for key in PERCENTAGES:
+        value = cfg[key]
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= 100:
+            cfg[key] = DEFAULTS[key]
+            note = f"config.json: {key} should be a number from 0 to 100 (it's {value!r}); using {DEFAULTS[key]}"
+            cfg["_problem"] = f"{cfg['_problem']}; {note}" if cfg.get("_problem") else note
     cfg["_dir"] = str(path.parent)                     # roll_files are relative to this
     cfg["_path"] = str(path)
     return cfg

@@ -146,6 +146,8 @@ class TestSettings(unittest.TestCase):
         self.folder = Path(tempfile.mkdtemp())
         self.config = self.folder / "config.json"
         shutil.copy(ROOT / "config.json", self.config)
+        from riven_helper.config import save_settings
+        save_settings({"kuva_target": 90}, self.config)          # the default, whatever the real one says
         (self.folder / "rolls").mkdir()
 
     def test_save_settings(self):
@@ -163,6 +165,10 @@ class TestSettings(unittest.TestCase):
             ed.options["config_rolls"].set(False)
             ed._add_source(elsewhere)                            # "Add files..." for a file outside the folder
             ed._add_source(self.folder / "rolls" / "mine.json")
+            self.assertEqual(ed.kuva_target.get(), "90")
+            ed.kuva_target.set("85")
+            self.assertEqual(ed.splice_min.get(), "50")
+            ed.splice_min.set("90")
             ed._save_settings()
             self.assertIn("friend.json", " ".join(ed.files))     # now in the File list too
         finally:
@@ -173,10 +179,43 @@ class TestSettings(unittest.TestCase):
                          ("Orokin", False, False, True))
         self.assertEqual(cfg["roll_files"], ["rolls", elsewhere.resolve().as_posix(), "rolls/mine.json"])
         self.assertEqual(cfg["hotkeys"]["snapshot"], "F10")      # everything else kept
+        self.assertEqual((cfg["kuva_target"], cfg["splice_min"]), (85, 90))
+
+    def test_kuva_target_must_be_a_rating(self):
+        from unittest import mock
+        from riven_helper.config import load_config
+        from riven_helper.editor import C, Editor
+        ed = Editor(config_path=self.config)
+        ed.root.withdraw()
+        try:
+            for wrong in ("150", "-5", "lots"):
+                ed.kuva_target.set(wrong)
+                with mock.patch("riven_helper.editor.messagebox.showwarning") as warned:
+                    ed._save_settings()
+                self.assertTrue(warned.called, wrong)
+            ed.kuva_target.set("0")                                   # 0: the Kuva line hidden
+            ed._save_settings()
+        finally:
+            ed.root.destroy()
+            C.set_theme("Vitruvian")
+        self.assertEqual(load_config(self.config)["kuva_target"], 0)
 
 
 class TestSafeFiles(unittest.TestCase):
     """Saves are never left half-written; a damaged config.json doesn't stop the program."""
+
+    def test_settings_that_must_be_percentages(self):
+        from riven_helper.config import load_config
+        folder = Path(tempfile.mkdtemp())
+        path = folder / "config.json"
+        path.write_text(json.dumps({"kuva_target": "90", "splice_min": -5}), encoding="utf-8")
+        cfg = load_config(path)
+        self.assertEqual((cfg["kuva_target"], cfg["splice_min"]), (90, 50))      # the defaults
+        self.assertIn("kuva_target should be a number from 0 to 100", cfg["_problem"])
+        self.assertIn("splice_min", cfg["_problem"])
+        path.write_text(json.dumps({"kuva_target": 75.5, "splice_min": 0}), encoding="utf-8")
+        cfg = load_config(path)
+        self.assertEqual((cfg["kuva_target"], cfg["splice_min"], cfg.get("_problem")), (75.5, 0, None))
 
     def test_damaged_config_uses_defaults(self):
         from riven_helper.config import DEFAULTS, load_config, save_settings
@@ -253,6 +292,43 @@ class TestOneProgram(unittest.TestCase):
             self.assertIs(app.root, root)                         # the editor's window, not a hidden one
             app._handle("status", None, "paused: Warframe isn't the active window")
             self.assertIn("paused: Warframe isn't the active window", said)
+        finally:
+            root.destroy()
+
+    def test_switching_rolls_is_quick(self):
+        # The cycle-roll hotkey rates the cards already read against the next roll and draws them at once,
+        # without reading the screen again; the plans go to the planning thread (worked out ahead already
+        # for the weapon's other rolls).
+        import json
+        import time
+        import tkinter as tk
+
+        from riven_helper import flow
+        from riven_helper.app import App
+        from tests.helpers import analyzer, roll_library, saved_ocr
+        root = tk.Tk()
+        root.withdraw()
+        try:
+            an = analyzer()
+            an.library = roll_library({"weapons": {"Gaze": [
+                {"label": "crit", "positives": ["CD", "CC", "MS"], "negatives": ["Zoom"]},
+                {"label": "status", "positives": ["Status Chance", "Toxin", "Damage"], "negatives": ["Zoom"]}]}})
+            app = App(an.cfg, an, root=root, report=lambda text: None)
+            lines = saved_ocr("ocr_gaze_kitgun.json")
+            results = an.analyze_lines(lines, 1920)
+            app._handle("results", (0, 0, 1920, 1080), (None, lines, results))
+            flow.warm_ahead(results, an)                          # the planning thread, after the first reading
+            before = results[0].rating.roll.label
+            start = time.time()
+            app.cycle_roll()                                      # best match -> roll 1
+            app.cycle_roll()                                      # roll 1 -> roll 2
+            self.assertLess(time.time() - start, 0.5)
+            self.assertFalse(app.rescan.is_set())                 # no new reading
+            now = app.last_read[2][0]
+            self.assertEqual(now.rating.roll.label, "status")
+            self.assertNotEqual(before, "status")
+            self.assertIsNotNone(flow.plan(now, an, compute=False))   # ready: worked out ahead
+            self.assertFalse(app.plan_jobs.empty())
         finally:
             root.destroy()
 

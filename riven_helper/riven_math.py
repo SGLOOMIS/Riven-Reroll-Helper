@@ -6,12 +6,23 @@
     D  the weapon's disposition                      (data/dispositions.json)
     L  multiplier for the riven's layout: how many positives, and whether it has a negative
 
-A stat's quality is how close it rolled to its maximum: value / maximum, which is W / 1.1.
+A stat's quality is where its roll sits in the range it can roll: 0 at the lowest (W = 0.9), 1 at the
+highest (W = 1.1). The panels show it as a percentage.
 """
 
 from dataclasses import dataclass, field
 
 W_MIN, W_MAX = 0.9, 1.1
+
+
+def quality_of(W):
+    """A roll W as its quality: 0 (the lowest roll) .. 1 (the highest)."""
+    return (min(max(W, W_MIN), W_MAX) - W_MIN) / (W_MAX - W_MIN)
+
+
+def roll_of(quality):
+    """The roll W of a quality (quality_of, the other way)."""
+    return W_MIN + quality * (W_MAX - W_MIN)
 
 # L for each positive, by (number of positives, has a negative)
 BONUS_L = {(2, False): 0.99, (2, True): 1.2375, (3, False): 0.75, (3, True): 0.9375}
@@ -41,7 +52,7 @@ class StatResult:
     magnitude: float
     is_negative: bool
     roll: float               # W, 0.9 .. 1.1
-    quality: float            # value / maximum possible value, 0.82 .. 1.0
+    quality: float            # where the roll sits in its range: 0 (lowest) .. 1 (highest)
     locked: bool = False
 
 
@@ -108,7 +119,7 @@ def evaluate(stats, weapon, rank, gamedata):
             return None, float("inf")
         W = s.magnitude / base
         worst = max(worst, W_MIN - W, W - W_MAX, 0.0)
-        quality = min(max(W, W_MIN), W_MAX) / W_MAX
+        quality = quality_of(W)
         results.append(StatResult(s.name, s.magnitude, s.is_negative, W, quality, s.locked))
     return RivenEval(weapon, rank, results, consistent=worst == 0.0), worst
 
@@ -119,20 +130,29 @@ def infer(stats, candidates, gamedata, ranks=RANK_ORDER):
     Neither is shown on screen in a readable way, so each candidate weapon (most likely first)
     is tried at each rank, and the first where every stat fits inside 0.9 .. 1.1 wins. If none
     fits, the closest guess is returned with a note.
+
+    The modes of one weapon (a kitgun chamber as a Primary or a Secondary, both shown as "Gaze") are
+    equally likely, so between them the closer fit wins, and fitting the second isn't a misread.
     """
     best, best_off = None, float("inf")
     for weapon in candidates:
-        for rank in ranks:
-            ev, off = evaluate(stats, weapon, rank, gamedata)
-            if ev is None:
-                continue
-            if off <= TOLERANCE * W_MAX:
-                ev.consistent = True
-                if weapon is not candidates[0]:
-                    ev.notes.append(f"doesn't fit {candidates[0].name}: a stat line may have been misread")
-                return ev
-            if off < best_off:
-                best, best_off = ev, off
+        fits = []
+        for mode in [w for w in candidates if w.base_name == weapon.base_name] if weapon is candidates[0] else [weapon]:
+            for rank in ranks:
+                ev, off = evaluate(stats, mode, rank, gamedata)
+                if ev is None:
+                    continue
+                if off <= TOLERANCE * W_MAX:
+                    fits.append((off, ev))
+                    break                              # this mode's most likely rank
+                if off < best_off:
+                    best, best_off = ev, off
+        if fits:
+            ev = min(fits, key=lambda f: f[0])[1]
+            ev.consistent = True
+            if ev.weapon.base_name != candidates[0].base_name:
+                ev.notes.append(f"doesn't fit {candidates[0].name}: a stat line may have been misread")
+            return ev
     if best is not None:
         best.notes.append("numbers don't fit any rank/disposition - check dispositions.json")
     return best

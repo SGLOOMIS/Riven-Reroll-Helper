@@ -314,9 +314,9 @@ def rate(ev, rolls, gamedata, rating=None):
     """The best rating of an evaluated riven against a list of rolls.
 
     Each positive earns its weight: 90% (type_weight) for being a wanted stat, plus 10% times how
-    well it rolled (its value as a fraction of the maximum, 0.82 .. 1). That's divided by the best
-    this roll allows for this many positives, so the right stats score about 98% at the worst rolls
-    and 100% at the best; unwanted stats earn nothing.
+    well it rolled (its quality: 0 at the lowest roll, 1 at the highest). That's divided by the best
+    this roll allows for this many positives, so the right stats score 90% at the worst rolls and
+    100% at the best; unwanted stats earn nothing.
     A harmless negative counts like one more wanted stat (the average weight of those best stats):
     a negative makes every other stat 25% stronger, so when the roll accepts negatives (it lists
     harmless ones), the best riven has one, and a riven without one (or with a neutral one) misses

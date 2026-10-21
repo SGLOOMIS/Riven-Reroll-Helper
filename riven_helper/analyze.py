@@ -10,6 +10,7 @@ Analyzer.analyze_image(img, ocr) returns a CardResult for each card on screen. A
 from dataclasses import dataclass
 
 from .gamedata import GameData, norm
+from .kuva import base_rate, lock_doubles, read_cycle_cost
 from .parse import parse_cards
 from .riven_math import infer
 from .rolls import Rating, RollLibrary, rate
@@ -33,6 +34,8 @@ class Analyzer:
         self.gamedata = GameData()
         self._fits_in_memory = {}                  # riven family -> weapon last shown under FITS IN
         self.targets = {}                          # weapon name -> index of the roll it's rated against
+        self.cycle_base = None                     # the next cycle's base rate (CYCLE FOR, without the lock)
+        self._cost_sure = True
         self._load_rolls()
 
     def _load_rolls(self):
@@ -59,11 +62,21 @@ class Analyzer:
                     results[i], reread = better, True
         if reread:
             self._share_weapon_and_rank(results)
+        if results and not self._cost_sure:            # e.g. ",000": read the number again without the icon
+            self._read_cost(lines, results, img, ocr)
         return results, lines
+
+    def _read_cost(self, lines, results, image=None, ocr=None):
+        """The next cycle's base rate, from the CYCLE FOR button (kuva.py)."""
+        locked = lock_doubles(results[0].ev)
+        cost, self._cost_sure = read_cycle_cost(lines, locked, image, ocr)
+        self.cycle_base = base_rate(cost, locked)
 
     def analyze_lines(self, lines, image_width):
         """Rate the cards in already OCR'd lines (used directly by tests on saved OCR output)."""
         results = [self._evaluate(card) for card in parse_cards(lines, image_width, self.gamedata)]
+        if results:
+            self._read_cost(lines, results)
         self._share_weapon_and_rank(results)
         return results
 

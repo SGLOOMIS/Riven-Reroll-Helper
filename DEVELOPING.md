@@ -32,27 +32,60 @@ files).
 
 - **Card panels:** the rating, which roll it matched, each stat's roll quality, how the negative counts
   (harmless, neutral, bad, dealbreaker), and the next step (`advice.py`).
-- **NEXT** follows how [trait locking and splicing](https://wiki.warframe.com/w/Riven_Mods#Splicing) work:
+- **NEXT** (`flow.py`) follows a fixed reroll strategy, a flowchart, for the roll the riven matched:
+  0. *An unwanted spliced stat* (one the roll doesn't want) stays for good, so the riven could never get
+     there with it: **Unlock** it (and any lock) and cycle, starting the riven over.
   1. *Shape first.* A locked stat keeps the riven's shape (how many positives, and whether it has a
      negative), so while the shape is wrong the step is **Cycle without a lock**. The shape aimed for holds
      the most wanted stat value (its L multiplier times the best weights it has room for); one within 5%
-     of the best is kept.
-  2. *Splice once.* When two stats on the riven splice (`data/splices.json`) into a stat of the ideal
-     roll, the step is **Splice A + B**, unless that would keep less than 80% of the spliced stat's
-     maximum. Into another wanted stat only when it's wanted at least as much as the stats used up. A
-     spliced stat keeps the better of the two rolls, stays locked and fixes the shape; the advice never
-     suggests a second splice.
-  3. *One lock.* Otherwise **Lock** the stat that matters most: the highest weight, then the better roll.
-     A splice ingredient counts as the stat it splices into, and comes first among equals.
-  4. *Values last.* Once the stats are right it's **Done**; a low roll is only mentioned.
-- **BETTER** (cycle screen) goes to the card further towards the ideal roll (`advice.progress`): when a
-  wanted stat only comes from splicing, a riven with it spliced, then one that can splice it now, then
-  one with a good ingredient waiting for its partner; otherwise the higher rating. With next-step advice
-  off it's simply the higher rating.
-- **Next-cycle odds** (one card on screen, `odds.py`): a few thousand simulated cycles keeping the locked
-  and spliced stats (and with them the shape), each rated against the same rolls. The game doesn't
-  publish its odds, so it assumes the four shapes are equally likely, stats are drawn evenly from the
-  weapon class's pool, and rolls are spread evenly over 90–110%.
+     of the best is accepted.
+  2. *A spliced stat* (when the roll wants one, Blast, and the riven has none spliced): with no trait of
+     it (Heat, Cold) rolled over X (`splice_min`, 50%), **Lock** the most useful stat; with one over X,
+     **Lock** that trait and wait for its partner; with both, one over X, **Splice A + B** (the spliced
+     stat stays locked for free, and keeps the shape).
+  3. *Wanted stats.* Otherwise **Lock** the most wanted stat on the riven (the highest weight, Required
+     first, the current lock kept between equals); with none, the most useful stat.
+  4. **Done** once the riven rates `kuva_target` or more, at any point.
+
+  "The most useful stat": a harmless negative (it keeps the shape, negative included, and leaves every
+  positive slot free), then a wanted stat, then a trait of the spliced stat, then the best-rolled other
+  stat. Each step says what it's cycling for and the Kuva the whole strategy is expected to take from
+  here. With `kuva_target` 0, NEXT goes by simpler rules (`advice.py`: shape, one splice, one lock).
+- **BETTER** (cycle screen) goes to the card the strategy is expected to finish for less Kuva (a card
+  rated `kuva_target` already: 0); within 5% of each other, neither. With no target (0) it goes to the
+  card further towards the ideal roll (`advice.progress`): when a wanted stat only comes from splicing,
+  a riven with it spliced, then one that can splice it now, then one with a good ingredient waiting for
+  its partner; otherwise the higher rating. With next-step advice off it's simply the higher rating.
+- **Next-cycle odds** (one card on screen, once it rates `kuva_target`; `flow.chance_of_better`): the
+  chance the next cycle, keeping the locked and spliced stats (and with them the shape), rates higher
+  against the same roll, worked out exactly like the Kuva below. The game doesn't publish its odds, so
+  it assumes the four shapes are equally likely, stats are drawn evenly from the weapon class's pool, and
+  rolls are spread evenly over 90–110%. (`odds.py` simulates the same cycles; the tests check the two
+  agree.)
+- **Nothing waits on a plan:** in the overlay a planning thread of its own (`App.planner`) works the plans
+  out (`flow.warm`) after the panels are up, then draws them again; neither the screen reading nor the
+  drawing waits for it, and the panels only use plans already worked out. Then it works out the plans for
+  the weapon's other rolls too (`flow.warm_ahead`), so the cycle-roll hotkey (F7), which re-rates the cards
+  already read rather than reading the screen again, finds them ready.
+- **Expected Kuva** (`flow.py`), worked out exactly, not simulated. Each cycle keeps the shape and the
+  locked and spliced stats and draws the rest as above. Stats that play the same part for the roll (all
+  the unwanted ones, all the harmless negatives, ...) are counted together, so the chance of every kind of
+  outcome is a count of combinations, and the chance an outcome rates the target or more is an exact
+  integral over the rolls (a sum of evenly spread values; rules judged by value, like a dealbreaker on
+  -Damage ≥ 100%, split it where they change). The strategy then makes a small Markov chain, each state
+  what the next cycle keeps; the expected Kuva is solved from it, each cycle costing its base rate (doubled
+  with a stat that isn't spliced locked), rising cycle by cycle to 3,500. A stat locked in a later cycle
+  (and a trait the splice keeps) is counted by third of its range, each its own state; the stats on screen
+  at their own rolls. Checked against playing the strategy out thousands of times (`tests/test_flow.py`).
+  When the strategy can't reach the target the line says so. Speed: most outcomes are ruled out by a quick
+  upper bound before the exact integral, and a shape that can't reach the target isn't gone through; a
+  first plan for a weapon takes 0.6 s at most on the saved rivens, each next riven of it a few hundredths.
+- **Kuva costs** (`kuva.py`): the next cycle's cost is read off the CYCLE FOR button. A cycle's cost is its
+  base rate, rising 900, 1,000, 1,200, 1,400, 1,700, 2,000, 2,350, 2,750, 3,150 to 3,500, doubled while a
+  stat that isn't spliced is locked (locking a spliced stat doesn't change it). OCR loses the digit beside
+  the Kuva icon, so the reading is matched to the possible costs by the rest; when that leaves several
+  (",000": 2,000, 4,000 or 7,000 with a lock), the number is read again with the icon cut off, and failing
+  that the highest is taken. On the cycle screen (no button) it's taken as 3,500.
 - **IDEAL ROLL** (riven screens) and **IDEAL RIVEN** (upgrade screen): the roll's best stats at their
   maximum, assuming 3 positives + 1 negative. On the upgrade screen, the roll whose `label` matches the
   selected config tab (found by the bar under it) is shown.
@@ -136,8 +169,10 @@ slot     = the average of those N weights, when the roll accepts negatives (list
 negative = slot when the riven's negative is harmless; else 0
 ```
 
-90% for the right stat types, 10% for how well they rolled. **Quality** is the stat's value divided by
-the highest it could have. A **harmless negative** counts like one more wanted stat: a negative makes
+90% for the right stat types, 10% for how well they rolled. **Quality** is where the stat's roll sits
+in the range it can roll at this weapon, rank and shape: 0 at the lowest (W = 0.9), 1 at the highest
+(W = 1.1), so the right stats rate 90% at the worst rolls and 100% at the best. The panels show it as a
+percentage. A **harmless negative** counts like one more wanted stat: a negative makes
 every other stat 25% stronger, so on a roll that accepts negatives the best riven has one, and a riven
 without one, or with a neutral one, rates about 75% at most. Negatives are neutral unless the roll wants
 that stat as a positive or a `bad` rule matches it. The multipliers are `type_weight`, `bad_stat_score`
@@ -158,6 +193,9 @@ value = b × 10 × (rank + 1) × disposition × L × W        W from 0.9 to 1.1
   disposition change: `.venv\Scripts\python tools\build_dispositions.py`.
 - **Variants:** a riven is named after its family's base weapon but fits every variant; the card's
   numbers are for the weapon under **FITS IN**, so that weapon's disposition is used.
+- **Kitguns:** a chamber is a Primary or a Secondary (`Gaze (Primary)` / `Gaze (Secondary)`), each with
+  its own disposition and stat pool, but FITS IN shows only "Gaze". Both modes are tried and the closer
+  fit wins; fitting the second isn't reported as a misread.
 - **Rank** isn't shown, so each rank is tried from 8 down until every stat fits 0.9–1.1. If none fits,
   the panel says so (usually an OCR misread or an out-of-date disposition).
 
@@ -171,10 +209,12 @@ value = b × 10 × (rank + 1) × disposition × L × W        W from 0.9 to 1.1
 | `window_title` | The game window to watch; `null` captures the primary monitor |
 | `font_size` | Panel text size at 1080p (it scales with the game window) |
 | `hotkeys` | `toggle`, `reload`, `snapshot`, `cycle_roll` (F1–F12, Insert, Home, End, Pause, ScrollLock) |
-| `next_step` | NEXT advice, and BETTER by progress towards the ideal roll (false: BETTER by rating) |
+| `next_step` | NEXT advice, and BETTER by the least Kuva to the target (false: BETTER by rating) |
 | `upgrade_overlay` | IDEAL RIVEN on weapon upgrade screens |
 | `config_rolls` | On the upgrade screen, the roll labelled like the selected config tab |
 | `editor_theme` | The roll editor's colours: a UI theme's name (`riven_helper/data/themes.json`) |
+| `kuva_target` | The rating the reroll strategy and its expected-Kuva line aim for (90; 0 hides the line, and NEXT uses simpler rules) |
+| `splice_min` | X: how far up its range (%) a trait of a wanted spliced stat must roll to be locked and spliced (50) |
 
 The editor's Settings tab writes these; a running overlay notices the file change and applies them.
 
@@ -190,8 +230,10 @@ The editor's Settings tab writes these; a running overlay notices the file chang
 | `gamedata.py` | Stats, weapons, dispositions and riven families |
 | `riven_math.py` | The riven formula: rank, roll and quality of each stat |
 | `rolls.py` | Loads roll files and rates a riven against them |
-| `advice.py` | The NEXT step, and progress towards the ideal roll (BETTER) |
-| `odds.py` | The chance that the next cycle rates higher |
+| `advice.py` | The NEXT step, and progress towards the ideal roll (BETTER without a Kuva target) |
+| `odds.py` | Simulated cycles (a check on flow.py's exact odds), and the stats that can't be negative |
+| `flow.py` | The reroll strategy (NEXT), and the Kuva it's expected to take, worked out exactly |
+| `kuva.py` | The cycle's Kuva cost, read from the screen |
 | `analyze.py` | Screenshot → rated cards, re-reading doubtful ones |
 | `session.py` | Live loop: when to read, card tracking, waiting for the screen to settle |
 | `tracker.py` | Follows cards between reads by image matching |

@@ -208,7 +208,7 @@ class TestWindowsOcr(unittest.TestCase):
         ocr, an = windows_ocr(self), analyzer()
         folder = Path(tempfile.mkdtemp())
         # The Nikana roll accepts negatives, so its 3-stat card with no negative rates about 75% at most.
-        for kind, expect in (("rubico", (99, 28)), ("nikana", (74, 8))):
+        for kind, expect in (("rubico", (96, 27)), ("nikana", (72, 8))):
             make_sample.main(folder / f"{kind}.png", kind)
             img = Image.open(folder / f"{kind}.png").convert("RGB")
             res = an.analyze_lines(ocr.read(img, 1.5), img.width)

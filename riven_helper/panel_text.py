@@ -9,7 +9,10 @@
 import textwrap
 
 from .advice import next_step, progress, spliced_stats
-from .odds import chance_of_better
+from .flow import chance_of_better as exact_chance_of_better
+from .flow import plan as kuva_plan
+from .flow import splice_note
+from .kuva import kuva_amount
 from .riven_math import format_value, max_value
 
 MARK = {"good": "+", "ok": "~", "unwanted": "x", "harmless": "+", "neutral": "=", "bad": "x", "dealbreaker": "!"}
@@ -33,25 +36,59 @@ def roll_label(analyzer, roll):
     return roll.label
 
 
+def kuva_to_target(result, analyzer):
+    """The Kuva the reroll strategy (flow.py) is expected to take to reach the target (0 when it's rated
+    that already; infinite when the strategy can't get there), or None (no target, or no plan)."""
+    found = kuva_plan(result, analyzer)
+    if found is None:
+        return None
+    kuva, action = found
+    return 0.0 if action.kind == "done" else float("inf") if kuva is None else kuva
+
+
+def kuva_text(result, analyzer):
+    """("expected Kuva to 90%+: about 52,000", how, or None) for a card: what the reroll strategy (flow.py,
+    the same as NEXT's) is expected to take to reach the target, and "splicing Heat + Cold into Blast on
+    the way" when it goes through a splice. None when there's no target or no plan."""
+    found = kuva_plan(result, analyzer)
+    if found is None:
+        return None
+    kuva, action = found
+    target = analyzer.cfg.get("kuva_target", 90)
+    if action.kind == "done":
+        return f"already rated {target:g}%+", None
+    if kuva is None:
+        return f"{target:g}%+ is out of reach with this roll's strategy", None
+    return f"expected Kuva to {target:g}%+: about {kuva_amount(kuva)}", splice_note(result, analyzer)
+
+
 def _chunks(items, n):
     return [items[i:i + n] for i in range(0, len(items), n)]
 
 
 def card_rows(analyzer, result, best=False, alone=False):
     """The panel for one card. best: this card is the better of the two on the cycle screen. alone: it's
-    the only card (the riven screen, before cycling): show the chance that the next cycle rates higher."""
+    the only card (the riven screen, before cycling): show the chance that the next cycle rates higher.
+    The Kuva expected to reach the target shows on every card (on the cycle screen it's what BETTER
+    compares)."""
     r, ev = result.rating, result.ev
     if ev is None:
         return [("score", "?", "bad", False), ("label", r.detail)]
     label = roll_label(analyzer, r.roll) if r.roll else r.detail
     rows = [("score", f"{r.score:.0f}%", grade(r.score), best)] + ([("label", label)] if label else [])
-    if alone:
-        chance = chance_of_better(result, analyzer)
+    # The next cycle's odds, once the riven is at the Kuva target (before that, the Kuva line says more).
+    target = analyzer.cfg.get("kuva_target", 90)
+    if alone and r.score >= (target or 0):
+        chance = exact_chance_of_better(result, analyzer)
         if chance is not None:
             shown = "under 1" if 0 < chance < 0.005 else f"{chance * 100:.0f}"
             rows.append(("note", f"next cycle rates higher: {shown}%", "warn"))
+    kuva = kuva_text(result, analyzer)
+    if kuva:
+        rows.append(("note", kuva[0], "warn"))
+        rows += [("meta", kuva[1])] if kuva[1] else []
     advise = analyzer.cfg.get("next_step", True)
-    if best and advise:
+    if best and advise and kuva_to_target(result, analyzer) is None:   # by Kuva, the line above says why
         why = progress(result, analyzer)[1]
         if why:                                   # better than its rating says: it's closer to the ideal roll
             rows += [("note", line, "warn") for line in textwrap.wrap(f"closer to the ideal: {why}", 44)]
@@ -76,7 +113,7 @@ def card_rows(analyzer, result, best=False, alone=False):
     if r.missing:
         rows.append(("note", "missing " + ", ".join(r.missing), "warn"))
     rows += [("note", n, "warn") for n in ev.notes + result.card.problems]
-    step = next_step(result, analyzer.gamedata) if advise else None
+    step = next_step(result, analyzer.gamedata, analyzer) if advise else None
     if step:
         action, why = step
         rows += [("rule",)] + [("note", line, "next") for line in textwrap.wrap(f"NEXT: {action}", 34)]

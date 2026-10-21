@@ -17,6 +17,8 @@ The rules it follows (Riven Mods on the Warframe Wiki, Splicing and Trait Lockin
     because the splice keeps its roll for good.
   * How well each stat rolled (the 0.9 - 1.1 variance) matters least: once the stats are right the
     riven is done, and a low roll on an unspliced stat is only mentioned.
+  * With a Kuva target (kuva_target), next_step follows the reroll strategy in flow.py instead, which
+    also works out the Kuva it's expected to take; these rules are for kuva_target 0.
 
 Every shape can reach a 100% rating, so the shape aimed for is the one that holds the most wanted
 stat value: the layout's L multiplier (riven_math.BONUS_L) times the weights of the best stats it
@@ -31,9 +33,10 @@ from functools import lru_cache
 from .gamedata import DATA_DIR
 from .riven_math import BONUS_L
 
-GOOD_ROLL = 0.95          # quality (value / max) below which a stat's roll is mentioned as low
-SPLICE_MIN = 0.80         # a splice into a stat of the ideal roll is only skipped when it would keep less than
-                          # this share of the spliced stat's maximum (its quality: value / max)
+GOOD_ROLL = 0.75          # quality (0 lowest roll .. 1 highest) below which a stat's roll is mentioned as low
+SPLICE_MIN = 0.50         # a splice into a stat of the ideal roll is only skipped when it would keep a
+                          # roll below this quality (0 lowest .. 1 highest); the setting splice_min (X, in %)
+                          # overrides it
 CLOSE_ENOUGH = 0.95       # a shape within this share of the best shape's value is kept (no cycles wasted)
 
 
@@ -44,8 +47,9 @@ def splices():
     return [(*s["traits"], s["result"], frozenset(s["classes"])) for s in data["splices"]]
 
 
+@lru_cache(maxsize=1)
 def spliced_stats():
-    return {result for _, _, result, _ in splices()}
+    return frozenset(result for _, _, result, _ in splices())
 
 
 def shape_text(n_positives, has_negative):
@@ -66,12 +70,29 @@ def target_shape(current, weights, accepts_negative):
     return best
 
 
-def next_step(result, gamedata):
-    """(what to do, why) for one rated card, or None when there's no advice (unreadable card, no roll)."""
+def next_step(result, gamedata, analyzer=None):
+    """(what to do, why) for one rated card, or None when there's no advice (unreadable card, no roll).
+
+    analyzer: the overlay's. With a Kuva target set, the step is the reroll strategy's (flow.py), with
+    the Kuva it's expected to take; without one (or without analyzer), the rules below alone."""
+    if analyzer is not None and analyzer.cfg.get("kuva_target", 90):
+        from .flow import describe, plan               # flow.py uses this module
+        found = plan(result, analyzer)
+        if found is not None:
+            return describe(found, result, analyzer)
+    x = analyzer.cfg.get("splice_min", 50) / 100 if analyzer is not None else SPLICE_MIN
+    step = _rule_step(result, gamedata, x)
+    return None if step is None else step[:2]
+
+
+def _rule_step(result, gamedata, splice_min=None):
+    """(what to do, why, kind) by the rules alone; kind is "cycle", "done", "splice", "lock" or
+    "ingredient" (a lock that waits for a splice partner)."""
     ev, rating = result.ev, result.rating
     roll = rating.roll if rating else None
     if ev is None or roll is None or not ev.consistent:
         return None
+    splice_min = SPLICE_MIN if splice_min is None else splice_min
     cls = ev.weapon.cls
     weights = {s: w for s, w in roll.positives.items() if w > 0 and gamedata.stats[s].base.get(cls) is not None}
     if not weights:
@@ -85,8 +106,9 @@ def next_step(result, gamedata):
     target = shape if spliced else target_shape(shape, weights, bool(roll.negatives))
     if shape != target:
         if locked:
-            return f"Unlock {locked.name}", f"then cycle for {shape_text(*target)} (has {shape_text(*shape)})"
-        return "Cycle without a lock", f"aim for {shape_text(*target)} (has {shape_text(*shape)})"
+            return f"Unlock {locked.name}", f"then cycle for {shape_text(*target)} (has {shape_text(*shape)})", \
+                "cycle"
+        return "Cycle without a lock", f"aim for {shape_text(*target)} (has {shape_text(*shape)})", "cycle"
 
     # 2. Done: every positive is one of the best stats for the shape, and the negative is fine.
     n = target[0]
@@ -97,8 +119,8 @@ def next_step(result, gamedata):
         low = [s for s in positives if s is not spliced and s.quality < GOOD_ROLL]
         if low:
             worst = min(low, key=lambda s: s.quality)
-            return "Done", f"only roll values left: {worst.name} {worst.quality * 100:.0f}%"
-        return "Done", "the stats you want, rolled well"
+            return "Done", f"only roll values left: {worst.name} {worst.quality * 100:.0f}%", "done"
+        return "Done", "the stats you want, rolled well", "done"
 
     # 3. Splice: once per riven. Into a stat of the ideal roll (one of the best stats for the shape)
     #    whenever it keeps at least SPLICE_MIN of that stat's maximum; into another wanted stat only when
@@ -115,11 +137,11 @@ def next_step(result, gamedata):
             keeps = max(names[a].quality, names[b].quality)
             ideal = weights.get(into, 0) >= nth_best
             worth_it = ideal or (weights.get(into, 0) > 0 and weights[into] >= max(used, default=0))
-            if worth_it and keeps >= SPLICE_MIN:
+            if worth_it and keeps >= splice_min:
                 options.append((sum(used), uses_harmless, a, b, into, keeps))
         if options:
             _, _, a, b, into, keeps = min(options)
-            return f"Splice {a} + {b}", f"into {into}, keeps {keeps * 100:.0f}%"
+            return f"Splice {a} + {b}", f"into {into}, keeps {keeps * 100:.0f}%", "splice"
 
     # 4. Lock the most important stat to keep, and cycle for the rest. A stat that splices (with a partner
     #    still to roll) into a wanted stat counts as that stat; with a high roll it comes first among
@@ -137,20 +159,23 @@ def next_step(result, gamedata):
         via = via if via and via[0] >= own else None
         # Among equals: a splice ingredient worth splicing (SPLICE_MIN), then an ordinary stat, then one
         # rolled too low to splice.
-        order = (2 if s.quality >= SPLICE_MIN else 0) if via else 1
+        order = (2 if s.quality >= splice_min else 0) if via else 1
         candidates.append(((value, order, s.quality), s, via))
     if not candidates:
         if locked:
-            return f"Unlock {locked.name}", "then cycle: no wanted stat to keep yet"
-        return "Cycle", "no wanted stat to keep yet"
+            return f"Unlock {locked.name}", "then cycle: no wanted stat to keep yet", "cycle"
+        return "Cycle", "no wanted stat to keep yet", "cycle"
     _, keep, via = max(candidates, key=lambda c: c[0])
     plan = (f"{keep.quality * 100:.0f}% {keep.name}, to splice with {' or '.join(via[2])} into {via[1]}"
             if via else None)
+    kind = "ingredient" if via else "lock"
     if locked is keep:
-        return f"Keep {keep.name} locked", f"and cycle for {' or '.join(via[2])} to splice into {via[1]}"             if via else "and cycle for the other stats"
+        return (f"Keep {keep.name} locked",
+                f"and cycle for {' or '.join(via[2])} to splice into {via[1]}" if via else "and cycle for the other stats",
+                kind)
     if locked is not None:
-        return f"Lock {keep.name} instead", f"of {locked.name}: {plan}" if plan else f"of {locked.name}, then cycle"
-    return f"Lock {keep.name}", plan or "then cycle (locked cycles cost double Kuva)"
+        return f"Lock {keep.name} instead", f"of {locked.name}: {plan}" if plan else f"of {locked.name}, then cycle", kind
+    return f"Lock {keep.name}", plan or "then cycle (locked cycles cost double Kuva)", kind
 
 
 def _ingredients(ev, weights, cls):
@@ -191,6 +216,7 @@ def progress(result, analyzer):
     ev, rating = result.ev, result.rating
     if ev is None or rating is None or rating.roll is None or not ev.consistent:
         return (0, 0.0, rating.score if rating else 0.0), None
+    splice_min = analyzer.cfg.get("splice_min", 50) / 100
     cls = ev.weapon.cls
     weights = {s: w for s, w in rating.roll.positives.items()
                if w > 0 and analyzer.gamedata.stats[s].base.get(cls) is not None}
@@ -207,14 +233,14 @@ def progress(result, analyzer):
 
     ready = [(max(names[a].quality, names[b].quality), a, b, into) for a, b, into, classes in splices()
              if cls in classes and a in names and b in names and into not in names and weights.get(into, 0) >= top
-             and max(names[a].quality, names[b].quality) >= SPLICE_MIN]
+             and max(names[a].quality, names[b].quality) >= splice_min]
     if ready:
         keeps, a, b, into = max(ready)
         return (2, _percent(keeps), rating.score), f"{a} + {b} can splice into {into} now ({keeps * 100:.0f}%)"
 
     ingredient = _ingredients(ev, weights, cls)
     waiting = [(s, ingredient[s.name][1]) for s in ev.positives if s.name in ingredient
-               and ingredient[s.name][0] >= top and s.quality >= SPLICE_MIN]
+               and ingredient[s.name][0] >= top and s.quality >= splice_min]
     if waiting:
         s, into = max(waiting, key=lambda w: w[0].quality)
         projected = analyzer.rate(replace(ev, stats=[replace(x, name=into) if x is s else x for x in ev.stats],

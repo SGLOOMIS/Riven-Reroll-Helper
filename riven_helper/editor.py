@@ -438,8 +438,8 @@ class Editor:
     # -- Settings tab ---------------------------------------------------------------------------
     OPTIONS = [
         ("next_step", "Next-step advice",
-         "NEXT on each card panel, and BETTER for the card closest to the ideal roll. Off: no NEXT, and BETTER "
-         "simply goes to the card with the higher rating."),
+         "NEXT on each card panel, and BETTER for the card that reaches the Kuva target for less Kuva. Off: no "
+         "NEXT, and BETTER simply goes to the card with the higher rating."),
         ("upgrade_overlay", "Upgrade screen overlay", "IDEAL RIVEN on a weapon's upgrade screen."),
         ("config_rolls", "Config-specific rolls",
          "On the upgrade screen, show the roll labelled like the selected config tab (\"Main\", \"CONFIG B\"). "
@@ -468,25 +468,48 @@ class Editor:
             ttk.Label(tab, text=hint, style="Dim.TLabel", wraplength=760, justify="left").grid(
                 row=row, column=1, sticky="w", pady=3)
 
-        ttk.Label(tab, text="Roll lists", style="Head.TLabel").grid(row=6, column=0, columnspan=2, sticky="w",
+        kuva_row = ttk.Frame(tab, style="Panel.TFrame")
+        kuva_row.grid(row=6, column=0, sticky="nw", pady=3, padx=(0, 16))
+        ttk.Label(kuva_row, text="Kuva target").pack(side="left")
+        self.kuva_target = ttk.Spinbox(kuva_row, from_=0, to=100, increment=5, width=5)
+        self.kuva_target.set(f"{float(self.settings.get('kuva_target') or 0):g}")
+        self.kuva_target.pack(side="left", padx=6)
+        ttk.Label(kuva_row, text="%").pack(side="left")
+        ttk.Label(tab, text="Each card shows the Kuva you can expect to spend cycling until the riven rates this "
+                            "high, and NEXT follows the reroll strategy until it does. 0 hides the Kuva line "
+                            "(and NEXT goes by simpler rules).",
+                  style="Dim.TLabel", wraplength=760, justify="left").grid(row=6, column=1, sticky="w", pady=3)
+        splice_row = ttk.Frame(tab, style="Panel.TFrame")
+        splice_row.grid(row=7, column=0, sticky="nw", pady=3, padx=(0, 16))
+        ttk.Label(splice_row, text="Splice threshold").pack(side="left")
+        self.splice_min = ttk.Spinbox(splice_row, from_=0, to=100, increment=5, width=5)
+        self.splice_min.set(f"{float(self.settings.get('splice_min') or 0):g}")
+        self.splice_min.pack(side="left", padx=6)
+        ttk.Label(splice_row, text="%").pack(side="left")
+        ttk.Label(tab, text="When the roll wants a spliced stat (Blast, from Heat + Cold), how well one of its two "
+                            "traits must have rolled before NEXT locks it and waits for the other: 0% is the "
+                            "lowest roll there is, 100% the highest (0 counts any).",
+                  style="Dim.TLabel", wraplength=760, justify="left").grid(row=7, column=1, sticky="w", pady=3)
+
+        ttk.Label(tab, text="Roll lists", style="Head.TLabel").grid(row=8, column=0, columnspan=2, sticky="w",
                                                                    pady=(18, 0))
         ttk.Label(tab, text="Every roll file in these files and folders is used. Added files stay where they are, "
                             "so you can keep editing them there (they also appear in the File list above).",
-                  style="Dim.TLabel", wraplength=900, justify="left").grid(row=7, column=0, columnspan=2, sticky="w")
+                  style="Dim.TLabel", wraplength=900, justify="left").grid(row=9, column=0, columnspan=2, sticky="w")
         self.source_box = tk.Listbox(tab, height=6, **listbox_style())
-        self.source_box.grid(row=8, column=0, columnspan=2, sticky="ew", pady=4)
+        self.source_box.grid(row=10, column=0, columnspan=2, sticky="ew", pady=4)
         buttons = ttk.Frame(tab, style="Panel.TFrame")
-        buttons.grid(row=9, column=0, columnspan=2, sticky="w")
+        buttons.grid(row=11, column=0, columnspan=2, sticky="w")
         ttk.Button(buttons, text="Add files…", command=self._add_roll_files).pack(side="left")
         ttk.Button(buttons, text="Add folder…", command=self._add_roll_folder).pack(side="left", padx=4)
         ttk.Button(buttons, text="Remove", command=self._remove_roll_source).pack(side="left")
         self.sources = list(self.settings["roll_files"])
         self._fill_sources()
 
-        ttk.Button(tab, text="Save settings", command=self._save_settings).grid(row=10, column=0, sticky="w",
+        ttk.Button(tab, text="Save settings", command=self._save_settings).grid(row=12, column=0, sticky="w",
                                                                               pady=(20, 0))
         ttk.Label(tab, text="Saved to config.json; a running overlay applies them within a second.",
-                  style="Dim.TLabel").grid(row=10, column=1, sticky="w", pady=(20, 0))
+                  style="Dim.TLabel").grid(row=12, column=1, sticky="w", pady=(20, 0))
 
     def _apply_theme(self, name):
         """Recolour the editor (a preview until Save settings)."""
@@ -536,7 +559,24 @@ class Editor:
             self._fill_sources()
 
     def _save_settings(self):
+        try:
+            target = float(self.kuva_target.get().strip().rstrip("%"))
+        except ValueError:
+            target = -1
+        if not 0 <= target <= 100:
+            messagebox.showwarning("Kuva target", "The Kuva target is a rating from 0 to 100 (0 hides the Kuva line).")
+            return
+        try:
+            splice_min = float(self.splice_min.get().strip().rstrip("%"))
+        except ValueError:
+            splice_min = -1
+        if not 0 <= splice_min <= 100:
+            messagebox.showwarning("Splice threshold", "The splice threshold is from 0% (the lowest roll) to "
+                                                       "100% (the highest).")
+            return
         changes = {key: var.get() for key, var in self.options.items()}
+        changes["kuva_target"] = int(target) if target == int(target) else target
+        changes["splice_min"] = int(splice_min) if splice_min == int(splice_min) else splice_min
         changes.update(editor_theme=self.theme_pick.get(), roll_files=list(self.sources))
         save_settings(changes, self.settings.get("_path"))
         self.settings = load_config(self.settings.get("_path"))

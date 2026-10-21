@@ -54,6 +54,7 @@ def fixture_config(roll_files=None):
     from riven_helper.config import load_config
     cfg = load_config()
     cfg["roll_files"], cfg["_dir"] = [str(roll_files or FIXTURES)], str(roll_files or FIXTURES)
+    cfg["kuva_target"] = 90                    # the default, whatever the real config.json says
     return cfg
 
 

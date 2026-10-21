@@ -35,13 +35,19 @@ it while you play, close it when you're done. The editor's top bar shows what th
 
 What you'll see:
 
-- **Above the riven:** its rating for your roll, how well each stat rolled, how its negative counts,
-  and **NEXT**, the next step towards the riven you want. It knows how locking and splicing work:
-  it gets the shape right first, locks the stat that matters most, and suggests a splice only when
-  it's worth one of your rare Riven Splicers.
-- **One riven on screen:** the chance that the next cycle rates higher.
-- **Cycle screen:** **BETTER** on the riven to keep, which can be the lower-rated one if it's closer
-  to the ideal roll (for example one ready to splice).
+- **Above the riven:** its rating for your roll, how well each stat rolled (0% is the lowest roll that
+  stat can have, 100% the highest), how its negative counts,
+  and **NEXT**, the next step towards the riven you want. It follows one strategy: unlock a spliced
+  stat your roll doesn't want, to start the riven over; get the shape right without a lock; when your roll wants a spliced stat (Blast), lock the most useful stat (a
+  harmless negative first) until Heat or Cold rolls well, then lock that and wait for its partner,
+  and splice; then lock your most wanted stat and cycle until the riven rates 90%.
+- **Every riven:** the Kuva you can expect to spend following that strategy until the riven rates
+  90% or more: an average, worked out exactly from the game's rules (any one riven can take far
+  more or far less). The 90% is the Kuva target in the editor's Settings tab.
+- **One riven on screen, once it rates the Kuva target:** the chance that the next cycle rates higher
+  still, worked out the same way.
+- **Cycle screen:** **BETTER** on the riven to keep: the one expected to reach the Kuva target for less
+  Kuva (both cards show their amount), which can be the lower-rated one.
 - **On the left, IDEAL ROLL:** the best stats for this weapon and the highest values they can reach.
 - **A weapon's upgrade screen, IDEAL RIVEN:** the riven to look for. If one of your rolls is named
   like the selected config tab (for example "Main"), that one is shown.
@@ -70,7 +76,10 @@ for your own builds, use the editor:
 The editor's **Settings** tab:
 
 - **Theme:** colour the editor like one of Warframe's 20 UI themes.
-- **Overlay:** turn off the next-step advice, the upgrade screen panel, or its config-specific rolls.
+- **Overlay:** turn off the next-step advice, the upgrade screen panel, or its config-specific rolls,
+  and set the **Kuva target**: the rating the Kuva estimate and NEXT aim for (90% by default; 0 hides
+  the Kuva line), and the **splice threshold**: how well Heat or Cold (any trait of a spliced stat
+  you want) must roll before NEXT locks it and waits for its partner (50%: halfway up its range).
 - **Roll lists:** add roll files or folders from anywhere on your computer, such as a friend's list.
 
 Changes apply straight away. Everything is saved in `config.json`.

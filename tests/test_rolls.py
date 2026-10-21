@@ -148,9 +148,9 @@ class TestReloading(unittest.TestCase):
 class TestRating(unittest.TestCase):
     def test_type_is_90_percent_quality_10(self):
         rolls = roll_library({"weapons": {"Soma": {"positives": ["CD", "MS", "CC"]}}}).rolls_for(G.weapon_by_name("Soma"))
-        # quality = value / max = W / 1.1, so the right stats at the worst rolls get 90 + 10 * 0.9/1.1
-        self.assertAlmostEqual(rate(riven("Soma", CRIT, W=0.9), rolls, G).score, 98.2)
-        self.assertAlmostEqual(rate(riven("Soma", CRIT, W=1.0), rolls, G).score, 99.1)
+        # quality: 0 at the lowest roll (W 0.9), 1 at the highest (1.1); the right stats get 90 + 10 * quality
+        self.assertAlmostEqual(rate(riven("Soma", CRIT, W=0.9), rolls, G).score, 90.0)
+        self.assertAlmostEqual(rate(riven("Soma", CRIT, W=1.0), rolls, G).score, 95.0)
         self.assertAlmostEqual(rate(riven("Soma", CRIT, W=1.1), rolls, G).score, 100.0)
         # One of three stats unwanted: 2/3 of the credit.
         two = rate(riven("Soma", ["Critical Damage", "Multishot", "Zoom"]), rolls, G)

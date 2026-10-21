@@ -52,6 +52,15 @@ class TestRealScreens(unittest.TestCase):
     def analyze(self, fixture):
         return analyzer().analyze_lines(saved_ocr(fixture), 1920)
 
+    def test_kitgun_primary_or_secondary(self):
+        # A kitgun chamber is a Primary or a Secondary, both shown as "Gaze" with different dispositions and
+        # stat pools. This one fits Gaze (Secondary): no "may have been misread" warning for that.
+        (res,) = self.analyze("ocr_gaze_kitgun.json")
+        self.assertEqual((res.ev.weapon.name, res.ev.weapon.cls, res.ev.rank), ("Gaze (Secondary)", "pistol", 8))
+        self.assertTrue(res.ev.consistent)
+        self.assertEqual(res.ev.notes, [])
+        self.assertEqual([s.name for s in res.ev.stats], ["Slash", "Ammo Maximum", "Reload Speed", "Puncture"])
+
     def test_fits_in_variant_disposition(self):
         # A "Plinx" riven whose FITS IN panel shows Tenet Plinx: the numbers use Tenet Plinx's disposition.
         (res,) = self.analyze("ocr_plinx_tenet.json")

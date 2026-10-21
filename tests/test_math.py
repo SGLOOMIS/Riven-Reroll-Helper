@@ -30,7 +30,7 @@ class TestInfer(unittest.TestCase):
         self.assertEqual(ev.rank, 8)
         self.assertTrue(ev.consistent)
         q = {s.name: s for s in ev.stats}
-        self.assertAlmostEqual(q["Critical Damage"].quality, 1.05 / 1.1, places=2)
+        self.assertAlmostEqual(q["Critical Damage"].quality, 0.75, places=2)   # 1.05: 3/4 up the 0.9 - 1.1 range
         self.assertAlmostEqual(q["Multishot"].roll, 0.9, places=2)
         self.assertAlmostEqual(q["Critical Chance"].quality, 1.0, places=2)
 

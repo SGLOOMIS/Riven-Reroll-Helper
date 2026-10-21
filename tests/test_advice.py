@@ -1,4 +1,4 @@
-"""The NEXT STEP advice: shape first, one lock, one splice, roll values last."""
+"""The NEXT STEP advice: shape first, one lock, one splice, roll values last; the lock by the least Kuva."""
 
 import unittest
 
@@ -59,21 +59,23 @@ class TestNextStep(unittest.TestCase):
 
     def test_lock_a_high_rolled_splice_ingredient(self):
         # From a snapshot: the roll wants Critical Damage, Blast and Critical Chance equally. The riven has
-        # Critical Damage locked and Cold rolled at 99%: Cold + Heat splices into Blast, which keeps that roll
+        # Critical Damage locked and Cold rolled at 95%: Cold + Heat splices into Blast, which keeps that roll
         # for good, so locking Cold comes first.
         lib = roll_library({"weapons": {"Torid": {"positives": ["Critical Damage", "Blast", "Critical Chance"],
                                                   "negatives": ["Zoom", "Impact"]}}})
         stats = (["Cold", "Damage to Grineer", "Critical Damage"], "Damage to Infested")
         self.assertEqual(step_with(lib, "Torid", *stats, locked=["Critical Damage"], W=1.09),
-                         ("Lock Cold instead", "of Critical Damage: 99% Cold, to splice with Heat into Blast"))
+                         ("Lock Cold instead", "of Critical Damage: 95% Cold, to splice with Heat into Blast"))
         self.assertEqual(step_with(lib, "Torid", *stats, W=1.09)[0], "Lock Cold")
         # Cold locked with no partner yet: keep it, and cycle for Heat.
         self.assertEqual(step_with(lib, "Torid", *stats, locked=["Cold"], W=1.09),
                          ("Keep Cold locked", "and cycle for Heat to splice into Blast"))
-        # Any roll keeping 80% of the spliced stat's maximum is worth it: an 86% Cold still comes first.
-        self.assertEqual(step_with(lib, "Torid", *stats, W=0.95)[0], "Lock Cold")
+        # Any roll in the top half of its range (X, 50%) is worth it: a 60% Cold still comes first; a 25% one
+        # doesn't.
+        self.assertEqual(step_with(lib, "Torid", *stats, W=1.02)[0], "Lock Cold")
+        self.assertEqual(step_with(lib, "Torid", *stats, W=0.95)[0], "Lock Critical Damage")
 
-    def test_splice_skipped_only_below_80_percent(self):
+    def test_splice_skipped_only_below_x(self):
         lib = roll_library({"weapons": {"Torid": {"positives": ["Critical Damage", "Blast", "Critical Chance"],
                                                   "negatives": ["Zoom", "Impact"]}}})
         rolls = lib.rolls_for(G.weapon_by_name("Torid"))
@@ -81,10 +83,10 @@ class TestNextStep(unittest.TestCase):
         def advice(quality):
             ev = riven("Torid", ["Cold", "Heat", "Critical Damage"], "Zoom")
             for s in ev.stats:
-                s.quality = quality if s.name in ("Cold", "Heat") else 0.95
+                s.quality = quality if s.name in ("Cold", "Heat") else 0.9
             return next_step(CardResult(None, ev, rate(ev, rolls, G)), G)[0]
-        self.assertEqual(advice(0.82), "Splice Heat + Cold")          # the lowest roll there is still splices
-        self.assertEqual(advice(0.79), "Lock Critical Damage")        # below 80% of Blast's maximum: skipped
+        self.assertEqual(advice(0.5), "Splice Heat + Cold")           # X (50%): halfway up the range
+        self.assertEqual(advice(0.49), "Lock Critical Damage")        # under it: skipped
 
     def test_splice_into_a_wanted_stat(self):
         # Critical Chance + the negative Zoom uses up less wanted weight than Critical Chance + Multishot.
@@ -121,7 +123,7 @@ class TestNextStep(unittest.TestCase):
 
 class TestBetterCard(unittest.TestCase):
     def test_closer_to_the_ideal_wins(self):
-        # The snapshot's cycle screen: card 1 rates 66% (Critical Chance 87%, Critical Damage 92%), card 2 33%
+        # Without a Kuva target (0), BETTER goes by progress towards the ideal roll. The snapshot's cycle screen: card 1 rates 66% (Critical Chance 87%, Critical Damage 92%), card 2 33%
         # (Critical Damage 92% and a 99% Cold). Cold splices into the wanted Blast at 99%, which takes card 2
         # further towards the ideal roll, so card 2 is the one to pick.
         from riven_helper.layout import best_flags
@@ -129,6 +131,7 @@ class TestBetterCard(unittest.TestCase):
                                                   "negatives": ["Zoom", "Impact"]}}})
         an = analyzer()
         an.library = lib
+        an.cfg = dict(an.cfg, kuva_target=0)
         rolls = lib.rolls_for(G.weapon_by_name("Torid"))
 
         def card(positives, negative, quality):
@@ -153,6 +156,45 @@ class TestBetterCard(unittest.TestCase):
         self.assertGreater(waiting.rating.score, ready.rating.score)
         self.assertEqual(best_flags([waiting, ready], an), [False, True])
         self.assertEqual(progress(ready, an)[1], "Heat + Cold can splice into Blast now (99%)")
+
+    def test_least_kuva_wins(self):
+        # With a Kuva target, BETTER goes to the card whose cheapest plan reaches it for less, the number
+        # both panels show. The snapshot: card 1 (0%) has Cold 97% waiting to splice into the required
+        # Blast but no negative, a shape that can't reach 75%; card 2 (12%) has a harmless -Zoom to lock
+        # while cycling for Heat + Cold: about 650k against 970k.
+        from riven_helper.layout import best_flags
+        from riven_helper.panel_text import card_rows, kuva_to_target, rows_text
+        an = analyzer()
+        an.library = roll_library({"weapons": {"Larkspur": {
+            "label": "Blast Crit", "positives": {"Blast": 1, "CD": 0.75, "CC": 0.75, "Damage": 0.5, "MS": 0.5},
+            "required": ["Blast"], "negatives": ["Zoom", "Slash", "Impact", "Puncture"]}}})
+        an.cfg = dict(an.cfg, kuva_target=75)
+        one, two = an.analyze_lines(saved_ocr("ocr_cycle_larkspur.json"), 1920)
+        self.assertEqual(([s.name for s in one.ev.stats], [s.name for s in two.ev.stats]),
+                         (["Cold", "Impact", "Slash"], ["Magazine Capacity", "Toxin", "Punch Through", "Zoom"]))
+        kuva = [kuva_to_target(r, an) for r in (one, two)]
+        self.assertLess(kuva[1], kuva[0])
+        self.assertEqual(best_flags([one, two], an), [False, True])
+        panel = rows_text(card_rows(an, two, best=True))
+        self.assertIn("expected Kuva to 75%+", panel)
+        self.assertNotIn("closer to the ideal", panel)          # the Kuva line says why
+
+    def test_same_future_same_kuva(self):
+        # The next snapshot: both cards keep the same locked Cold (108.5%, read as 1.0857 on one and 1.0850
+        # on the other) on the same shape. A cycle rerolls everything else, so their futures are the same:
+        # the same estimate, and no BETTER (not one picked by simulation noise).
+        from riven_helper.layout import best_flags
+        from riven_helper.panel_text import kuva_to_target
+        an = analyzer()
+        an.library = roll_library({"weapons": {"Larkspur": {
+            "label": "Blast Crit", "positives": {"Blast": 1, "CD": 0.75, "CC": 0.75, "Damage": 0.5, "MS": 0.5},
+            "required": ["Blast"], "negatives": ["Zoom", "Slash", "Impact", "Puncture"]}}})
+        an.cfg = dict(an.cfg, kuva_target=75, splice_min=5)     # the Cold (10%) is over X: wait for Heat
+        one, two = an.analyze_lines(saved_ocr("ocr_cycle_larkspur_cold_locked.json"), 1920)
+        self.assertTrue(all(s.locked for r in (one, two) for s in r.ev.stats if s.name == "Cold"))
+        kuva = [kuva_to_target(r, an) for r in (one, two)]
+        self.assertAlmostEqual(kuva[0], kuva[1], delta=kuva[0] * 0.02)
+        self.assertEqual(best_flags([one, two], an), [False, False])
 
 
 class TestLockIcon(unittest.TestCase):

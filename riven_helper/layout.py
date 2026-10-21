@@ -10,7 +10,7 @@ live overlay, F10 snapshots and video replays, so all three show exactly the sam
 """
 
 from .advice import progress
-from .panel_text import card_rows, ideal_rows, upgrade_rows
+from .panel_text import card_rows, ideal_rows, kuva_to_target, upgrade_rows
 from .style import render_panel
 from .theme import detect as detect_theme
 from .theme import palette
@@ -20,6 +20,7 @@ ABOVE_GAP = 10              # px between a card panel and the top of its card
 BUTTON_ZONE = 0.85          # below this fraction of the height are the Cycle / Lock Trait / Cancel buttons
 FITS_IN = (0.84, 0.64, 1.0, 0.85)       # the FITS IN panel at the bottom right (x0, y0, x1, y1 fractions)
 IDEAL_AT = (0.02, 0.17)                 # IDEAL ROLL's top-left corner (fractions)
+KUVA_TIE = 0.05                         # BETTER by Kuva only for a card expected to take over 5% less
 # Upgrade screen: the empty area for IDEAL RIVEN (x, y, width, height fractions). On gun screens it's
 # below the arcane slot on the right; on melee screens the arcane slot is at the top right, beside
 # COMBOS, and the area is right below it.
@@ -111,8 +112,16 @@ def place_card_panels(items, W, H, avoid=()):
 
 
 def best_flags(results, analyzer):
-    """Which card gets the BETTER badge: the one further towards the ideal roll (advice.progress), or
-    with next-step advice off the higher rating; only when one is strictly ahead."""
+    """Which card gets the BETTER badge: the one the reroll strategy (flow.plan) is expected to finish for
+    less Kuva, as their panels show (within KUVA_TIE of each other, neither); without a target, or before
+    the plans are worked out, the one further towards the ideal roll (advice.progress); with next-step
+    advice off, the higher rating. Only when one is strictly ahead."""
+    kuva = [kuva_to_target(r, analyzer) for r in results] if analyzer.cfg.get("next_step", True) else []
+    if len(kuva) >= 2 and all(k is not None for k in kuva) and min(kuva) < float("inf"):
+        best = min(kuva)
+        if sum(k <= best * (1 + KUVA_TIE) for k in kuva) > 1:   # as good as each other: no badge
+            return [False] * len(kuva)
+        return [k == best for k in kuva]
     if analyzer.cfg.get("next_step", True):
         scores = [progress(r, analyzer)[0] if r.ev else (-1,) for r in results]
     else:                                         # next-step advice off: simply the higher rating

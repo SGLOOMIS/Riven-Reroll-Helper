@@ -23,7 +23,8 @@ from pathlib import Path
 
 from .config import ROOT, load_config
 from .layout import render_to_image, text_scale
-from .odds import chance_of_better
+from .analyze import CardResult
+from .flow import warm, warm_ahead
 from .overlay_state import OverlayState
 from .style import render_status
 from .theme import palette
@@ -46,6 +47,9 @@ class App:
         self.events = queue.Queue()    # (kind, area, payload) from the worker thread
         self.running = True
         self.rescan = threading.Event()
+        self.plan_jobs = queue.Queue()  # (generation, area, payload): readings whose plans to work out
+        self.generation = 0             # the newest reading's number: older plan jobs aren't drawn
+        analyzer.plan_ahead = True     # plans are worked out by the planning thread (flow.warm), never while drawing
         self.state = OverlayState(analyzer, cfg)
         self.windows = {}              # panel key -> winpanel.Panel
         self.status_window = None
@@ -114,12 +118,33 @@ class App:
                     events, wait = session.step(screen.grab(area))
                     self.reads = session.reads
                     for kind, payload in events:
-                        if kind == "results" and len(payload[2]) == 1:
-                            chance_of_better(payload[2][0], self.analyzer)   # worked out here, not while drawing
                         self.events.put((kind, area, payload))
+                        if kind == "results":
+                            self.plan_for(area, payload)
             except Exception as e:               # keep going; show what went wrong
                 self.events.put(("error", None, f"{type(e).__name__}: {e}"))
             self.rescan.wait(max(0.005, wait - (time.time() - started)))
+
+    def plan_for(self, area, payload):
+        """Have the planning thread work out a reading's plans (the panels show without them meanwhile)."""
+        self.generation += 1
+        self.plan_jobs.put((self.generation, area, payload))
+
+    def planner(self):
+        """The reroll strategy's Kuva and NEXT, and the next-cycle odds (flow.py), worked out here, away from
+        both the screen reading and the drawing; the reading is then drawn again with them. Afterwards,
+        with nothing newer waiting, the plans for the weapon's other rolls too (for the cycle-roll hotkey)."""
+        while self.running:
+            generation, area, payload = self.plan_jobs.get()
+            while not self.plan_jobs.empty():                     # only the newest reading matters
+                generation, area, payload = self.plan_jobs.get()
+            newer = lambda: generation != self.generation or not self.plan_jobs.empty()
+            try:
+                if warm(payload[2], self.analyzer) and not newer():
+                    self.events.put(("results", area, payload))
+                warm_ahead(payload[2], self.analyzer, stop=newer)
+            except Exception as e:
+                self.events.put(("error", None, f"{type(e).__name__}: {e}"))
 
     # -- main thread: events -> panels -------------------------------------------------------
     def _handle(self, kind, area, payload):
@@ -251,8 +276,15 @@ class App:
         else:
             number = self.analyzer.target(weapon)[0]
             self.flash(f"{weapon.family}: roll {number} of {len(rolls)}, {roll.label or roll.source}", 4)
-        self.rescan.set()
-        if self.upgrade_weapon and not (self.last_read and self.state.cards):
+        if self.last_read and self.state.cards:
+            # Rate the cards already read against the new roll and draw them now (no new reading needed);
+            # the planning thread adds the Kuva and NEXT, mostly worked out ahead already.
+            img, lines, results = self.last_read
+            results = [CardResult(r.card, r.ev, self.analyzer.rate(r.ev)) if r.ev else r for r in results]
+            self.last_read = (img, lines, results)
+            self.state.on_results((self.area[2], self.area[3]), results)
+            self.plan_for(self.area, (img, lines, results))
+        elif self.upgrade_weapon:
             self.state.on_config(self.state.upgrade_config)    # redraws IDEAL RIVEN
 
     def snapshot(self):
@@ -271,6 +303,7 @@ class App:
     def start(self):
         """Start watching the game (the event loop is whoever owns root)."""
         threading.Thread(target=self.worker, daemon=True).start()
+        threading.Thread(target=self.planner, daemon=True).start()
         self.root.after(TICK_MS, self.tick)
 
     def run(self):
